@@ -4,6 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using EFGetStarted.AspNetCore.NewDb.Models;
+
+/*
+    MUST USE Geocoding and Geocoding.Google
+    ADD THEM TO YOUR DEPENDENCIES FOR FIRST
+
+        dotnet add package Geocoding
+
+        dotnet add package Geocoding.Google
+*/
 using Geocoding;
 using Geocoding.Google;
 
