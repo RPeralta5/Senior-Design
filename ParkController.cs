@@ -4,15 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using EFGetStarted.AspNetCore.NewDb.Models;
-
-/*
-    USE THESE TWO
-    YOU MUST ADD THEM TO YOUR DEPENDECIES FIRST TO USE THEM
-
-        dotnet add package Geocoding.Core
-    
-        dotnet add package Geocoding.Google
-*/
 using Geocoding;
 using Geocoding.Google;
 
@@ -27,12 +18,10 @@ namespace EFGetStarted.AspNetCore.NewDb.Controllers
         static double lat = 34.0838;
         static double lng = -118.2366;
 
-        // DEFUALT PARK
         Park park = new Park(address, name, lat, lng);
         // GET: /<controller>/
         public IActionResult Index()
         {
-            // Loads the default Park
             ViewBag.store = park;
             return View("Index");
         }
@@ -42,27 +31,33 @@ namespace EFGetStarted.AspNetCore.NewDb.Controllers
          
             if (address == null || address == "")
             {
-                // REDIRECT TO INDEX METHOD IF NOTHING IS SEARCHED
                 return RedirectToAction("Index");
             }
 
-            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "INSERT YOUR APIKEY HERE" };
+            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "YOUR GOOGLE API KEY" };
 
-            // AN ENUMERABLE BECAUSE IT GEOCODER.GEOCODERASYNC RETURNS MULTIPLE ADDRESSES
             IEnumerable<Address> addresses = await geocoder.GeocodeAsync(address);
- 
-            Address a = addresses.First();
-            string pA = a.FormattedAddress;
-            string name = a.FormattedAddress;
-            double lat = a.Coordinates.Latitude;
-            double lng = a.Coordinates.Longitude;
 
-            // CREATE A PARK INSTANCE
-            Park p = new Park(pA, name, lat, lng);
+            //  TRY TO FETCH THE PARK
+            try
+            {
+                Address a = addresses.First();
+
+                string pA = a.FormattedAddress;
+                string name = a.FormattedAddress;
+                double lat = a.Coordinates.Latitude;
+                double lng = a.Coordinates.Longitude;
+
+                Park p = new Park(pA, name, lat, lng);
+
+                ViewBag.store = p;
+                return View("Search");
+            } catch(Exception e)
+            {
+                // REDIRECT TO ACTION METHOD IF FETCH FAILED
+                return RedirectToAction("Index");
+            }
             
-            // STORE THAT INSTANCE OF PARK IN A VIEWBAG
-            ViewBag.store = p;
-            return View("Search");
         }
     }
 }
