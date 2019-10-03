@@ -1,0 +1,49 @@
+﻿@model EFGetStarted.AspNetCore.NewDb.Models.Question
+
+<center>
+    <h2>Frequently Asked Questions</h2>
+</center>
+<title>FAQ</title>
+<div class="d-flex justify-content-center mt-3">
+    <form asp-controller="FAQ" asp-action="Search">
+        <strong>Search: </strong>
+        <input name="search"/>
+        <input type="submit" class="btn btn-primary" />
+    </form>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        @{
+            int columns = 3;
+            int index = 0;
+
+            for (int currentColumnIndex = 1; currentColumnIndex <= columns; currentColumnIndex++)
+            {
+                <div class="col-sm">
+                    @while (index < ViewBag.storing.questions.Count * currentColumnIndex / columns)
+                    {
+                        Question i = ViewBag.storing.questions[index];
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p><a asp-controller="FAQ" asp-action="Question" asp-route-question="@i.Q">@i.Q</a></p>
+  
+                            </div>
+                        </div>
+                        <br />
+                        index++;
+                    }
+
+                </div>
+            }
+
+        }
+    </div>
+</div>
+
+<address>
+    <strong>
+        <a href="mailto:emailExample@gmail.com">Contact</a>
+    </strong>
+</address>
