@@ -24,10 +24,19 @@ namespace EFGetStarted.AspNetCore.NewDb.Controllers
         // STORE PARKS IN A DATABASE
         ParkDB parkDB = new ParkDB();
 
+        // STORE PERMITABLES ONLY
+        List<Permitable> permitableDB = new List<Permitable>();
+
         const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, Address, Lat, Lng, Image, Permitable" +
                 " FROM Parks, Permitables" +
                 " WHERE Parks.ParkID = Permitables.ParkID; ";
-        private void QueryQuestions(string query)
+
+        /*   PERMITABLES ARE THE BUTTONS AT THE VERY TOP WHICH SHOW YOU WHICH PARKS CAN DO
+         *   CERTAIN THINGS
+        */
+        const string PERMITABLES = "SELECT DISTINCT Permitable, Href FROM Permitables;";
+
+        private QuestionDB QueryQuestions(string query)
         {
             // CONNECT TO DATABASE
             using(SqlConnection sqlConnection = new SqlConnection(FAQCONNECTIONSTRING))
@@ -51,9 +60,10 @@ namespace EFGetStarted.AspNetCore.NewDb.Controllers
                 // CLOSE CONNECTION
                 sqlConnection.Close();
             }
+            return questionDB;
         }
 
-        private void QueryParks(string query)
+        private ParkDB QueryParks(string query)
         {
             // CONNECT TO PARKS DATABASE
             using(SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
@@ -85,18 +95,54 @@ namespace EFGetStarted.AspNetCore.NewDb.Controllers
                 // CLOSE CONNECTION
                 sqlConnnection.Close();
             }
+            return parkDB;
         }
-       
+
+        private List<Permitable> QueryPermitables(string query)
+        {
+            // CONNECT TO PARKS DATABASE
+            using (SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
+            {
+                // COMMAND TO EXECUTE
+                string command = query;
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnnection);
+
+                // OPEN SQL CONNECTION
+                sqlConnnection.Open();
+
+                // READ DATA
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        permitableDB.Add(new Permitable((string) reader[0],
+                            (string) reader[1]));
+                    }
+                }
+
+                foreach (Permitable p in permitableDB)
+                {
+                    Console.WriteLine($"HREF: {p.Href}");
+                }
+                Console.WriteLine($"SIZE OF PERMITABLES: {permitableDB.Count}");
+
+                // CLOSE CONNECTION
+                sqlConnnection.Close();
+            }
+            return permitableDB;
+        }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
-
-            QueryParks(QUERY_FOR_ALL_PERMIT_PARKS);
-            QueryQuestions("SELECT * FROM Questions;");
-
+      
             // STORE IN VIEWBAG
-            ViewBag.storing = questionDB;
-            ViewBag.storeParks = parkDB;
+            ViewBag.storePermitables = QueryPermitables(PERMITABLES);
+
+            ViewBag.storeParks = QueryParks(QUERY_FOR_ALL_PERMIT_PARKS);
+
+            ViewBag.storing = QueryQuestions("SELECT * FROM Questions;");
+
             return View();
         }
 
