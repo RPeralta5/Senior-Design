@@ -34,7 +34,8 @@
     EX. PARKS THAT CAN HOLD ALCOHOL
     OR PARKS THAT CAN HOLD MUSIC FESTIVALS
 -->
-<p>
+<!--
+    <p>
     <a class="btn btn-primary" data-toggle="collapse" href="#MultiDayFestivals" role="button" aria-expanded="false" aria-controls="collapseExample">
         Multi Day Festivals
     </a>
@@ -45,14 +46,15 @@
     <a class="btn btn-primary" data-toggle="collapse" href="#OutdoorConcerts" role="button" aria-expanded="false" aria-controls="collapseExample">
         Outdoor Concerts
     </a>
+
 </p>
 <div class="collapse" id="MultiDayFestivals">
     <div class="card card-body">
         <center>
             <h3>Multi Day Festivals > 10K attendance</h3>
         </center>
-        <!-- MULTI DAY FESTIVAL PARKS-->
-        @foreach (EFGetStarted.AspNetCore.NewDb.Models.Park p in @ViewBag.storeParks.parks)
+
+       @foreach (EFGetStarted.AspNetCore.NewDb.Models.Park p in @ViewBag.storeParks.parks)
         {
             @if(p.Permitables == "Multi Day Festivals > 10K attendance") {
                  <div class="thumbnail">
@@ -73,7 +75,7 @@
         <center>
             <h3>Large Outdoor Concerts > 5K Attendance</h3>
         </center>
-        <!-- LARGE OUTDOOR CONCERTS > 5K PARKS-->
+
          @foreach (EFGetStarted.AspNetCore.NewDb.Models.Park p in @ViewBag.storeParks.parks)
         {
             @if(p.Permitables == "Large Outdoor Concerts > 5K Attendance") {
@@ -95,7 +97,7 @@
             <h3>Outdoor Concerts < 2K attendance</h3>
         </center>
 
-        <!-- OUTDOOR CONCERTS < 2K PARKS-->
+
         @foreach (EFGetStarted.AspNetCore.NewDb.Models.Park p in ViewBag.storeParks.parks)
         {
             @if (p.Permitables == "Outdoor Concerts < 2K attendance")
@@ -114,7 +116,49 @@
     </div>
 </div>
 
+-->
+<!-- DYNAMIC BUTTON FOR PERMIBABLE PARKS-->
+    <p>
+@foreach (EFGetStarted.AspNetCore.NewDb.Models.Permitable p in ViewBag.storePermitables)
+{
+        <a class="btn btn-primary" data-toggle="collapse" href="#@p.Href" role="button" aria-expanded="false" aria-controls="collapseExample">
+            @p.P
+        </a>
+}
+    </p>
 
+@foreach(EFGetStarted.AspNetCore.NewDb.Models.Permitable P in ViewBag.storePermitables) {
+
+    <div class="collapse" id="@P.Href">
+        <div class="card card-body">
+            <center>
+                <h3>@P.P</h3>
+            </center>
+           
+            @foreach (EFGetStarted.AspNetCore.NewDb.Models.Park p in ViewBag.storeParks.parks)
+            {
+                @if (p.Permitables == P.P)
+                {
+                    <div class="thumbnail">
+                        <a asp-controller="Park" asp-action="ParkAsync" asp-route-address=@p.Address>
+                            <img height="300" width="450" src=@p.Image />
+                        </a>
+                        <div class="caption post-content">
+                            <h3 style="color: white;">@p.Address</h3>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+}
+
+
+
+
+<!-- END OF DYNAMIC PERMITABLE PARKS-->
 
 <!--
     DISPLAY ALL QUESTIONS:
