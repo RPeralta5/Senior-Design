@@ -1,0 +1,121 @@
+﻿@page
+@{
+}
+
+<style>
+    .post-content {
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
+
+    .thumbnail {
+        position: relative;
+    }
+</style>
+
+<center>
+    <h2>Frequently Asked Questions</h2>
+</center>
+
+<!--
+    SEARCH FOR SPECIFIC QUESTION OR TOPIC
+-->
+<div class="d-flex justify-content-center mt-3">
+    <form asp-controller="FAQ" asp-action="Search">
+        <strong>Search: </strong>
+        <input name="search" />
+        <input type="submit" class="btn btn-primary" />
+    </form>
+</div>
+
+<!--
+   PARKS WITH PERMITS TO HOLD SPECIFIC REQUIREMENTS:
+    EX. PARKS THAT CAN HOLD ALCOHOL
+    OR PARKS THAT CAN HOLD MUSIC FESTIVALS
+-->
+
+<!-- DYNAMIC BUTTON FOR PERMIBABLE PARKS-->
+    <p>
+        <center>
+            @foreach (EFGetStarted.AspNetCore.NewDb.Models.Permitable p in ViewBag.storePermitables)
+    {
+        <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@p.Href" role="button" aria-expanded="false" aria-controls="collapseExample">
+            @p.P
+        </a>
+}
+        </center>
+    </p>
+
+@foreach(EFGetStarted.AspNetCore.NewDb.Models.Permitable P in ViewBag.storePermitables) {
+
+    <div class="collapse" id="@P.Href">
+        <div class="card card-body">
+            <center>
+                <h3>@P.P</h3>
+            </center>
+           
+            @foreach (EFGetStarted.AspNetCore.NewDb.Models.Park p in ViewBag.storeParks.parks)
+            {
+                @if (p.Permitables == P.P)
+                {
+                    <div class="thumbnail col-sm-4 py-2">
+                        <a asp-controller="Park" asp-action="ParkAsync" asp-route-address=@p.Address>
+                            <img height="300" width="450" src=@p.Image />
+                        </a>
+                        <div class="caption post-content">
+                            <h3 style="color: white;">@p.Address</h3>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+}
+
+<!-- END OF DYNAMIC PERMITABLE PARKS-->
+
+
+<!-- DISPLAY SEARCHED QUESTIONS-->
+<div class="containter">
+    <div class="row">
+        @{int counter = 1;}
+        @foreach (EFGetStarted.AspNetCore.NewDb.Models.Question i in @ViewBag.storing.questions)
+        {
+            <div class="col-sm-4 py-2">
+                <div id="accordion">
+                    <div class="card">
+                        @{
+                            string c = counter.ToString();
+                            string dataTarget = "#collapse" + c;
+                            string idForCollapse = "collapse" + c;
+                            string heading = "heading" + c;
+                        }
+                        <div class="card-header" id=@heading>
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target=@dataTarget aria-expanded="true" aria-controls=@idForCollapse>
+                                    @i.Q
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id=@idForCollapse class="collapse hide" aria-labelledby=@heading data-parent="#accordion">
+                            <div class="card-body">
+                                @i.Answer
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            counter++;
+        }
+    </div>
+</div>
+
+<address>
+    <strong>
+        <a href="mailto:josejesusgarciajr@gmail.com">Contact</a>
+    </strong>
+</address>

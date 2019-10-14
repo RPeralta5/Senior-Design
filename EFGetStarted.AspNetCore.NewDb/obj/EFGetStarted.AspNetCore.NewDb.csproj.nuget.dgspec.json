@@ -1,0 +1,85 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/jginvincible/Projects/EFGetStarted.AspNetCore.NewDb/EFGetStarted.AspNetCore.NewDb.csproj": {}
+  },
+  "projects": {
+    "/Users/jginvincible/Projects/EFGetStarted.AspNetCore.NewDb/EFGetStarted.AspNetCore.NewDb.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/jginvincible/Projects/EFGetStarted.AspNetCore.NewDb/EFGetStarted.AspNetCore.NewDb.csproj",
+        "projectName": "EFGetStarted.AspNetCore.NewDb",
+        "projectPath": "/Users/jginvincible/Projects/EFGetStarted.AspNetCore.NewDb/EFGetStarted.AspNetCore.NewDb.csproj",
+        "packagesPath": "/Users/jginvincible/.nuget/packages/",
+        "outputPath": "/Users/jginvincible/Projects/EFGetStarted.AspNetCore.NewDb/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/jginvincible/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Geocoding.Core": {
+              "target": "Package",
+              "version": "[4.0.1, )"
+            },
+            "Geocoding.Google": {
+              "target": "Package",
+              "version": "[4.0.1, )"
+            },
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[2.2.6, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[2.2.3, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

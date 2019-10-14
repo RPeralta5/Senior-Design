@@ -1,0 +1,17 @@
+﻿@page
+@{
+}
+<h2>Search Music</h2>
+
+<table>
+    <tr>Artist</tr>
+    <tr>Active From</tr>
+
+    @foreach (EFGetStarted.AspNetCore.NewDb.Models.Item item in ViewBag.storing.items)
+    {
+    <tr>
+        <td>@item.ArtistName</td>
+        <td>@item.ActiveFrom</td>
+    </tr>
+    }
+</table>
