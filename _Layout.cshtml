@@ -4,105 +4,52 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Special Events</title>
+
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 
     <style>
-        .column {
-            float: left;
-            width: 25%;
+        ul {
+            list-style-type: none;
+            overflow: hidden;
+            background-color: #f7f7f7;
         }
+
+        li {
+            float: left;
+        }
+
+            li a {
+                display: block;
+                color: black;
+                text-align: center;
+                padding: 20px;
+                text-decoration: none;
+            }
+
+                li a:hover {
+                    background-color: black;
+                    color: white;
+                    text-decoration: none;
+                }
     </style>
+
 </head>
 
-<body>
-    <div class="container" style="width: 100%">
-        <div class="row">
-            <img src="~/Capture.png">
-        </div>
-    </div>
+<body id="T">
+    <img src="https://csns.calstatela.edu/download?fileId=7372404" style="margin-top: -50px">
+
+    <ul style="letter-spacing: 0.1em;">
+        <li><a href="/Home/Index"><b>SPECIAL EVENT MAIN PAGE</b></a></li>
+        <li><a href="/Questions"><b>SPECIAL EVENT FAQ'S</b></a></li>
+        <li><b><a href="/Home/Facilities">SPECIAL EVENT FACILITIES</a></b></li>
+        <li><b><a href="/Home/MasterAgreement">MASTER AGREEMENT FOR SPECIAL EVENTS</a></b></li>
+    </ul>
 
     <div class="container body-content">
         @RenderBody()
     </div>
 
-    <div class="container" style="background-color: #303030; width: 100%; color: white; padding-top: 20px;">
-        <div class="row">
-            <div class="column" style="width: 2.5%">
-                <p></p>
-            </div>
-            <div class="column">
-                <h4><b>County Of Los Angeles</b></h4>
-                <img src="https://parks.lacounty.gov/wp-content/uploads/2017/01/LACseal.png">
-
-            </div>
-            <div class="column">
-                <div class="row">
-                    <h4><b>Stay Connected</b></h4>
-                    <p><a href="https://twitter.com/lacountyparks" style="color: white">Twitter</a>
-                    <a class="fa fa-facebook"></p>
-                    <p><a href="https://www.facebook.com/parks.lacounty.gov" style="color: white">Facebook</a></p>
-                    <p><a href="https://www.instagram.com/lacountyparks/?hl=en" style="color: white">Instagram</a></p>
-                    <p><a href="https://www.flickr.com/photos/lacountyparks/" style="color: white">Flickr</a></p>
-                    <p><a href="https://www.youtube.com/user/LACountyParks" style="color: white">Youtube</a></p>
-                </div>
-                <div class="row"><p></p></div>
-                <div class="row">
-                    <h4><b>Do You Need Help?</b></h4>
-                    <p><a href="https://www.211la.org/" style="color: white">211 LA COUNTY</a></p>
-                    <p><a href="https://lacountyhelps.org/" style="color: white">LA County Parks</a></p>
-                    <p><a href="https://lacounty.gov/publicalerts/" style="color: white">Public Alerts</a></p>
-                </div>
-            </div>
-            <div class="column">
-                <div class="row">
-                    <h4><b>Site Info</b></h4>
-                    <p><a href="https://parks.lacounty.gov/accessibility/" style="color: white">Accessibility</a></p>
-                    <p><a href="https://parks.lacounty.gov/disclaimer/" style="color: white">Disclaimer</a></p>
-                    <p><a href="https://parks.lacounty.gov/language/" style="color: white">Language</a></p>
-                    <p><a href="https://parks.lacounty.gov/privacy-policy/" style="color: white">Privacy Policy</a></p>
-                    @*Needs a @ symbol below in the href link*@
-                    <p><a href="mailto:Webmaster" style="color: white">Report Website Issue</a></p>
-                </div>
-                <div class="row"><p></p></div>
-                <div class="row">
-                    <h4><b>About Us</b></h4>
-                    <p><a href="https://www.211la.org/" style="color: white">211 LA COUNTY</a></p>
-                    <p><a href="https://lacountyhelps.org/" style="color: white">LA County Parks</a></p>
-                    <p><a href="https://lacounty.gov/publicalerts/" style="color: white">Public Alerts</a></p>
-                </div>
-            </div>
-            <div class="column" style="width: 22.5%">
-                <div class="row">
-                    <h4><b>Department Links</b></h4>
-                    <p><a href="https://parks.lacounty.gov/planning-and-development/" style="color: white">Planning And Development</a></p>
-                    <p><a href="https://rposd.lacounty.gov/" style="color: white">Regional Park & Open Space District</a></p>
-                    <p><a href="https://trails.lacounty.gov/" style="color: white">Trails Locator</a></p>
-                    <p><a href="https://www.dpw.lacounty.gov/theworks/" style="color: white">Report An Issue</a></p>
-                    <p><a href="https://www.lacounty.gov/bc/" style="color: white">Board Of Correspondence</a></p>
-                    <p><a href="https://parks.lacounty.gov/accessibility/" style="color: white">Parks Accessibility</a></p>
-                    <p><a href="https://shq.lasdnews.net/pages/patrolstation.aspx?id=PKB" style="color: white">LA County Sheriff Park Bureau</a></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="background-color: black; padding: 20px">
-            <div class="column" style="width: 15%"> <p></p> </div>
-            <div class="column">
-                <b><a href="https://parks.lacounty.gov/contact-us/" style="color: darkgray">CONTACT US</a></b>
-            </div>
-            <div class="column">
-                <b><a href="https://lacounty.gov/" style="color: darkgray">LACOUNTY.GOV</a></b>
-            </div>
-            <div class="column">
-                <b><a href="https://locator.lacounty.gov/parks" style="color: darkgray">SERVICE LOCATOR</a></b>
-            </div>
-        </div>
-    </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <img src="https://csns.calstatela.edu/download?fileId=7372403" style="margin-bottom: -50px">
 
 </body>
 </html>
