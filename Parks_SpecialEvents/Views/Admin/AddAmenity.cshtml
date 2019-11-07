@@ -1,0 +1,63 @@
+﻿
+
+<h2>Add Amenity</h2>
+
+<form asp-controller="Admin" asp-action="Add" enctype="multipart/form-data">
+    <div>
+        <!-- SELECT A PARK  -->
+        <select name="parkID">
+            <option value="EMPTY">Select Park</option>
+            @foreach (Parks_SpecialEvents.Models.Park park in ViewBag.Parks.parks)
+            {
+                <option value=@park.ID>
+                    @park.ParkName
+                </option>
+            }
+        </select>
+
+        <!-- BUTTONS -->
+        <a class="btn btn-light" data-toggle="collapse" href="#existingAmenity" role="button" aria-expanded="false" aria-controls="existingAmenity">
+            Add Existing Amenity
+        </a>
+        <a class="btn btn-light" data-toggle="collapse" href="#newAmenity" role="button" aria-expanded="false" aria-controls="newAmenity">
+            New Amenity
+        </a>
+
+        <!-- ADD AN EXISTING AMENITY TO A SINGLE PARK-->
+        <div class="collapse" id="existingAmenity">
+            <div class="card card-body">
+                <h3>Add Existing Amenity</h3>
+                <select name="Amenity">
+                    <option value="EMPTY">Add Existing Amenity</option>
+                    @foreach (Parks_SpecialEvents.Models.Amenity amenity in ViewBag.Amenities.amenities)
+                    {
+                        <option>
+                            @amenity.Amen
+                        </option>
+                    }
+                </select>
+                <strong>Quanity </strong> <input name="Quanity" />
+            </div>
+        </div>
+
+        <!-- ADD A NEW AMENITY TO A SINGLE PARK-->
+        <div class="collapse" id="newAmenity">
+            <div class="card card-body">
+                <h3>New Amenity</h3>
+                <strong>New Amenity: </strong> <input name="newAmenity" />
+           
+                <strong>Quanity </strong> <input name="newQuanity" />
+                <br />
+
+                <input name="image" type="file"/>
+            </div>
+        </div>
+
+        <br />
+        <input class="btn btn-success" type="submit"  value="ADD AMENITY"/>
+    </div>
+</form>
+
+
+
+
