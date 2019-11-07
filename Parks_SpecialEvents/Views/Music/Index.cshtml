@@ -1,0 +1,27 @@
+﻿@page
+@{
+}
+
+<h1>Artists</h1>
+
+<form asp-controller="Music" asp-action="Search">
+    <label>Search</label> <input name="search"/>
+    <input class="btn btn-primary" type="submit" />
+</form>
+
+<table>
+    <tr>
+        <td>Artist ID</td>
+        <td>Artist Name</td>
+        <td>Active From</td>
+    </tr>
+    @foreach (EFGetStarted.AspNetCore.NewDb.Models.Item i in @ViewBag.storing.items)
+    {
+
+        <tr>
+            <td>@i.ID</td>
+            <td><a asp-controller="Music" asp-action="Artist" asp-route-id="@i.ID">@i.ArtistName</a></td>
+            <td>@i.ActiveFrom</td>
+        </tr>
+    }
+</table>

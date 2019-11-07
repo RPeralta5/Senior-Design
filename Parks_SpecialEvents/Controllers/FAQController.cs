@@ -13,9 +13,6 @@ namespace Parks_SpecialEvents.Controllers
 {
     public class FAQController : Controller
     {
-        // FAQ CONNECTION STRING
-        const string FAQCONNECTIONSTRING = "data source=.; database= FAQ; user id = sa; password = myPassw0rd";
-
         // STORE QUESTIONS IN A DATABASE
         QuestionDB questionDB = new QuestionDB();
 
@@ -44,7 +41,7 @@ namespace Parks_SpecialEvents.Controllers
         private QuestionDB QueryQuestions(string query)
         {
             // CONNECT TO DATABASE
-            using(SqlConnection sqlConnection = new SqlConnection(FAQCONNECTIONSTRING))
+            using(SqlConnection sqlConnection = new SqlConnection(PARKSCONNECTIONSTRING))
             {
                 // COMMAND TO EXECUTE
                 string command = query;
@@ -59,7 +56,7 @@ namespace Parks_SpecialEvents.Controllers
                     while(reader.Read())
                     {
                         questionDB.AddQuestion(new Question((int)reader[0], (string)reader[1],
-                            (string)reader[2], (DateTime)reader[3]));
+                            (string)reader[2], (DateTime)reader[3], (bool) reader[4]));
                     }
                 }
                 // CLOSE CONNECTION

@@ -7,12 +7,14 @@ namespace Parks_SpecialEvents.Models
         public string Q { get; set; }
         public string Answer { get; set; }
         public DateTime Date { get; set; }
-        public Question(int id, string q, string answer, DateTime date)
+        public bool Flag { get; set; }
+        public Question(int id, string q, string answer, DateTime date, bool flag)
         {
             this.ID = id;
             this.Q = q;
             this.Answer = answer;
             this.Date = date;
+            this.Flag = flag;
         }
     }
 }

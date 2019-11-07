@@ -136,7 +136,7 @@ namespace Parks_SpecialEvents.Controllers
             Park park = QueryForPark(id);
             //Console.WriteLine($"PARK: {park.Address}");
 
-            //IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyDbog5Hmj_SwDRN3lQWLa5Xw8OcMyzSFfw" };
+            //IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "API_KEY" };
 
             //IEnumerable<Address> addresses = await geocoder.GeocodeAsync(park.Address); // used to have just address
 
@@ -165,7 +165,7 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine($"Park Address {address}");
 
 
-            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyDbog5Hmj_SwDRN3lQWLa5Xw8OcMyzSFfw" };
+            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "API_KEY" };
 
             IEnumerable<Address> addresses = await geocoder.GeocodeAsync(address);
 
@@ -203,7 +203,7 @@ namespace Parks_SpecialEvents.Controllers
                 return RedirectToAction("Index");
             }
 
-            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyDbog5Hmj_SwDRN3lQWLa5Xw8OcMyzSFfw" };
+            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "API_KEY" };
 
             IEnumerable<Address> addresses = await geocoder.GeocodeAsync(address);
 
