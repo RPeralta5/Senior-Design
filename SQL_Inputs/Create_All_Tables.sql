@@ -39,7 +39,7 @@ Image VARCHAR(2000)
 
 INSERT INTO Parks (ParkID, ParkName, ParkLastName, Address, Street_Number, Street_Name, City, Zip, FacilityPhone, Lat, Lng, GIS_Acres, Inventory_Acres, Image)
 VALUES
-('CAST', 'Castaic Lake State Recreation Area', 'Castaic Lake State Recreation Area', '32132 Castaic Lake Drive, Castaic, CA  91384','32132','Castaic Lake Drive', 'Castaic', '91384','661-257-4050',34.5474913, -118.6003248, 12659.74214,12659.74, , '/images/ParkThumbnails/CastaicLakeCA.jpg'),
+('CAST', 'Castaic Lake State Recreation Area', 'Castaic Lake State Recreation Area', '32132 Castaic Lake Drive, Castaic, CA  91384','32132','Castaic Lake Drive', 'Castaic', '91384','661-257-4050',34.5474913, -118.6003248, 12659.74214,12659.74, '/images/ParkThumbnails/CastaicLakeCA.jpg'),
 ('BONE', 'Frank G. Bonelli Regional Park', 'Bonelli Regional Park', '120 Via Verde Park Road, San Dimas, CA  91773', '120', 'Via Verde Park Road', 'San Dimas','91773', '909-599-8411', 34.08333818, -117.8009131, 1824.126285, 1824.13, '/images/ParkThumbnails/BonelliCA.jpg'),
 ('SFD', 'Santa Fe Dam Recreational Area', 'Santa Fe Dam Recreational Area', '15501 East Arrow Highway, Irwindale, CA  91706', '15501', 'East Arrow Highway', 'Irwindale', '91706', '626-334-1065', 34.11771338, -117.9498507, 952.3812045, 952.38, '/images/ParkThumbnails/SantaFeDamCA.jpg'),
 ('WNRA', 'Whittier Narrows Recreation Area', 'Whittier Narrows Recreation Area', '750 South Santa Anita Avenue, South El Monte, CA  91733', '750',	'South Santa Anita Avenue',	'South El Monte','91733', '626-575-5526', 34.03970982, -118.0630891, 778.1836127, 778.18, '/images/ParkThumbnails/WhittierNarrowsCA.jpg'),
