@@ -16,4 +16,5 @@ Interface Lead: Huy Nguyen
 
 Advisor: Keenan Knaur
 
-Liason:
+Liason: Feza Sanigok
+
