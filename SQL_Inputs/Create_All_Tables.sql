@@ -2,7 +2,9 @@ CREATE TABLE Questions(
     QuestionID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
     Question varchar(max) NOT NULL,
     Answer varchar(max),
+    SubmittedOn DateTime DEFAULT CURRENT_TIMESTAMP,
     ShownFlag bit NOT NULL DEFAULT 0,
+    
 );
 
 INSERT INTO Questions(Question, Answer, ShownFlag)
