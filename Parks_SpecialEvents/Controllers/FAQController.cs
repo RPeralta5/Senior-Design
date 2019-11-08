@@ -23,7 +23,7 @@ namespace Parks_SpecialEvents.Controllers
         ParkDB parkDB = new ParkDB();
 
         // STORE PERMITABLES ONLY
-        List<Permitable> permitableDB = new List<Permitable>();
+        List<Event> permitableDB = new List<Event>();
 
         // QUERY FOR ALL PERMIT PARKS
         const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event" +
@@ -104,7 +104,7 @@ namespace Parks_SpecialEvents.Controllers
             return parkDB;
         }
 
-        private List<Permitable> QueryPermitables(string query)
+        private List<Event> QueryPermitables(string query)
         {
             // CONNECT TO PARKS DATABASE
             using (SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
@@ -123,8 +123,8 @@ namespace Parks_SpecialEvents.Controllers
                     {
                         // Parks.ParkID, ParkName, Lat, Lng, Image, Event
                         //Console.WriteLine($"PermitID: {reader[0]} ParkID: {reader[1]}, Permitable: {reader[2]} Href: {reader[3]}");
-                        permitableDB.Add(new Permitable((string)reader[0],
-                            (string)reader[1]));
+                        permitableDB.Add(new Event((string)reader[0],
+                            (string)reader[1], 1));
                     }
                 }
 

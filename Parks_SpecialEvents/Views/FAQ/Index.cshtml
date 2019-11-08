@@ -46,26 +46,26 @@
 <!-- DYNAMIC BUTTON FOR PERMIBABLE PARKS-->
     <p>
         <center>
-            @foreach (Parks_SpecialEvents.Models.Permitable p in ViewBag.storePermitables)
+            @foreach (Parks_SpecialEvents.Models.Event e in ViewBag.storePermitables)
     {
-        <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@p.Href" role="button" aria-expanded="false" aria-controls="collapseExample">
-            @p.P
+        <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@e.Href" role="button" aria-expanded="false" aria-controls="collapseExample">
+            @e.P
         </a>
 }
         </center>
     </p>
 
-@foreach(Parks_SpecialEvents.Models.Permitable P in ViewBag.storePermitables) {
+@foreach(Parks_SpecialEvents.Models.Event e in ViewBag.storePermitables) {
 
-    <div class="collapse" id="@P.Href">
+    <div class="collapse" id="@e.Href">
         <div class="card card-body">
             <center>
-                <h3>@P.P</h3>
+                <h3>@e.P</h3>
             </center>
            
             @foreach (Parks_SpecialEvents.Models.Park p in ViewBag.storeParks.parks)
             {
-                @if (p.Permitables == P.P)
+                @if (p.Permitables == e.P)
                 {
                     <div class="thumbnail">
                         <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@p.ID>

@@ -29,8 +29,34 @@ namespace Parks_SpecialEvents.Controllers
         // QUERY FOR ALL PARKS
         const string ALL_PARKS = "SELECT ParkID, ParkName, Address, Lat, Lng FROM Parks;";
 
+        // QUERY FOR ALL EVENTS
+        const string ALL_EVENTS = "SELECT DISTINCT Event FROM Events";
+
         // QUERY FOR ALL AMENITIES
         const string ALL_AMENITIES = "SELECT DISTINCT Amenity, Image FROM Amenities, AmenityImages WHERE Amenities.ImageID = AmenityImages.ImageID;";
+
+        private string GetParkNameByID(string parkID)
+        {
+            string parkName = "";
+            using(SqlConnection sqlConnnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // COMMAND TO EXECUTE
+                string query = "SELECT ParkName FROM Parks" +
+                   $" WHERE ParkID = '{parkID}'; ";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnnection);
+
+                sqlConnnection.Open();
+
+                using(SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        parkName = (string)reader[0];
+                    }
+                }
+            }
+            return parkName;
+        }
 
         private ParkDB QueryParks(string query)
         {
@@ -58,6 +84,33 @@ namespace Parks_SpecialEvents.Controllers
                 sqlConnection.Close();
             }
             return parkDB;
+        }
+
+        private List<string> QueryEvents(string query)
+        {
+            List<string> events = new List<string>();
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // COMMAND TO EXECUTE
+                string command = query;
+                SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
+
+                // OPEN CONNECTION
+                sqlConnection.Open();
+
+                // READ DATA
+                using(SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        Console.WriteLine($"DISTINCT EVENT: {reader[0]}");
+                        events.Add((string) reader[0]);
+                    }
+                }
+                // CLOSE CONNECTION
+                sqlConnection.Close();
+            }
+            return events;
         }
 
         private AmenityDB QueryAmenities(string query)
@@ -390,6 +443,63 @@ namespace Parks_SpecialEvents.Controllers
 
             ViewBag.Parks = QueryParks(ALL_PARKS);
             ViewBag.Amenities = QueryAmenities(ALL_AMENITIES);
+            return View();
+        }
+
+        private List<Event> filter(List<string> allEvents, List<string> heldByPark)
+        {
+            List<Event> events = new List<Event>();
+
+            foreach(string all in allEvents)
+            {
+                int count = 0;
+                Console.WriteLine($"CHECKING: {all}");
+                foreach (string held in heldByPark)
+                {
+                    if(held == all)
+                    {
+                        Console.WriteLine($"{all} is HELD BY PARK");
+                        events.Add(new Event(all, "", 1));
+                        break;
+                    }
+                    if(count == heldByPark.Count - 1)
+                    {
+                        Console.WriteLine($"{all} is NOT HELD BY PARK");
+                        events.Add(new Event(all, "", 0));
+                    }
+                    count++;
+                }
+            }
+            Console.WriteLine(events);
+            return events;
+        }
+
+        //public IActionResult EditPark()
+        //{
+
+        //}
+
+        public IActionResult UpdateParkRazor(string parkID)
+        {
+            Console.WriteLine($"PARK ID: {parkID}");
+
+            // PARK NAME
+            ViewBag.ParkName = GetParkNameByID(parkID);
+
+            // GET ALL EVENTS
+            List<string> allEvents = QueryEvents(ALL_EVENTS);
+
+            // EVENTS HELD BY PARK
+            List<string> heldByPark = QueryEvents(ALL_EVENTS + $" WHERE ParkID= '{parkID}';");
+            
+            ViewBag.Events = filter(allEvents, heldByPark);
+            return View();
+        }
+
+        public IActionResult UpdateParkIndexRazor()
+        {
+            Console.WriteLine("UPDATE PARK INDEX");
+            ViewBag.Parks = QueryParks(ALL_PARKS);
             return View();
         }
     }
