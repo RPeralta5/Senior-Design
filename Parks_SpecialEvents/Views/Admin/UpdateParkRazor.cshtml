@@ -8,6 +8,9 @@
 
     <form asp-controller="Admin" asp-action="EditPark">
         <h3>Events</h3>
+        @{
+            List<Event> events = new List<Event>();
+        }
         <div class="container">
             @foreach(Parks_SpecialEvents.Models.Event e in ViewBag.Events)
             {
@@ -15,13 +18,17 @@
                 <strong>@e.P</strong>
                 @if(e.Flag == 1)
                 {
-                    <input type="checkbox" checked data-toggle="toggle">
+                    <input type="checkbox" checked data-toggle="toggle" name='@e.Href'>
+                    events.Add(new Event(e.P, "", 1));
                 } else
                 {
-                    <input type="checkbox" data-toggle="toggle">
+                    <input type="checkbox" data-toggle="toggle" name=@e.Href>
+                    events.Add(new Event(e.P, "", 0));
                 }
             }
         </div>
+        <input type="hidden" value=@events name="events" />
+        <input type="submit" value="Update Park" class="btn btn-success"/>
     </form>
 
 </div>

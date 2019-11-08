@@ -30,7 +30,7 @@ namespace Parks_SpecialEvents.Controllers
         const string ALL_PARKS = "SELECT ParkID, ParkName, Address, Lat, Lng FROM Parks;";
 
         // QUERY FOR ALL EVENTS
-        const string ALL_EVENTS = "SELECT DISTINCT Event FROM Events";
+        const string ALL_EVENTS = "SELECT DISTINCT Event, Href FROM Events";
 
         // QUERY FOR ALL AMENITIES
         const string ALL_AMENITIES = "SELECT DISTINCT Amenity, Image FROM Amenities, AmenityImages WHERE Amenities.ImageID = AmenityImages.ImageID;";
@@ -86,9 +86,9 @@ namespace Parks_SpecialEvents.Controllers
             return parkDB;
         }
 
-        private List<string> QueryEvents(string query)
+        private List<Event> QueryEvents(string query)
         {
-            List<string> events = new List<string>();
+            List<Event> events = new List<Event>();
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // COMMAND TO EXECUTE
@@ -104,7 +104,9 @@ namespace Parks_SpecialEvents.Controllers
                     while(reader.Read())
                     {
                         Console.WriteLine($"DISTINCT EVENT: {reader[0]}");
-                        events.Add((string) reader[0]);
+                        Console.WriteLine($"DISTINCT HREF: {reader[1]}");
+                        events.Add(new Event((string)reader[0], (string)reader[1],
+                            0));
                     }
                 }
                 // CLOSE CONNECTION
@@ -446,38 +448,57 @@ namespace Parks_SpecialEvents.Controllers
             return View();
         }
 
-        private List<Event> filter(List<string> allEvents, List<string> heldByPark)
+        private List<Event> filter(List<Event> allEvents, List<Event> heldByPark)
         {
             List<Event> events = new List<Event>();
 
-            foreach(string all in allEvents)
+            foreach(Event all in allEvents)
             {
                 int count = 0;
-                Console.WriteLine($"CHECKING: {all}");
-                foreach (string held in heldByPark)
+                Console.WriteLine($"CHECKING: {all.P}");
+                foreach (Event held in heldByPark)
                 {
-                    if(held == all)
+                    if(held.P == all.P)
                     {
-                        Console.WriteLine($"{all} is HELD BY PARK");
-                        events.Add(new Event(all, "", 1));
+                        Console.WriteLine($"{all.P} is HELD BY PARK");
+                        events.Add(new Event(all.P, all.Href, 1));
                         break;
                     }
                     if(count == heldByPark.Count - 1)
                     {
-                        Console.WriteLine($"{all} is NOT HELD BY PARK");
-                        events.Add(new Event(all, "", 0));
+                        Console.WriteLine($"{all.P} is NOT HELD BY PARK");
+                        events.Add(new Event(all.P, all.Href, 0));
                     }
                     count++;
                 }
             }
-            Console.WriteLine(events);
+            Console.WriteLine(events.Count);
             return events;
         }
 
-        //public IActionResult EditPark()
-        //{
+        public IActionResult EditPark(string Carnivals="", string Circus="", string CorporateOffsitesRetreats="",
+            string Fairs="", string FamilyReunionsIndoors="", string FamilyReunionsOutdoors="",
+            string LargeFundraisersOutdoors500tables="", string LargeOutdoorConcerts5KAttendance="",
+            string LargeOutdoorsSportsEvents1Kattendance="", string MultiDayFestivals10Kattendance="",
+            string OutdoorConcerts2Kattendance="", string OutdoorsSportsEvents500attendance="",
+            string Quinceanera="", string SmallFundraisersOutdoorsIndoors100tables="",
+            string WeddingsOutdoorsIndoors="", string WeddingsOutdoorsOnly="")
+        {
+            Console.WriteLine("EDITING PARK");
 
-        //}
+            Console.WriteLine($"CARNIVALS: {Carnivals}");
+            Console.WriteLine($"CIRCUS: {Circus}");
+            Console.WriteLine($"CORPORATE OFF SITES:{CorporateOffsitesRetreats}");
+            Console.WriteLine($"FAIRS: {Fairs}");
+            Console.WriteLine($"FAMILY REUNIONS INDOORS: {FamilyReunionsIndoors}");
+            Console.WriteLine($"FAMILY REUNIONS OUTDOORS:{FamilyReunionsOutdoors}");
+            Console.WriteLine($"LARGE FUNRAISERS OUTDOOR 500 TABLES: {LargeFundraisersOutdoors500tables}");
+            Console.WriteLine($"LARGE OUT DOOR CONCERTS 5K: {LargeOutdoorConcerts5KAttendance}");
+            Console.WriteLine($"Large Outdoors Sports Events 1Kattendance: {LargeOutdoorsSportsEvents1Kattendance}");
+            Console.WriteLine($"Multi Day Festival: {MultiDayFestivals10Kattendance}");
+
+            return RedirectToAction("UpdateParkIndexRazor");
+        }
 
         public IActionResult UpdateParkRazor(string parkID)
         {
@@ -487,10 +508,10 @@ namespace Parks_SpecialEvents.Controllers
             ViewBag.ParkName = GetParkNameByID(parkID);
 
             // GET ALL EVENTS
-            List<string> allEvents = QueryEvents(ALL_EVENTS);
+            List<Event> allEvents = QueryEvents(ALL_EVENTS);
 
             // EVENTS HELD BY PARK
-            List<string> heldByPark = QueryEvents(ALL_EVENTS + $" WHERE ParkID= '{parkID}';");
+            List<Event> heldByPark = QueryEvents(ALL_EVENTS + $" WHERE ParkID= '{parkID}';");
             
             ViewBag.Events = filter(allEvents, heldByPark);
             return View();
