@@ -5,9 +5,9 @@ namespace Parks_SpecialEvents.Models
     {
         public string P { get; set; }
         public string Href { get; set; }
-        public int Flag { get; set; }
+        public bool Flag { get; set; }
       
-        public Event(string p, string href, int flag)
+        public Event(string p, string href, bool flag)
         {
             this.P = p;
             this.Href = href;

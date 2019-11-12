@@ -8,6 +8,7 @@ using Parks_SpecialEvents.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -106,7 +107,7 @@ namespace Parks_SpecialEvents.Controllers
                         Console.WriteLine($"DISTINCT EVENT: {reader[0]}");
                         Console.WriteLine($"DISTINCT HREF: {reader[1]}");
                         events.Add(new Event((string)reader[0], (string)reader[1],
-                            0));
+                            false));
                     }
                 }
                 // CLOSE CONNECTION
@@ -461,13 +462,13 @@ namespace Parks_SpecialEvents.Controllers
                     if(held.P == all.P)
                     {
                         Console.WriteLine($"{all.P} is HELD BY PARK");
-                        events.Add(new Event(all.P, all.Href, 1));
+                        events.Add(new Event(all.P, all.Href, true));
                         break;
                     }
                     if(count == heldByPark.Count - 1)
                     {
                         Console.WriteLine($"{all.P} is NOT HELD BY PARK");
-                        events.Add(new Event(all.P, all.Href, 0));
+                        events.Add(new Event(all.P, all.Href, false));
                     }
                     count++;
                 }
@@ -476,36 +477,38 @@ namespace Parks_SpecialEvents.Controllers
             return events;
         }
 
-        public IActionResult EditPark(string Carnivals="", string Circus="", string CorporateOffsitesRetreats="",
-            string Fairs="", string FamilyReunionsIndoors="", string FamilyReunionsOutdoors="",
-            string LargeFundraisersOutdoors500tables="", string LargeOutdoorConcerts5KAttendance="",
-            string LargeOutdoorsSportsEvents1Kattendance="", string MultiDayFestivals10Kattendance="",
-            string OutdoorConcerts2Kattendance="", string OutdoorsSportsEvents500attendance="",
-            string Quinceanera="", string SmallFundraisersOutdoorsIndoors100tables="",
-            string WeddingsOutdoorsIndoors="", string WeddingsOutdoorsOnly="")
+        [HttpPost]
+        public IActionResult EditPark(ParkEventModel parkEventModel) // THIS USED TO BE EDIT PARK
         {
-            Console.WriteLine("EDITING PARK");
+            Console.WriteLine("PARK EVENT MODEL");
+            Console.WriteLine($"ParkName: {parkEventModel.ParkName}");
+            Console.WriteLine($"ListSize: {parkEventModel.Events.Count}");
+            var events = Request.Form["EVENTS"];
+            foreach(String e in events)
+            {
+                Console.WriteLine($"EVENTS FROM EDIT PARK: {e}");
+            }
+            //Console.WriteLine(events);
+            foreach (Event e in parkEventModel.Events)
+            {
+                Console.WriteLine($"EVENT: {e.P}");
+            }
 
-            Console.WriteLine($"CARNIVALS: {Carnivals}");
-            Console.WriteLine($"CIRCUS: {Circus}");
-            Console.WriteLine($"CORPORATE OFF SITES:{CorporateOffsitesRetreats}");
-            Console.WriteLine($"FAIRS: {Fairs}");
-            Console.WriteLine($"FAMILY REUNIONS INDOORS: {FamilyReunionsIndoors}");
-            Console.WriteLine($"FAMILY REUNIONS OUTDOORS:{FamilyReunionsOutdoors}");
-            Console.WriteLine($"LARGE FUNRAISERS OUTDOOR 500 TABLES: {LargeFundraisersOutdoors500tables}");
-            Console.WriteLine($"LARGE OUT DOOR CONCERTS 5K: {LargeOutdoorConcerts5KAttendance}");
-            Console.WriteLine($"Large Outdoors Sports Events 1Kattendance: {LargeOutdoorsSportsEvents1Kattendance}");
-            Console.WriteLine($"Multi Day Festival: {MultiDayFestivals10Kattendance}");
-
+            //foreach(Event e in parkEventModel.Events)
+            //{
+            //    Console.WriteLine($"EVENT: {e.P}");
+            //}   
             return RedirectToAction("UpdateParkIndexRazor");
         }
 
+        [HttpGet]
         public IActionResult UpdateParkRazor(string parkID)
         {
             Console.WriteLine($"PARK ID: {parkID}");
 
             // PARK NAME
-            ViewBag.ParkName = GetParkNameByID(parkID);
+            string parkName = GetParkNameByID(parkID);
+            ViewBag.ParkName = parkName;
 
             // GET ALL EVENTS
             List<Event> allEvents = QueryEvents(ALL_EVENTS);
@@ -513,8 +516,28 @@ namespace Parks_SpecialEvents.Controllers
             // EVENTS HELD BY PARK
             List<Event> heldByPark = QueryEvents(ALL_EVENTS + $" WHERE ParkID= '{parkID}';");
             
-            ViewBag.Events = filter(allEvents, heldByPark);
-            return View();
+            List<Event> list = filter(allEvents, heldByPark);
+            ViewBag.Events = list;
+
+            //List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+            //foreach(Event e in list)
+            //{
+            //    SelectListItem select = new SelectListItem()
+            //    {
+            //        Text = e.P,
+            //        Value = e.P,
+            //        Selected = e.Flag
+            //    };
+            //    selectListItems.Add(select);
+
+            //}
+
+            ParkEventModel parkEventModel = new ParkEventModel();
+            parkEventModel.ParkName = parkName;
+            //parkEventModel.Events = selectListItems;
+
+            return View(parkEventModel);
         }
 
         public IActionResult UpdateParkIndexRazor()

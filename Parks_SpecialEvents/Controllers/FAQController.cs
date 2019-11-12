@@ -124,7 +124,7 @@ namespace Parks_SpecialEvents.Controllers
                         // Parks.ParkID, ParkName, Lat, Lng, Image, Event
                         //Console.WriteLine($"PermitID: {reader[0]} ParkID: {reader[1]}, Permitable: {reader[2]} Href: {reader[3]}");
                         permitableDB.Add(new Event((string)reader[0],
-                            (string)reader[1], 1));
+                            (string)reader[1], true));
                     }
                 }
 
