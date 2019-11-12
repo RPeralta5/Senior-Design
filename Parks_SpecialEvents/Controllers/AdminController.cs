@@ -19,6 +19,10 @@ namespace Parks_SpecialEvents.Controllers
 
         private readonly IHostingEnvironment hostingEnvironment;
 
+        // THESE ARE USED FOR REUSE : NO NEED TO QUERY TWICE
+        private static string staticParkID;
+        private static List<Event> originalEvents;
+
         public AdminController(IHostingEnvironment e)
         {
             hostingEnvironment = e;
@@ -104,8 +108,8 @@ namespace Parks_SpecialEvents.Controllers
                 {
                     while(reader.Read())
                     {
-                        Console.WriteLine($"DISTINCT EVENT: {reader[0]}");
-                        Console.WriteLine($"DISTINCT HREF: {reader[1]}");
+                        //Console.WriteLine($"DISTINCT EVENT: {reader[0]}");
+                        //Console.WriteLine($"DISTINCT HREF: {reader[1]}");
                         events.Add(new Event((string)reader[0], (string)reader[1],
                             false));
                     }
@@ -477,27 +481,35 @@ namespace Parks_SpecialEvents.Controllers
             return events;
         }
 
+        private void UpdateParkEvent(string e)
+        {
+            Console.WriteLine($"TURNING ON EVENT: {e}");
+        }
+
+        private void TurnOffAllEventsForPark(string parkID)
+        {
+            Console.WriteLine($"TURNED OFF ALL EVENTS FOR {parkID}");
+        }
+
         [HttpPost]
         public IActionResult EditPark(ParkEventModel parkEventModel) // THIS USED TO BE EDIT PARK
         {
             Console.WriteLine("PARK EVENT MODEL");
             Console.WriteLine($"ParkName: {parkEventModel.ParkName}");
             Console.WriteLine($"ListSize: {parkEventModel.Events.Count}");
-            var events = Request.Form["EVENTS"];
-            foreach(String e in events)
+            var updatedEvents = Request.Form["EVENTS"];
+    
+            Console.WriteLine($"UPDATED EVENTS: {updatedEvents}");
+
+            // SET ALL PARK EVENTS TO FLAG : TURRN OFF EVENTS
+            TurnOffAllEventsForPark(staticParkID);
+
+            // TURN ON ALL NEW : UPDATED EVENTS
+            foreach (String e in updatedEvents)
             {
                 Console.WriteLine($"EVENTS FROM EDIT PARK: {e}");
+                UpdateParkEvent(e);
             }
-            //Console.WriteLine(events);
-            foreach (Event e in parkEventModel.Events)
-            {
-                Console.WriteLine($"EVENT: {e.P}");
-            }
-
-            //foreach(Event e in parkEventModel.Events)
-            //{
-            //    Console.WriteLine($"EVENT: {e.P}");
-            //}   
             return RedirectToAction("UpdateParkIndexRazor");
         }
 
@@ -505,6 +517,7 @@ namespace Parks_SpecialEvents.Controllers
         public IActionResult UpdateParkRazor(string parkID)
         {
             Console.WriteLine($"PARK ID: {parkID}");
+            staticParkID = parkID;
 
             // PARK NAME
             string parkName = GetParkNameByID(parkID);
@@ -515,27 +528,13 @@ namespace Parks_SpecialEvents.Controllers
 
             // EVENTS HELD BY PARK
             List<Event> heldByPark = QueryEvents(ALL_EVENTS + $" WHERE ParkID= '{parkID}';");
-            
+            originalEvents = heldByPark;
+
             List<Event> list = filter(allEvents, heldByPark);
             ViewBag.Events = list;
 
-            //List<SelectListItem> selectListItems = new List<SelectListItem>();
-
-            //foreach(Event e in list)
-            //{
-            //    SelectListItem select = new SelectListItem()
-            //    {
-            //        Text = e.P,
-            //        Value = e.P,
-            //        Selected = e.Flag
-            //    };
-            //    selectListItems.Add(select);
-
-            //}
-
             ParkEventModel parkEventModel = new ParkEventModel();
             parkEventModel.ParkName = parkName;
-            //parkEventModel.Events = selectListItems;
 
             return View(parkEventModel);
         }
