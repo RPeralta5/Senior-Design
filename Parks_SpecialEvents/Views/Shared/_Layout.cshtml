@@ -1,6 +1,39 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+
+
+    <style>
+        ul {
+            list-style-type: none;
+            overflow: hidden;
+            background-color: #f7f7f7;
+            text-align: center;
+            width: 100%;
+        }
+
+        li {
+            float: left;
+            width: 24%;
+        }
+
+            li a {
+                display: block;
+                color: black;
+                text-align: center;
+                padding: 20px;
+                text-decoration: none;
+            }
+
+                li a:hover {
+                    background-color: black;
+                    color: white;
+                    text-decoration: none;
+                }
+    </style>
+
+
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FAQ</title>
@@ -19,39 +52,17 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Blogs" asp-action="Index">HOME</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Blogs" asp-action="Index">Blogs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Registration">Registration</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-controller="Music" asp-action="Index">Music</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-controller="FAQ" asp-action="Index">FAQ</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <img src="https://i.imgur.com/dY9k993.png" style="width: 100%;">
     </header>
+
+    <ul class="text-center" style="letter-spacing: 0.1em;">
+        <li><a href="/FAQ"><b>SPECIAL EVENT MAIN PAGE</b></a></li>
+        <li><a href="/FAQ"><b>SPECIAL EVENT FAQS</b></a></li>
+        <li><a href="/FAQ/Facilities"><b>SPECIAL EVENT FACILITIES</a></b></li>
+        <li><a href="/FAQ"><b>MASTER AGREEMENT</a></b></li>
+    </ul>
+
+
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
@@ -64,6 +75,8 @@
             &copy; 2019 - FAQ - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    <img src="https://i.imgur.com/hIo4rG0.png" style="width: 100%;">
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

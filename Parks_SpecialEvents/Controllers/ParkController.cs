@@ -25,7 +25,7 @@ namespace Parks_SpecialEvents.Controllers
         Park defaultPark = new Park(ParkID, name, address, lat, lng, image, permit);
 
         // CONNECTION STRING FOR PARK DATABASE
-        const string PARK_DB_CONNECTION = "data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         // QUERY FOR PARK
         private Park QueryForPark(string id)
@@ -165,7 +165,7 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine($"Park Address {address}");
 
 
-            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "API_KEY" };
+            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyDbog5Hmj_SwDRN3lQWLa5Xw8OcMyzSFfw" };
 
             IEnumerable<Address> addresses = await geocoder.GeocodeAsync(address);
 
@@ -203,7 +203,7 @@ namespace Parks_SpecialEvents.Controllers
                 return RedirectToAction("Index");
             }
 
-            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "API_KEY" };
+            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyDbog5Hmj_SwDRN3lQWLa5Xw8OcMyzSFfw" };
 
             IEnumerable<Address> addresses = await geocoder.GeocodeAsync(address);
 

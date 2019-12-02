@@ -63,7 +63,7 @@ namespace Parks_SpecialEvents
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=FAQ}/{action=index}/{id?}");
             });
         }
     }

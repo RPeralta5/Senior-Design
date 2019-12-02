@@ -17,7 +17,7 @@ namespace Parks_SpecialEvents.Controllers
         QuestionDB questionDB = new QuestionDB();
 
         // PARKS CONNECTION STRING
-        const string PARKSCONNECTIONSTRING = "data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         // STORE PARKS IN A DATABASE
         ParkDB parkDB = new ParkDB();
