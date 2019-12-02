@@ -1,7 +1,9 @@
 # Senior-Design
 2019-2020 Senior Design Project
 
-Group 6: Deer Bot
+Group 6: S.E.R.F. 
+
+Special Event Registration & F.A.Q.
 
 Team Lead: Ryan Peralta
 
