@@ -1,14 +1,12 @@
 ﻿
 @model Parks_SpecialEvents.Models.ParkEventModel
 
+<h2>Update @ViewBag.ParkName</h2>
 <div class="container">
-    <h2>Update @ViewBag.ParkName</h2>
     <form asp-controller="Admin" asp-action="EditPark" method="post">
-        <input type="text" asp-for="ParkName" value=@ViewBag.ParkName />
-        <h3>Events</h3>
-        @{
-            List<Event> events = new List<Event>();
-        }
+        
+        <h3>Special Events</h3>
+
         <div class="container">
             <select multiple class="form-control" name="EVENTS">
       
@@ -16,25 +14,16 @@
                 {
                     @if (e.Flag == true)
                     {
-                        <option selected="selected">@e.P</option>
-                        events.Add(new Event(e.P, "", true));
-                    {
-                        Console.WriteLine($"Events RAZOR PAGE: {events.Count}");
-                    }
+                        <option selected="selected">@e.E</option>
                     }
                     else
                     {
-                        <option>@e.P</option>
-                        events.Add(new Event(e.P, "", false));
-                    {
-                        Console.WriteLine($"Events RAZOR PAGE: {events.Count}");
-                    }
+                        <option>@e.E</option>
                     }
                 }
             </select>
         </div>
-
-        <input type="hidden" value=@events asp-for="Events" typeof="List<Event>"/>
+        
         <input type="submit" value="Update Park" class="btn btn-success" />
     </form>
 

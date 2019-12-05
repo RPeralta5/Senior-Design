@@ -29,7 +29,7 @@ namespace Parks_SpecialEvents.Controllers
         }
 
         // PARKS DATABASE CONNECTION STRING
-        const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         // QUERY FOR ALL PARKS
         const string ALL_PARKS = "SELECT ParkID, ParkName, Address, Lat, Lng FROM Parks;";
@@ -82,7 +82,7 @@ namespace Parks_SpecialEvents.Controllers
                         //ParkID, ParkName, Address, Lat, Lng
                         // ID, NAME ,ADDRESS, LAT, LNG, PERMITABLE, IMAGE
                         parkDB.AddPark(new Park( (string) reader[0], (string) reader[1], (string) reader[2],
-                            (double) reader[3], (double) reader[4], "", ""));
+                            (double) reader[3], (double) reader[4], "", "", false));
                     }
                 }
                 // CLOSE CONNECTION
@@ -460,19 +460,19 @@ namespace Parks_SpecialEvents.Controllers
             foreach(Event all in allEvents)
             {
                 int count = 0;
-                Console.WriteLine($"CHECKING: {all.P}");
+               
                 foreach (Event held in heldByPark)
                 {
-                    if(held.P == all.P)
+                    if(held.E == all.E)
                     {
-                        Console.WriteLine($"{all.P} is HELD BY PARK");
-                        events.Add(new Event(all.P, all.Href, true));
+                        Console.WriteLine($"{all.E} is HELD BY PARK");
+                        events.Add(new Event(all.E, all.Href, true));
                         break;
                     }
                     if(count == heldByPark.Count - 1)
                     {
-                        Console.WriteLine($"{all.P} is NOT HELD BY PARK");
-                        events.Add(new Event(all.P, all.Href, false));
+                        Console.WriteLine($"{all.E} is NOT HELD BY PARK");
+                        events.Add(new Event(all.E, all.Href, false));
                     }
                     count++;
                 }

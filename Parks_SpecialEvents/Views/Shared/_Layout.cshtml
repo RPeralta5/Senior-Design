@@ -14,7 +14,7 @@
 
         li {
             float: left;
-            width: 24%;
+            width: 19%;
         }
 
             li a {
@@ -57,9 +57,10 @@
 
     <ul class="text-center" style="letter-spacing: 0.1em;">
         <li><a href="/FAQ"><b>SPECIAL EVENT MAIN PAGE</b></a></li>
-        <li><a href="/FAQ"><b>SPECIAL EVENT FAQS</b></a></li>
+        <li><a asp-controller="FAQ" asp-action="Index"><b>SPECIAL EVENT FAQS</b></a></li>
         <li><a href="/FAQ/Facilities"><b>SPECIAL EVENT FACILITIES</a></b></li>
-        <li><a href="/FAQ"><b>MASTER AGREEMENT</a></b></li>
+        <li><a asp-controller="Admin" asp-action="Index"><b>MASTER AGREEMENT</a></b></li>
+        <li><a asp-controller="Admin" asp-action="Index"><b>ADMIN ADMINISTRATION</b></a></li>
     </ul>
 
 

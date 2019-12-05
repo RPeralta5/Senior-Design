@@ -22,10 +22,11 @@ namespace Parks_SpecialEvents.Controllers
         static double lng = -118.2366;
         static string image = "~/images/gerson-repreza-tNQ2tmQiC6g-unsplash.jpg";
         static string permit = "Alcohol";
-        Park defaultPark = new Park(ParkID, name, address, lat, lng, image, permit);
+        static bool flag = true;
+        Park defaultPark = new Park(ParkID, name, address, lat, lng, image, permit, flag);
 
         // CONNECTION STRING FOR PARK DATABASE
-        const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         // QUERY FOR PARK
         private Park QueryForPark(string id)
@@ -48,7 +49,7 @@ namespace Parks_SpecialEvents.Controllers
                     while (reader.Read())
                     {
                         park = new Park((string)reader[0], (string)reader[1], (string) reader[2], (double)reader[3],
-                            (double)reader[4], (string) "", (string)reader[5]);
+                            (double)reader[4], (string) "", (string)reader[5], flag);
                         return park;
                     }
                 }
@@ -180,7 +181,7 @@ namespace Parks_SpecialEvents.Controllers
                 double lng = a.Coordinates.Longitude;
                 string image = "~/images/gerson-repreza-tNQ2tmQiC6g-unsplash.jpg";
                 string permitables = "Alcohol";
-                Park p = new Park(id, name ,fAddress, lat, lng, image, permitables);
+                Park p = new Park(id, name ,fAddress, lat, lng, image, permitables, flag);
                 ViewBag.park = p;
                 Console.WriteLine("SENDING VIEW TO ROUTE");
                 return View("Route");
@@ -222,7 +223,7 @@ namespace Parks_SpecialEvents.Controllers
 
                 Console.WriteLine($"Lat: {lat}");
                 Console.WriteLine($"Lng: {lng}");
-                Park p = new Park(id, name, pA, lat, lng, image, permitalbes);
+                Park p = new Park(id, name, pA, lat, lng, image, permitalbes, flag);
 
                 ViewBag.store = p;
                 return View("Search");

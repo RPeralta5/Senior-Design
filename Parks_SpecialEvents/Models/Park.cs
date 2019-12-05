@@ -8,9 +8,10 @@ namespace Parks_SpecialEvents.Models
         public string Address { get; set; }
         public double Lat { get; set; }
         public double Lng { get; set; }
-        public string Permitables { get; set; }
+        public string Event { get; set; }
         public string Image { get; set; }
-        public Park(string id, string parkName, string address, double lat, double lng, string image, string permitables)
+        public bool Flag { get; set; }
+        public Park(string id, string parkName, string address, double lat, double lng, string image, string e, bool flag)
         {
             this.ID = id;
             this.ParkName = parkName;
@@ -18,7 +19,8 @@ namespace Parks_SpecialEvents.Models
             this.Lat = lat;
             this.Lng = lng;
             this.Image = image;
-            this.Permitables = permitables;
+            this.Event = e;
+            this.Flag = flag;
         }
     }
 }

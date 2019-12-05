@@ -49,7 +49,7 @@
             @foreach (Parks_SpecialEvents.Models.Event e in ViewBag.storePermitables)
     {
         <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@e.Href" role="button" aria-expanded="false" aria-controls="collapseExample">
-            @e.P
+            @e.E
         </a>
 }
         </center>
@@ -60,13 +60,14 @@
     <div class="collapse" id="@e.Href">
         <div class="card card-body">
             <center>
-                <h3>@e.P</h3>
+                <h3>@e.E</h3>
             </center>
            
             @foreach (Parks_SpecialEvents.Models.Park p in ViewBag.storeParks.parks)
             {
-                @if (p.Permitables == e.P)
+                @if (p.Event == e.E)
                 {
+                   
                     <div class="thumbnail">
                         <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@p.ID>
                             <img height="300" width="450" src=@Url.Content(p.Image) />

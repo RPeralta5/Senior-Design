@@ -1,30 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj": {}
+    "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/Parks_SpecialEvents.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj": {
+    "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/Parks_SpecialEvents.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj",
+        "projectUniqueName": "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/Parks_SpecialEvents.csproj",
         "projectName": "Parks_SpecialEvents",
-        "projectPath": "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj",
-        "packagesPath": "C:\\Users\\rpera\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\obj\\",
+        "projectPath": "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/Parks_SpecialEvents.csproj",
+        "packagesPath": "/Users/jginvincible/.nuget/packages/",
+        "outputPath": "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\rpera\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/jginvincible/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

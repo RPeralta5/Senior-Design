@@ -17,7 +17,7 @@ namespace Parks_SpecialEvents.Controllers
         QuestionDB questionDB = new QuestionDB();
 
         // PARKS CONNECTION STRING
-        const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         // STORE PARKS IN A DATABASE
         ParkDB parkDB = new ParkDB();
@@ -26,9 +26,16 @@ namespace Parks_SpecialEvents.Controllers
         List<Event> permitableDB = new List<Event>();
 
         // QUERY FOR ALL PERMIT PARKS
-        const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event" +
-                " FROM Parks, Events" +
-                " WHERE Parks.ParkID = Events.ParkID;"; 
+        //const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event" +
+        //        " FROM Parks, Events" +
+        //        " WHERE Parks.ParkID = Events.ParkID;";
+        const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event_Name, Flag" +
+                  " FROM Event" +
+                  " INNER JOIN Event_Info ON" +
+                  " Event.EventID = Event_Info.EventID" +
+                  " INNER JOIN Parks ON" +
+                  " Parks.ParkID = Event.ParkID" +
+                  " Where Flag = 1";
 
         // QUERY FOR ALL QUESTIONS
         const string ALL_QUESTIONS = "SELECT * FROM Questions;";
@@ -36,7 +43,9 @@ namespace Parks_SpecialEvents.Controllers
         /*   PERMITABLES ARE THE BUTTONS AT THE VERY TOP WHICH SHOW YOU WHICH PARKS CAN DO
          *   CERTAIN THINGS
         */
-        const string PERMITABLES = "SELECT DISTINCT Event, Href FROM Events"; // used to end in ;
+
+        //const string PERMITABLES = "SELECT DISTINCT Event, Href FROM Events"; // used to end in ;
+        const string EVENTS = "  SELECT DISTINCT Event_Name, Href FROM Event_Info";
 
         private QuestionDB QueryQuestions(string query)
         {
@@ -83,18 +92,18 @@ namespace Parks_SpecialEvents.Controllers
                 {
                     while(reader.Read())
                     {
-                        // Parks.ParkID, ParkName, Lat, Lng, Image, Event
-
+                        // Parks.ParkID, ParkName, Lat, Lng, Image, Event, Flag
+                        Console.WriteLine($"PARK: {(string) reader[1]} + , FLAG: {(bool) reader[6]}");
                         //string id, string parkName, string address, double lat, double lng, string image, string permitables
                         parkDB.AddPark(new Park((string)reader[0], (string)reader[1], "",
                         (double)reader[2], (double)reader[3], (string)reader[4],
-                        (string) reader[5]));
+                        (string) reader[5], (bool) reader[6]));
                     }
                 }
 
                 foreach(Park p in parkDB.parks)
                 {
-                    Console.WriteLine($"Permitables: {p.Permitables}");
+                    Console.WriteLine($"Permitables: {p.Event}");
                 }
                 Console.WriteLine($"SIZE OF PARK DATABASE: {parkDB.Size}");
 
@@ -138,7 +147,8 @@ namespace Parks_SpecialEvents.Controllers
         public IActionResult Index()
         {
             // STORE IN VIEWBAG
-            ViewBag.storePermitables = QueryPermitables(PERMITABLES);
+            //ViewBag.storePermitables = QueryPermitables(PERMITABLES);
+            ViewBag.storePermitables = QueryPermitables(EVENTS);
 
             ViewBag.storeParks = QueryParks(QUERY_FOR_ALL_PERMIT_PARKS);
 
@@ -164,7 +174,7 @@ namespace Parks_SpecialEvents.Controllers
             }
 
             // STORE IN VIEWBAG
-            ViewBag.storePermitables = QueryPermitables(PERMITABLES + $" WHERE Event LIKE '%{search}%'");
+            ViewBag.storePermitables = QueryPermitables(EVENTS + $" WHERE Event_Name LIKE '%{search}%'");
 
             ViewBag.storeParks = QueryParks(QUERY_FOR_ALL_PERMIT_PARKS);
 
@@ -183,7 +193,7 @@ namespace Parks_SpecialEvents.Controllers
             {
                 Console.WriteLine("ZERO RESULTS FOR PERMITABLES");
                 Console.WriteLine("GOING TO DISPALY ALL PERMITABLES AS DEFAULT");
-                ViewBag.storePermitables = QueryPermitables(PERMITABLES);
+                ViewBag.storePermitables = QueryPermitables(EVENTS); // USED TO HAVE PERMITABLES CONST STRING
             }
             return View();
         }
