@@ -1,0 +1,41 @@
+UPDATE Event_Info
+SET Event_Type = 'Private Rentals'
+WHERE Event_Name = 'Corporate Off-sites / Retreats';
+
+Update Event_Info
+Set Event_Type = 'Special Events'
+WHERE Event_Name ='Large Fundraisers (Outdoors) > 500 tables'
+OR
+Event_Name = 'Large Outdoor Concerts > 5K Attendance'
+OR
+Event_Name = 'Multi Day Festivals > 10K attendance'
+OR
+Event_Name = 'Outdoor Concerts < 2K attendance'
+OR
+Event_Name = 'Carnivals'
+OR
+Event_Name = 'Circus'
+OR
+Event_Name = 'Fairs';
+
+Update Event_Info
+Set Event_Type = 'Group Picnic'
+WHERE Event_Name = 'Family Reunions (Indoors)'
+OR
+Event_Name = 'Family Reunions (Outdoors)'
+OR
+Event_Name = 'Small Fundraisers (Outdoors / Indoors) <100 tables';
+
+Update Event_Info
+Set Event_Type = 'Sports Event'
+WHERE Event_Name = 'Outdoors Sports Events < 500 attendance'
+OR
+Event_Name = 'Large Outdoors Sports Events > 1K attendance';
+
+Update Event_Info
+Set Event_Type = 'Celebrations'
+WHERE Event_Name = 'Weddings (Outdoors / Indoors)'
+OR
+Event_Name = 'Weddings (Outdoors Only)'
+OR
+Event_Name = 'Quinceanera';
