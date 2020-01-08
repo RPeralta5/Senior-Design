@@ -1,19 +1,20 @@
 ﻿<Properties StartupConfiguration="{5AAA988B-63EF-40F5-B243-839D78BF0B81}|Default">
   <MonoDevelop.Ide.ItemProperties.Parks__SpecialEvents PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/FAQ/Index.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/AdminController.cs">
     <Files>
-      <File FileName="Views/FAQ/Index.cshtml" Line="52" Column="17" />
+      <File FileName="Controllers/AdminController.cs" Line="598" Column="19" />
+      <File FileName="Models/Event.cs" Line="4" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Parks_SpecialEvents" expanded="True">
             <Node name="Parks_SpecialEvents" expanded="True">
-              <Node name="Views" expanded="True">
-                <Node name="FAQ" expanded="True">
-                  <Node name="Index.cshtml" selected="True" />
-                </Node>
+              <Node name="Controllers" expanded="True">
+                <Node name="AdminController.cs" selected="True" />
               </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="Views" expanded="True" />
             </Node>
           </Node>
         </State>
