@@ -10,6 +10,7 @@
     .thumbnail {
         position: relative;
     }
+
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -21,21 +22,25 @@
        });
    </script>
 
-<center>
-    <h2>Frequently Asked Questions</h2>
-</center>
-<title>FAQ</title>
+   <title>FAQ</title>
+   <center>
+       <h2 style="color:navy; font-weight:bold;">Frequently Asked Questions</h2>
+       <br />
 
-<!--
-    SEARCH FOR SPECIFIC QUESTION OR TOPIC
--->
-<div class="d-flex justify-content-center mt-3">
-    <form asp-controller="FAQ" asp-action="Search">
-        <strong>Search: </strong>
-        <input name="search" />
-        <input type="submit" class="btn btn-primary" />
-    </form>
-</div>
+       
+
+       <!--
+        SEARCH FOR SPECIFIC QUESTION OR TOPIC
+    -->
+       <div class="d-flex justify-content-center mt-3">
+           <form asp-controller="FAQ" asp-action="Search">
+               <strong>Search for a topic or question: </strong>
+               <input name="search" />
+               <input type="submit" value="Search" class="btn btn-primary" />
+           </form>
+       </div>
+       <br />
+   </center>
 
 <!--
    PARKS WITH PERMITS TO HOLD SPECIFIC REQUIREMENTS:
@@ -66,10 +71,10 @@
                             string idForCollapse = "collapse" + c;
                             string heading = "heading" + c;
                         }
-                        <div class="card-header" id=@heading>
+                        <div class="card-header" id=@heading style="height: 150px; background-color: navy">
                             <h5 class="mb-0">
                                 <button class="btn btn-link" data-toggle="collapse" data-target=@dataTarget aria-expanded="true" aria-controls=@idForCollapse>
-                                    @i.Q
+                                    <font color="white"><b>@i.Q</b></font>
                                 </button>
                             </h5>
                         </div>
