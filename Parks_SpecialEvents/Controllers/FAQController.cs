@@ -17,7 +17,8 @@ namespace Parks_SpecialEvents.Controllers
         QuestionDB questionDB = new QuestionDB();
 
         // PARKS CONNECTION STRING
-        const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
 
         // STORE PARKS IN A DATABASE
         ParkDB parkDB = new ParkDB();
@@ -25,10 +26,7 @@ namespace Parks_SpecialEvents.Controllers
         // STORE PERMITABLES ONLY
         List<Event> permitableDB = new List<Event>();
 
-        // QUERY FOR ALL PERMIT PARKS
-        //const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event" +
-        //        " FROM Parks, Events" +
-        //        " WHERE Parks.ParkID = Events.ParkID;";
+ 
         const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event_Name, Flag" +
                   " FROM Event" +
                   " INNER JOIN Event_Info ON" +
@@ -40,12 +38,7 @@ namespace Parks_SpecialEvents.Controllers
         // QUERY FOR ALL QUESTIONS
         const string ALL_QUESTIONS = "SELECT * FROM Questions;";
 
-        /*   PERMITABLES ARE THE BUTTONS AT THE VERY TOP WHICH SHOW YOU WHICH PARKS CAN DO
-         *   CERTAIN THINGS
-        */
-
-        //const string PERMITABLES = "SELECT DISTINCT Event, Href FROM Events"; // used to end in ;
-        const string EVENTS = "  SELECT DISTINCT Event_Name, Href FROM Event_Info";
+ 
 
         private QuestionDB QueryQuestions(string query)
         {
@@ -75,82 +68,13 @@ namespace Parks_SpecialEvents.Controllers
             return questionDB;
         }
 
-        private ParkDB QueryParks(string query)
-        {
-            // CONNECT TO PARKS DATABASE
-            using(SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
-            {
-                // COMMAND TO EXECUTE
-                string command = query;
-                SqlCommand sqlCommand = new SqlCommand(query, sqlConnnection);
-
-                // OPEN SQL CONNECTION
-                sqlConnnection.Open();
-  
-                // READ DATA
-                using(SqlDataReader reader = sqlCommand.ExecuteReader())
-                {
-                    while(reader.Read())
-                    {
-                        // Parks.ParkID, ParkName, Lat, Lng, Image, Event, Flag
-                        Console.WriteLine($"PARK: {(string) reader[1]} + , FLAG: {(bool) reader[6]}");
-                        //string id, string parkName, string address, double lat, double lng, string image, string permitables
-                        parkDB.AddPark(new Park((string)reader[0], (string)reader[1], "",
-                        (double)reader[2], (double)reader[3], (string)reader[4],
-                        (string) reader[5], (bool) reader[6]));
-                    }
-                }
-
-                foreach(Park p in parkDB.parks)
-                {
-                    Console.WriteLine($"Permitables: {p.Event}");
-                }
-                Console.WriteLine($"SIZE OF PARK DATABASE: {parkDB.Size}");
-
-                // CLOSE CONNECTION
-                sqlConnnection.Close();
-            }
-            return parkDB;
-        }
-
-        private List<Event> QueryPermitables(string query)
-        {
-            // CONNECT TO PARKS DATABASE
-            using (SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
-            {
-                // COMMAND TO EXECUTE
-                string command = query;
-                SqlCommand sqlCommand = new SqlCommand(query, sqlConnnection);
-
-                // OPEN SQL CONNECTION
-                sqlConnnection.Open();
-
-                // READ DATA
-                using (SqlDataReader reader = sqlCommand.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Parks.ParkID, ParkName, Lat, Lng, Image, Event
-                        //Console.WriteLine($"PermitID: {reader[0]} ParkID: {reader[1]}, Permitable: {reader[2]} Href: {reader[3]}");
-                        permitableDB.Add(new Event((string)reader[0],
-                            (string)reader[1], true));
-                    }
-                }
-
-                // CLOSE CONNECTION
-                sqlConnnection.Close();
-            }
-            return permitableDB;
-        }
-
+     
+     
         // GET: /<controller>/
         public IActionResult Index()
         {
             // STORE IN VIEWBAG
-            //ViewBag.storePermitables = QueryPermitables(PERMITABLES);
-            ViewBag.storePermitables = QueryPermitables(EVENTS);
 
-            ViewBag.storeParks = QueryParks(QUERY_FOR_ALL_PERMIT_PARKS);
 
             ViewBag.storing = QueryQuestions(ALL_QUESTIONS);
 
@@ -174,26 +98,14 @@ namespace Parks_SpecialEvents.Controllers
             }
 
             // STORE IN VIEWBAG
-            ViewBag.storePermitables = QueryPermitables(EVENTS + $" WHERE Event_Name LIKE '%{search}%'");
-
-            ViewBag.storeParks = QueryParks(QUERY_FOR_ALL_PERMIT_PARKS);
 
             ViewBag.storing = QueryQuestions($"SELECT * FROM Questions WHERE Question LIKE '%{search}%';");
 
-            if (questionDB.Size == 0 && permitableDB.Count == 0)
+            if (questionDB.Size == 0)
             {
                 Console.WriteLine($"NO RESULTS FOUND FOR: {search}");
                 Console.WriteLine("REDIRECTING TO INDEX PAGE");
                 return RedirectToAction("Index");
-            } else if (questionDB.Size == 0) {
-                Console.WriteLine("ZERO RESULTS FOR QUESTIONS");
-                Console.WriteLine("GONNA DISPLAY ALL QUESTIONS AS DEFAULT");
-                ViewBag.storing = QueryQuestions(ALL_QUESTIONS);
-            } else if(permitableDB.Count == 0)
-            {
-                Console.WriteLine("ZERO RESULTS FOR PERMITABLES");
-                Console.WriteLine("GOING TO DISPALY ALL PERMITABLES AS DEFAULT");
-                ViewBag.storePermitables = QueryPermitables(EVENTS); // USED TO HAVE PERMITABLES CONST STRING
             }
             return View();
         }
