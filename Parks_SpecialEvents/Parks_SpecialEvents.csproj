@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Geocoding.Core" Version="4.0.1" />
     <PackageReference Include="Geocoding.Google" Version="4.0.1" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.43.0.1837" />
     <PackageReference Include="Microsoft.AspNetCore.App">
       <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>

@@ -1,9 +1,9 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\rpera\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\rpera\\.nuget\\packages",
-      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      "/Users/jginvincible/.dotnet/store/|arch|/|tfm|",
+      "/Users/jginvincible/.nuget/packages",
+      "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
     ]
   }
 }
