@@ -1,0 +1,108 @@
+﻿
+
+<style>
+    .post-content {
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
+
+    .thumbnail {
+        position: relative;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(Document).ready(function () {
+        $("p").each(function (index, value) {
+            $("p").eq(index).html($("p").eq(index).text());
+        });
+    });
+</script>
+
+<center>
+    <h2>Park Locator</h2>
+</center>
+<title>FAQ</title>
+
+<!--
+    SEARCH FOR SPECIFIC QUESTION OR TOPIC
+
+<div class="d-flex justify-content-center mt-3">
+    <form asp-controller="FAQ" asp-action="Search">
+        <strong>Search: </strong>
+        <input name="search" />
+        <input type="submit" class="btn btn-primary" />
+    </form>
+</div>
+    -->
+<!--
+   PARKS WITH PERMITS TO HOLD SPECIFIC REQUIREMENTS:
+    EX. PARKS THAT CAN HOLD ALCOHOL
+    OR PARKS THAT CAN HOLD MUSIC FESTIVALS
+-->
+<!-- DYNAMIC BUTTON FOR PERMIBABLE PARKS-->
+<p>
+    <center>
+        @foreach (Parks_SpecialEvents.Models.Event e in ViewBag.storePermitables)
+        {
+            <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@e.Href" role="button" aria-expanded="false" aria-controls="collapseExample">
+                @e.E
+            </a>
+        }
+    </center>
+</p>
+<br />
+<br />
+
+<p>
+    <center>
+        @foreach (Parks_SpecialEvents.Models.EventType e in ViewBag.eventInfo)
+        {
+        <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@e.Name" role="button" aria-expanded="false" aria-controls="collapseExample">
+            @e.Name
+            
+        </a>
+        }
+    </center>
+</p>
+
+@foreach (Parks_SpecialEvents.Models.Event e in ViewBag.storePermitables)
+{
+
+    <div class="collapse" id="@e.Href">
+        <div class="card card-body">
+            <center>
+                <h3>@e.E</h3>
+            </center>
+
+            @foreach (Parks_SpecialEvents.Models.Park p in ViewBag.storeParks.parks)
+            {
+                @if (p.Event == e.E)
+                {
+
+                    <div class="thumbnail">
+                        <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@p.ID>
+                            <img height="300" width="450" src=@Url.Content(p.Image) />
+                        </a>
+                        <div class="caption post-content">
+                            <h3 style="color: white;">@p.ParkName</h3>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+}
+
+
+<!-- CONTACT INFORMATION-->
+<address>
+    <strong>
+        <a href="mailto:EMAIL@gmail.com">Contact</a>
+    </strong>
+</address>
+

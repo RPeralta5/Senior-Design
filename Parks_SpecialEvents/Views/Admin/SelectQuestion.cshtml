@@ -1,0 +1,22 @@
+﻿
+<h1>Select Question</h1>
+
+<!-- TABLE OF QUESTIONS -->
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">Question</th>
+            <th scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Question question in ViewBag.QDB.questions) {
+            <tr>
+                <th scope="row">@question.ID</th>
+                <td>@question.Q</td>
+                <td><a asp-controller="Admin" asp-action="EditQuestionRazor">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

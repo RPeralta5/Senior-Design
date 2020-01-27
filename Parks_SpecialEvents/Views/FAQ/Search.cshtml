@@ -1,0 +1,81 @@
+﻿
+<style>
+    .post-content {
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
+
+    .thumbnail {
+        position: relative;
+    }
+</style>
+
+<center>
+    <h2>Frequently Asked Questions</h2>
+</center>
+
+<!--
+    SEARCH FOR SPECIFIC QUESTION OR TOPIC
+-->
+<div class="d-flex justify-content-center mt-3">
+    <form asp-controller="FAQ" asp-action="Search">
+        <strong>Search: </strong>
+        <input name="search" />
+        <input type="submit" class="btn btn-primary" />
+    </form>
+</div>
+
+<!--
+   PARKS WITH PERMITS TO HOLD SPECIFIC REQUIREMENTS:
+    EX. PARKS THAT CAN HOLD ALCOHOL
+    OR PARKS THAT CAN HOLD MUSIC FESTIVALS
+-->
+
+<!-- DYNAMIC BUTTON FOR PERMIBABLE PARKS-->
+
+
+<!-- END OF DYNAMIC PERMITABLE PARKS-->
+
+
+<!-- DISPLAY SEARCHED QUESTIONS-->
+<div class="containter">
+    <div class="row">
+        @{int counter = 1;}
+        @foreach (Parks_SpecialEvents.Models.Question i in @ViewBag.storing.questions)
+        {
+            <div class="col-sm-4 py-2">
+                <div id="accordion">
+                    <div class="card">
+                        @{
+                            string c = counter.ToString();
+                            string dataTarget = "#collapse" + c;
+                            string idForCollapse = "collapse" + c;
+                            string heading = "heading" + c;
+                        }
+                        <div class="card-header" id=@heading style="height: 150px; background-color: navy">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target=@dataTarget aria-expanded="true" aria-controls=@idForCollapse>
+                                    <font color="white"><b>@i.Q</b></font>
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id=@idForCollapse class="collapse hide" aria-labelledby=@heading data-parent="#accordion">
+                            <div class="card-body">
+                                @i.Answer
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            counter++;
+        }
+    </div>
+</div>
+
+<address>
+    <strong>
+        <a href="mailto:josejesusgarciajr@gmail.com">Contact</a>
+    </strong>
+</address>

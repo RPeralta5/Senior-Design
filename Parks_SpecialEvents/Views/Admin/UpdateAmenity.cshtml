@@ -1,0 +1,59 @@
+﻿
+<h2>Update Amenity</h2>
+
+<form asp-controller="Admin" asp-action="Update">
+
+    <a class="btn btn-light" data-toggle="collapse" href="#singleAmenity" role="button" aria-expanded="false" aria-controls="singleAmenity">
+        Update a single Amenity
+    </a>
+    <a class="btn btn-light" data-toggle="collapse" href="#allAmenity" role="button" aria-expanded="false" aria-controls="allAmenity">
+        Update all Amenities Named
+    </a>
+
+    <!-- UPDATE A SINGLE AMENITY -->
+    <div class="collapse" id="singleAmenity">
+        <div class="card card-body">
+            <h3>Update a single Amenity</h3>
+            <!-- SELECT A PARK -->
+            <select name="park">
+                <option value="EMPTY">Parks</option>
+                @foreach (Parks_SpecialEvents.Models.Park park in ViewBag.Parks.parks)
+                {
+                    <option>@park.ParkName</option>
+                }
+            </select>
+
+            <br />
+
+            <!-- SELECT AN AMENITY -->
+            <select name="singleAmenity">
+                <option value="EMPTY">Amenities</option>
+                @foreach (Parks_SpecialEvents.Models.Amenity amenity in ViewBag.Amenities.amenities)
+                {
+                    <option>@amenity.Amen</option>
+                }
+            </select>
+
+            <!-- SET NEW VALUES FOR THAT AMENITY-->
+            Set Name: <input name="setSingleName"/>
+            Set Quanity: <input name="setSingleQuanity"/>
+        </div>
+    </div>
+
+    <!-- UPDATE ALL AMENITIES NAME = "AMENITY NAME" -->
+    <div class="collapse" id="allAmenity">
+        <div class="card card-body">
+            <h3>Update all Amenities Named</h3>
+            <!-- SELECT AN AMENITY -->
+            <select name="allAmenityNamed">
+                <option value="EMPTY">Amenities</option>
+                @foreach (Parks_SpecialEvents.Models.Amenity amenity in ViewBag.Amenities.amenities)
+                {
+                    <option>@amenity.Amen</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <input class="btn btn-warning" type="submit" value="UPDATE" />
+</form>
