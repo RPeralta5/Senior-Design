@@ -14,7 +14,7 @@ namespace Parks_SpecialEvents.Controllers
     public class LocatorController : Controller
     {
         // STORE QUESTIONS IN A DATABASE
-        QuestionDB questionDB = new QuestionDB();
+       // QuestionDB questionDB = new QuestionDB();
 
         // PARKS CONNECTION STRING
         const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
@@ -23,13 +23,9 @@ namespace Parks_SpecialEvents.Controllers
         ParkDB parkDB = new ParkDB();
 
         // STORE PERMITABLES ONLY
-        List<Event> permitableDB = new List<Event>();
+        List<Event> eventStorage = new List<Event>();
         List<EventType> eventTypeStorage = new List<EventType>();
 
-        // QUERY FOR ALL PERMIT PARKS
-        //const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event" +
-        //        " FROM Parks, Events" +
-        //        " WHERE Parks.ParkID = Events.ParkID;";
         const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event_Name, Flag" +
                   " FROM Event" +
                   " INNER JOIN Event_Info ON" +
@@ -37,14 +33,6 @@ namespace Parks_SpecialEvents.Controllers
                   " INNER JOIN Parks ON" +
                   " Parks.ParkID = Event.ParkID" +
                   " Where Flag = 1";
-
-       
-
-        /*   PERMITABLES ARE THE BUTTONS AT THE VERY TOP WHICH SHOW YOU WHICH PARKS CAN DO
-         *   CERTAIN THINGS
-        */
-
-        //const string PERMITABLES = "SELECT DISTINCT Event, Href FROM Events"; // used to end in ;
         const string EVENTS = "  SELECT DISTINCT Event_Name, Href FROM Event_Info";
 
         const string EVENT_TYPES = "Select distinct Event_Type from Event_Info";
@@ -109,7 +97,7 @@ namespace Parks_SpecialEvents.Controllers
                     {
                         // Parks.ParkID, ParkName, Lat, Lng, Image, Event
                         //Console.WriteLine($"PermitID: {reader[0]} ParkID: {reader[1]}, Permitable: {reader[2]} Href: {reader[3]}");
-                        permitableDB.Add(new Event((string)reader[0],
+                        eventStorage.Add(new Event((string)reader[0],
                             (string)reader[1], true));
                     }
                 }
@@ -117,7 +105,7 @@ namespace Parks_SpecialEvents.Controllers
                 // CLOSE CONNECTION
                 sqlConnnection.Close();
             }
-            return permitableDB;
+            return eventStorage;
         }
 
         private List<EventType> QueryEventTypes(string query)
