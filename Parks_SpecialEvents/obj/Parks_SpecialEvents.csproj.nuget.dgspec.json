@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj": {}
+    "C:\\Users\\rpera\\Desktop\\repo\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj": {
+    "C:\\Users\\rpera\\Desktop\\repo\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj",
+        "projectUniqueName": "C:\\Users\\rpera\\Desktop\\repo\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj",
         "projectName": "Parks_SpecialEvents",
-        "projectPath": "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj",
+        "projectPath": "C:\\Users\\rpera\\Desktop\\repo\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj",
         "packagesPath": "C:\\Users\\rpera\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rpera\\Documents\\Cal State LA\\2019-2020\\Senior-Design\\Parks_SpecialEvents\\obj\\",
+        "outputPath": "C:\\Users\\rpera\\Desktop\\repo\\Senior-Design\\Parks_SpecialEvents\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

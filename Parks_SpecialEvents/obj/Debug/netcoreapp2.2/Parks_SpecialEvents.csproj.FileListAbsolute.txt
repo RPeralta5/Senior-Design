@@ -189,3 +189,11 @@ C:\Users\rpera\Documents\Cal State LA\2019-2020\Senior-Design\Parks_SpecialEvent
 C:\Users\rpera\Documents\Cal State LA\2019-2020\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.pdb
 C:\Users\rpera\Documents\Cal State LA\2019-2020\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.csproj.CopyComplete
 C:\Users\rpera\Documents\Cal State LA\2019-2020\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.csprojAssemblyReference.cache
+C:\Users\rpera\Desktop\repo\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.csprojAssemblyReference.cache
+C:\Users\rpera\Desktop\repo\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.csproj.CoreCompileInputs.cache
+C:\Users\rpera\Desktop\repo\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.RazorAssemblyInfo.cache
+C:\Users\rpera\Desktop\repo\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.RazorAssemblyInfo.cs
+C:\Users\rpera\Desktop\repo\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.AssemblyInfoInputs.cache
+C:\Users\rpera\Desktop\repo\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.AssemblyInfo.cs
+C:\Users\rpera\Desktop\repo\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.dll
+C:\Users\rpera\Desktop\repo\Senior-Design\Parks_SpecialEvents\obj\Debug\netcoreapp2.2\Parks_SpecialEvents.pdb
