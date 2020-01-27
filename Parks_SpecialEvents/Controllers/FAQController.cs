@@ -17,14 +17,11 @@ namespace Parks_SpecialEvents.Controllers
         QuestionDB questionDB = new QuestionDB();
 
         // PARKS CONNECTION STRING
-        const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
 
         // STORE PARKS IN A DATABASE
         ParkDB parkDB = new ParkDB();
-
-        // STORE PERMITABLES ONLY
-        List<Event> permitableDB = new List<Event>();
 
  
         const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event_Name, Flag" +

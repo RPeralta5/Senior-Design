@@ -17,13 +17,14 @@ namespace Parks_SpecialEvents.Controllers
         QuestionDB questionDB = new QuestionDB();
 
         // PARKS CONNECTION STRING
-        const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         // STORE PARKS IN A DATABASE
         ParkDB parkDB = new ParkDB();
 
         // STORE PERMITABLES ONLY
         List<Event> permitableDB = new List<Event>();
+        List<EventType> eventTypeStorage = new List<EventType>();
 
         // QUERY FOR ALL PERMIT PARKS
         //const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event" +
@@ -37,8 +38,7 @@ namespace Parks_SpecialEvents.Controllers
                   " Parks.ParkID = Event.ParkID" +
                   " Where Flag = 1";
 
-        // QUERY FOR ALL QUESTIONS
-        const string ALL_QUESTIONS = "SELECT * FROM Questions;";
+       
 
         /*   PERMITABLES ARE THE BUTTONS AT THE VERY TOP WHICH SHOW YOU WHICH PARKS CAN DO
          *   CERTAIN THINGS
@@ -47,33 +47,10 @@ namespace Parks_SpecialEvents.Controllers
         //const string PERMITABLES = "SELECT DISTINCT Event, Href FROM Events"; // used to end in ;
         const string EVENTS = "  SELECT DISTINCT Event_Name, Href FROM Event_Info";
 
-        private QuestionDB QueryQuestions(string query)
-        {
-            // CONNECT TO DATABASE
-            using (SqlConnection sqlConnection = new SqlConnection(PARKSCONNECTIONSTRING))
-            {
-                // COMMAND TO EXECUTE
-                string command = query;
-                SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
+        const string EVENT_TYPES = "Select distinct Event_Type from Event_Info";
 
-                // OPEN THE SQL CONNECTION
-                sqlConnection.Open();
+        const string SUB_EVENT = " Select Distinct Event_Name, Href From Event_Info";
 
-                //READ THE DATA
-                using (SqlDataReader reader = sqlCommand.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        questionDB.AddQuestion(new Question((int)reader[0], (string)reader[1],
-                            (string)reader[2], (DateTime)reader[3], (bool)reader[4]));
-                    }
-                }
-                // CLOSE CONNECTION
-                sqlConnection.Close();
-            }
-
-            return questionDB;
-        }
 
         private ParkDB QueryParks(string query)
         {
@@ -143,7 +120,168 @@ namespace Parks_SpecialEvents.Controllers
             return permitableDB;
         }
 
-        // GET: /<controller>/
+        private List<EventType> QueryEventTypes(string query)
+        {
+            // CONNECT TO PARKS DATABASE
+            using (SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
+            {
+                // COMMAND TO EXECUTE
+                string command = query;
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnnection);
+
+                // OPEN SQL CONNECTION
+                sqlConnnection.Open();
+
+                // READ DATA
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Parks.ParkID, ParkName, Lat, Lng, Image, Event
+                        //Console.WriteLine($"PermitID: {reader[0]} ParkID: {reader[1]}, Permitable: {reader[2]} Href: {reader[3]}");
+                        eventTypeStorage.Add(new EventType((string)reader[0]));
+                    }
+                }
+
+                // CLOSE CONNECTION
+                sqlConnnection.Close();
+            }
+
+
+               /*Debugging 1/24/2020 11:30Am
+                * 
+                * 1st connection looks to be working, just make another method that edits the list instead of opening another connection here!
+                * in index do a for loop, and then call the method that adds the sub events to the event types!
+
+            //In this second connection, I want to go through the list of event types and get a list of events for each type
+            //Ex. for celebration, it contains a list of events that are categorized under celebration, weddings, quinceneras, etc.
+            using (SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
+            {
+                // COMMAND TO EXECUTE
+                for (int i = 0; i < eventTypeStorage.Count; i++)
+                {
+                    string com = "SELECT Event_Name, Href from event_info where event_type = '" +eventTypeStorage[i] + "'";
+
+                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnnection);
+
+                    // OPEN SQL CONNECTION
+                    sqlConnnection.Open();
+
+                    // READ DATA
+                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                         
+                            //Adding an event to the list for each sub type
+                            eventTypeStorage[i].AddToList(new Event((string)reader[0],
+                            (string)reader[1], true));
+                        }
+                    }
+                }
+
+                
+
+                // CLOSE CONNECTION
+                sqlConnnection.Close();
+            }
+            */
+
+
+            return eventTypeStorage;
+        }
+
+
+
+
+        private void QuerySubEvents(string query, int index)
+        {
+
+            //The only thing that QueryEventTypes does is return a list of the event types
+            //In this function, go through that list and add a list of events to each corresponding EventType Object
+
+            //int index is the index of the item in the list we are currently on! So we can add events to that coresponding list!
+
+            // CONNECT TO PARKS DATABASE
+            using (SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
+            {
+                // COMMAND TO EXECUTE
+               // string com = "SELECT Event_Name, Href from event_info where event_type = '" + eventTypeStorage[i] + "'";
+
+
+                //Query should be something like
+                //Select Event, Href from events where event type = 'x'
+                string command = query;
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnnection);
+
+                // OPEN SQL CONNECTION
+                sqlConnnection.Open();
+
+                // READ DATA
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Parks.ParkID, ParkName, Lat, Lng, Image, Event
+                        //Console.WriteLine($"PermitID: {reader[0]} ParkID: {reader[1]}, Permitable: {reader[2]} Href: {reader[3]}");
+                       
+                        //Adding an event to the list for each sub type
+                        eventTypeStorage[index].AddToList(new Event((string)reader[0], (string)reader[1], true));
+                        
+                    }
+                }
+
+                // CLOSE CONNECTION
+                sqlConnnection.Close();
+            }
+
+
+            /*Debugging 1/24/2020 11:30Am
+             * 
+             * 1st connection looks to be working, just make another method that edits the list instead of opening another connection here!
+             * in index do a for loop, and then call the method that adds the sub events to the event types!
+
+         //In this second connection, I want to go through the list of event types and get a list of events for each type
+         //Ex. for celebration, it contains a list of events that are categorized under celebration, weddings, quinceneras, etc.
+         using (SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
+         {
+             // COMMAND TO EXECUTE
+             for (int i = 0; i < eventTypeStorage.Count; i++)
+             {
+                 string com = "SELECT Event_Name, Href from event_info where event_type = '" +eventTypeStorage[i] + "'";
+
+                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnnection);
+
+                 // OPEN SQL CONNECTION
+                 sqlConnnection.Open();
+
+                 // READ DATA
+                 using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                 {
+                     while (reader.Read())
+                     {
+
+                         //Adding an event to the list for each sub type
+                         eventTypeStorage[i].AddToList(new Event((string)reader[0],
+                         (string)reader[1], true));
+                     }
+                 }
+             }
+
+
+
+             // CLOSE CONNECTION
+             sqlConnnection.Close();
+         }
+         */
+
+
+        }
+
+
+
+        //9:22 am 1/27/2019
+        //Ran and nothing crashed, now edit the index and print out the eventTypeList info to make sure all the information is getting passed correctly.
         public IActionResult Index()
         {
             // STORE IN VIEWBAG
@@ -152,55 +290,45 @@ namespace Parks_SpecialEvents.Controllers
 
             ViewBag.storeParks = QueryParks(QUERY_FOR_ALL_PERMIT_PARKS);
 
-            ViewBag.storing = QueryQuestions(ALL_QUESTIONS);
+
+            //ViewBag.storeEventTypes 
+            List<EventType> eventTypeList = QueryEventTypes(EVENT_TYPES);
+
+            for (int i = 0; i < eventTypeList.Count; i++)
+            {
+                string query = "SELECT Event_Name, Href from event_info where event_type = '" + eventTypeList[i].Name + "'";
+               // string q = ""
+                QuerySubEvents(query, i);
+            }
+
+            ViewBag.eventInfo = eventTypeList;
+
+            /*
+             *List<EventType> sampleList = QueryEventTypes(EVENT_TYPES)
+             * 
+             *      Here the for loop is going to open another connection for each event type and add the events to each respective type!
+             *      Need to implement QuerySubEvents!
+             *      As of right now QueryEventTypes seem to be working, but implement adding the buttons on the index to make sure all of the types are getting through
+             *      
+             *      
+             * for (int i = 0; i < sampleList.Count; i++)
+                {
+                        QuerySubEvents(sampleList[i]);
+                }
+             * 
+             * 
+             */
+
+
+
+
+
 
             return View();
         }
 
-        public IActionResult Question(string question)
-        {
-            // STORE IN VIEWBAG
-            ViewBag.storing = QueryQuestions($"SELECT * FROM Questions WHERE Question='{question}';");
-            return View();
-        }
-
-        public IActionResult Search(string search)
-        {
-            // IF VALIDATION FALSE DROP AND EJECT WE HAVE AN INTRUDER!
-            if (validate(search) == false)
-            {
-                Console.WriteLine("SEARCH WAS NULL REDIRECT TO FAQ INDEX PAGE");
-                return RedirectToAction("Index");
-            }
-
-            // STORE IN VIEWBAG
-            ViewBag.storePermitables = QueryPermitables(EVENTS + $" WHERE Event_Name LIKE '%{search}%'");
-
-            ViewBag.storeParks = QueryParks(QUERY_FOR_ALL_PERMIT_PARKS);
-
-            ViewBag.storing = QueryQuestions($"SELECT * FROM Questions WHERE Question LIKE '%{search}%';");
-
-            if (questionDB.Size == 0 && permitableDB.Count == 0)
-            {
-                Console.WriteLine($"NO RESULTS FOUND FOR: {search}");
-                Console.WriteLine("REDIRECTING TO INDEX PAGE");
-                return RedirectToAction("Index");
-            }
-            else if (questionDB.Size == 0)
-            {
-                Console.WriteLine("ZERO RESULTS FOR QUESTIONS");
-                Console.WriteLine("GONNA DISPLAY ALL QUESTIONS AS DEFAULT");
-                ViewBag.storing = QueryQuestions(ALL_QUESTIONS);
-            }
-            else if (permitableDB.Count == 0)
-            {
-                Console.WriteLine("ZERO RESULTS FOR PERMITABLES");
-                Console.WriteLine("GOING TO DISPALY ALL PERMITABLES AS DEFAULT");
-                ViewBag.storePermitables = QueryPermitables(EVENTS); // USED TO HAVE PERMITABLES CONST STRING
-            }
-            return View();
-        }
-
+        
+        
         private bool validate(string search)
         {
             List<string> keyWords = new List<string>();
