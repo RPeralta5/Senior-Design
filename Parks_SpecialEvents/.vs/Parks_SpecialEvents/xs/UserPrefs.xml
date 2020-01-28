@@ -9,13 +9,11 @@
         <State name="__root__">
           <Node name="Parks_SpecialEvents" expanded="True">
             <Node name="Parks_SpecialEvents" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="PackageDependencies" expanded="True" />
+              </Node>
               <Node name="Controllers" expanded="True">
                 <Node name="AdminController.cs" selected="True" />
-              </Node>
-              <Node name="Models" expanded="True" />
-              <Node name="Views" expanded="True">
-                <Node name="Admin" expanded="True" />
-                <Node name="FAQ" expanded="True" />
               </Node>
             </Node>
           </Node>
