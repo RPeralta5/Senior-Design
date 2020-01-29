@@ -238,3 +238,4 @@ C:/Users/rpera/Desktop/repo/Senior-Design/Parks_SpecialEvents/obj/Debug/netcorea
 C:/Users/rpera/Desktop/repo/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Parks_SpecialEvents.Views.pdb
 C:/Users/rpera/Desktop/repo/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Parks_SpecialEvents.csproj.CopyComplete
 /Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/SelectQuestion.g.cshtml.cs
+/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/EditQuestionRazorPage.g.cshtml.cs

@@ -650,5 +650,69 @@ namespace Parks_SpecialEvents.Controllers
             ViewBag.QDB = questions;
             return View();
         }
+
+        public IActionResult EditQuestionRazorPage(int id)
+        {
+            Console.WriteLine($"QUESTION ID: {id}");
+            Question question = null;
+            // GET THE QUESTION FROM USING PROVIDED ID
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // QUERY TO EXECUTE
+                string query = "SELECT * FROM Questions " +
+                                    $"WHERE QuestionID = {id};";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                // OPEN SQL CONNECTION
+                sqlConnection.Open();
+
+                // READ DATA
+                using(SqlDataReader reader = command.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        question = new Question((int) reader[0], (string) reader[1], (string) reader[2],
+                            (DateTime) reader[3], (bool) reader[4]);
+                    }
+                }
+
+                // CLOSE CONNECTION
+                sqlConnection.Close();
+            }
+            ViewBag.Q = question;
+            return View();
+        }
+
+        public void UpdateQuestion(Question question)
+        {
+            int flag = -1;
+            if(question.Flag == false)
+            {
+                flag = 1;
+            } else
+            {
+                flag = 0;
+            }
+            // UPDATE QUESTION
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // QUERY TO EXECUTE
+                string query = $"UPDATE Questions SET Question = '{question.Q}'," + 
+                        $" Answer = '{question.Answer}'," +
+                        $" ShownFlag = {flag} WHERE QuestionID = {question.ID};";
+
+                Console.WriteLine(query);
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                // OPEN SQL CONNECTION
+                sqlConnection.Open();
+
+                // EXECUTE COMMAND
+                command.ExecuteReader();
+
+                // CLOSE CONNECTION
+                sqlConnection.Close();
+            }
+        }
     }
 }

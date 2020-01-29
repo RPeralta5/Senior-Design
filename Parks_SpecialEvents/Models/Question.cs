@@ -8,6 +8,8 @@ namespace Parks_SpecialEvents.Models
         public string Answer { get; set; }
         public DateTime Date { get; set; }
         public bool Flag { get; set; }
+
+        public Question() { } // Empty Constructor used for creating models
         public Question(int id, string q, string answer, DateTime date, bool flag)
         {
             this.ID = id;

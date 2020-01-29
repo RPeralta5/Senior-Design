@@ -15,7 +15,7 @@
             <tr>
                 <th scope="row">@question.ID</th>
                 <td>@question.Q</td>
-                <td><a asp-controller="Admin" asp-action="EditQuestionRazor">Edit</a></td>
+                <td><a asp-controller="Admin" asp-action="EditQuestionRazorPage" asp-route-id="@question.ID">Edit</a></td>
             </tr>
         }
     </tbody>

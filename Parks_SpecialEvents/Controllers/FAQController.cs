@@ -35,8 +35,10 @@ namespace Parks_SpecialEvents.Controllers
 
         // QUERY FOR ALL QUESTIONS
         const string ALL_QUESTIONS = "SELECT * FROM Questions;";
+        const string ALL_VISIBLE_QUESTIONS = "SELECT * FROM Questions WHERE ShownFlag = 1;";
 
- 
+
+
 
         private QuestionDB QueryQuestions(string query)
         {
@@ -74,7 +76,7 @@ namespace Parks_SpecialEvents.Controllers
             // STORE IN VIEWBAG
 
 
-            ViewBag.storing = QueryQuestions(ALL_QUESTIONS);
+            ViewBag.storing = QueryQuestions(ALL_VISIBLE_QUESTIONS);
 
             return View();
         }
@@ -97,7 +99,7 @@ namespace Parks_SpecialEvents.Controllers
 
             // STORE IN VIEWBAG
 
-            ViewBag.storing = QueryQuestions($"SELECT * FROM Questions WHERE Question LIKE '%{search}%';");
+            ViewBag.storing = QueryQuestions($"SELECT * FROM Questions WHERE ShownFlag = 1 AND Question LIKE '%{search}%';");
 
             if (questionDB.Size == 0)
             {
