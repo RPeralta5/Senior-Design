@@ -20,11 +20,9 @@ namespace Parks_SpecialEvents.Controllers
         // const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
-
         // STORE PARKS IN A DATABASE
         ParkDB parkDB = new ParkDB();
 
- 
         const string QUERY_FOR_ALL_PERMIT_PARKS = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event_Name, Flag" +
                   " FROM Event" +
                   " INNER JOIN Event_Info ON" +
@@ -36,9 +34,6 @@ namespace Parks_SpecialEvents.Controllers
         // QUERY FOR ALL QUESTIONS
         const string ALL_QUESTIONS = "SELECT * FROM Questions;";
         const string ALL_VISIBLE_QUESTIONS = "SELECT * FROM Questions WHERE ShownFlag = 1;";
-
-
-
 
         private QuestionDB QueryQuestions(string query)
         {
@@ -67,8 +62,6 @@ namespace Parks_SpecialEvents.Controllers
 
             return questionDB;
         }
-
-     
      
         // GET: /<controller>/
         public IActionResult Index()
