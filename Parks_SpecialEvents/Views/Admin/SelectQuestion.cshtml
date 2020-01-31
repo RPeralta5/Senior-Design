@@ -1,15 +1,29 @@
 ﻿
 <h1>Select Question</h1>
 
-<form asp-controller="Admin" asp-action="SelectQuestion">
-    <button type="submit" class="btn btn-dark" asp-route-s="ALL">All</button>
-    <button type="submit" class="btn btn-dark" asp-route-s="ACTIVE" >Active</button>
-    <button type="submit" class="btn btn-dark" asp-route-s="FLAGGED">Flagged</button>
-    <br />
-</form>
-<br />
+<div class="container">
+    <form asp-controller="Admin" asp-action="SelectQuestion">
+        @if(ViewBag.show == "ALL") {
+            <button type="submit" class="btn btn-dark" asp-route-s="ALL">All</button>
+        } else {
+            <button type="submit" class="btn btn-light" asp-route-s="ALL">All</button>
+        }
 
-<a asp-controller="Admin" asp-action="AddQuestionRazor">Add Question</a>  <br />
+        @if(ViewBag.show == "ACTIVE") {
+            <button type="submit" class="btn btn-dark" asp-route-s="ACTIVE">Active</button>
+        } else {
+            <button type="submit" class="btn btn-light" asp-route-s="ACTIVE">Active</button>
+        }
+
+        @if(ViewBag.show == "FLAGGED") {
+            <button type="submit" class="btn btn-dark" asp-route-s="FLAGGED">Flagged</button>
+        } else {
+            <button type="submit" class="btn btn-light" asp-route-s="FLAGGED">Flagged</button>
+        }
+        <br />
+    </form>
+</div>
+
 <br />
 <!-- ALL QUESTIONS -->
 <table class="table table-striped table-dark">
@@ -40,11 +54,11 @@
         @foreach (Question question in ViewBag.QDB.questions)
         {
             if(question.Flag == true) {
-                <tr>
-                    <th scope="row">@question.ID</th>
-                    <td>@question.Q</td>
-                    <td><a asp-controller="Admin" asp-action="EditQuestionRazorPage" asp-route-id="@question.ID">Edit</a></td>
-                </tr>
+        <tr>
+            <th scope="row">@question.ID</th>
+            <td>@question.Q</td>
+            <td><a asp-controller="Admin" asp-action="EditQuestionRazorPage" asp-route-id="@question.ID">Edit</a></td>
+        </tr>
             }
         }
     }
@@ -52,14 +66,14 @@
         @if (ViewBag.show == "FLAGGED")
     {
         Console.WriteLine("QUESTIONS: FLAGGED");
-             @foreach (Question question in ViewBag.QDB.questions)
+        @foreach (Question question in ViewBag.QDB.questions)
         {
             if(question.Flag == false) {
-                <tr>
-                    <th scope="row">@question.ID</th>
-                    <td>@question.Q</td>
-                    <td><a asp-controller="Admin" asp-action="EditQuestionRazorPage" asp-route-id="@question.ID">Edit</a></td>
-                </tr>
+        <tr>
+            <th scope="row">@question.ID</th>
+            <td>@question.Q</td>
+            <td><a asp-controller="Admin" asp-action="EditQuestionRazorPage" asp-route-id="@question.ID">Edit</a></td>
+        </tr>
             }
         }
     }

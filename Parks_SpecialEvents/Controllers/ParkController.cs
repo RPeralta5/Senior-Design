@@ -235,9 +235,7 @@ namespace Parks_SpecialEvents.Controllers
                 Console.WriteLine(e);
                 // REDIRECT TO ACTION METHOD IF FETCH FAILED
                 return RedirectToAction("Index");
-            }
-            
+            }  
         }
-
     }
 }
