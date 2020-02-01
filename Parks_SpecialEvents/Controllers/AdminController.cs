@@ -649,18 +649,6 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine($"QUESTION DB SIZE: {questions.Size}");
             ViewBag.QDB = questions;
             ViewBag.show = s;
-
-            if(s == "ALL") {
-                Console.WriteLine("QUESTIONS: ALL");
-            }
-
-            if(s == "ACTIVE") {
-                Console.WriteLine("QUESTIONS: ACTIVE");
-            }
-
-            if(s == "FLAGGED"){
-                Console.WriteLine("QUESTIONS: FLAGGED");
-            }
             return View();
         }
 
@@ -730,9 +718,16 @@ namespace Parks_SpecialEvents.Controllers
             return RedirectToAction("SelectQuestion");
         }
 
-        private IActionResult AddQuestionRazor()
+        public IActionResult AddQuestionRazor()
         {
+            Console.WriteLine("INSIDE ADD QUESTION RAZOR");
             return View();
+        }
+
+        public IActionResult AddQuestion()
+        {
+            // ADD QUESTION HERE
+            return RedirectToAction("SelectQuestion");
         }
     }
 }

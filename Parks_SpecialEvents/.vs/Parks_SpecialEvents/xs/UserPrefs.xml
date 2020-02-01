@@ -1,11 +1,9 @@
 ﻿<Properties StartupConfiguration="{5AAA988B-63EF-40F5-B243-839D78BF0B81}|Default">
   <MonoDevelop.Ide.ItemProperties.Parks__SpecialEvents PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Admin/EditQuestionRazorPage.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Admin/AddQuestionRazor.cshtml">
     <Files>
-      <File FileName="Controllers/AdminController.cs" Line="733" Column="47" />
-      <File FileName="Views/Admin/Index.cshtml" Line="16" Column="85" />
-      <File FileName="Views/Admin/AddQuestionRazor.cshtml" Line="14" Column="1" />
-      <File FileName="Views/Admin/EditQuestionRazorPage.cshtml" Line="30" Column="11" />
+      <File FileName="Views/Admin/AddQuestionRazor.cshtml" Line="26" Column="64" />
+      <File FileName="Controllers/AdminController.cs" Line="723" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,7 +13,7 @@
               <Node name="Controllers" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Admin" expanded="True">
-                  <Node name="EditQuestionRazorPage.cshtml" selected="True" />
+                  <Node name="AddQuestionRazor.cshtml" selected="True" />
                 </Node>
               </Node>
             </Node>
