@@ -1,0 +1,53 @@
+﻿<!--model Parks_SpecialEvents.Models.Question -->
+@model Parks_SpecialEvents.Models.Question
+<h1>Edit Question</h1>
+
+<form asp-controller="Admin" asp-action="UpdateQuestion">
+    <div class="container">
+        <h3>DATE ADDED TO DATABASE: @ViewBag.Q.Date</h3>
+        <input type="hidden" asp-for="ID" value="@ViewBag.Q.ID" />
+        <!-- QUESTION -->
+        Question:<code> @ViewBag.Q.Q</code> <br />
+        <textarea asp-for="Q"></textarea> <br />
+
+        <!-- ANSWER -->
+        Answer:<code> @ViewBag.Q.Answer</code> <br />
+        <textarea asp-for="Answer" value="@ViewBag.Q.Answer"></textarea> <br />
+        <!--
+        <input type="text" value="@ViewBag.Q.Answer"/>
+        -->
+
+    <!-- FLAG TOGGLE -->
+    <div class="checkbox">
+        <label>
+            @if(ViewBag.Q.Flag == false) {
+                <input type="checkbox" data-toggle="toggle" asp-for="Flag" checked>
+            } else {
+                <input type="checkbox" data-toggle="toggle" asp-for="Flag">
+            }
+            Flag <warning>
+                <div class="alert alert-warning" role="alert">
+                    (FLAGGING WILL CAUSE QUESTION TO NOT BE VISIBALE TO THE PUBLIC)
+                </div>
+        </label>
+    </div>
+
+    <!-- UPDATE BUTTON -->
+    <button type="submit" class="btn btn-warning">Update</button>
+    </div>
+</form>
+
+<!--
+
+-- model WebTest.Models.Group has an at in front of it
+
+<br />
+
+<form method="post" asp-controller="Faq" asp-action="TestModel">
+    GROUP MODEL NAME:<input asp-for="Name" type="text"/>
+    GROUP MODEL SONG:<input asp-for="Song" type="text" />
+    <input type="submit" value="GROUP" class="btn btn-primary"/>
+</form>
+
+
+-->

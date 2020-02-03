@@ -1,0 +1,30 @@
+﻿
+@model Parks_SpecialEvents.Models.Question
+
+<h1>Add a new Question</h1>
+
+<div class="container">
+    <form asp-controller="Admin" asp-action="AddQuestion">
+
+        <!-- QUESTION -->
+        <code>Question: </code> <br />
+        <textarea asp-for="Q"></textarea> <br />
+
+        <!-- ANSWER -->
+        <code>Answer: </code> <br />
+        <textarea asp-for="Answer"></textarea> <br />
+
+        <!-- FLAG TOGGLE -->
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" data-toggle="toggle" asp-for="Flag">
+                Flag <warning>
+                    <div class="alert alert-warning" role="alert">
+                        (FLAGGING WILL CAUSE QUESTION TO NOT BE VISIBALE TO THE PUBLIC)
+                    </div>
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-info">Add Question</button>
+    </form>
+</div>
