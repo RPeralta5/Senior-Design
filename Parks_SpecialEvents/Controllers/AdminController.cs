@@ -724,9 +724,94 @@ namespace Parks_SpecialEvents.Controllers
             return View();
         }
 
-        public IActionResult AddQuestion()
+        public IActionResult AddQuestion(Question question)
         {
-            // ADD QUESTION HERE
+            Console.WriteLine("INSIDE ADD QUESTION METHOD");
+            // SET UP CONNECTION
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                int flag = 1;
+                if(question.Flag == true)
+                {
+                    flag = 0;
+                }
+                // QUERY TO EXECUTE
+                string query = "INSERT INTO Questions (Question, Answer, ShownFlag)" +
+                    $" VALUES('{question.Q}', '{question.Answer}', {flag}); ";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                // OPEN CONNECTION
+                sqlConnection.Open();
+
+                // ADD QUESTION
+                command.ExecuteReader();
+
+                // CLOSE CONNECTION
+                sqlConnection.Close();
+            }
+
+            return RedirectToAction("SelectQuestion");
+        }
+
+        public IActionResult DeleteQuestionRazorConfirmation(int id)
+        {
+            Question q = null;
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // GET QUESTION
+                string query = "SELECT * FROM Questions" +
+                    $" WHERE QuestionID = {id};";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                // OPEN CONNECTION
+                sqlConnection.Open();
+
+                // READ DATA
+                using(SqlDataReader reader = command.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        // id, question, answer, date, flag
+                        bool flag = true;
+                        if((Boolean)reader[4] == true)
+                        {
+                            flag = false;
+                        }
+
+                        q = new Question((int) reader[0], (string) reader[1], (string) reader[2],
+                            (DateTime) reader[3], flag);
+                    }
+                }
+
+                // CLOSE CONNECTION
+                sqlConnection.Close();
+            }
+            ViewBag.Question = q;
+            return View();
+        }
+
+        public IActionResult DeleteQuestion(int id)
+        {
+            Console.WriteLine($"DELETE QUESTION WITH ID {id}");
+
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // QUERY TO EXECUTE
+                string query = "DELETE FROM Questions" +
+                        $" WHERE QuestionID = {id};";
+                SqlCommand command = new SqlCommand(query, sqlConnection);
+
+                // OPEN SQL CONNECTION
+                sqlConnection.Open();
+
+                // DELETE QUESTION
+                command.ExecuteReader();
+
+                // CLOSE SQL CONNECTION
+                sqlConnection.Close();
+
+            }
+
             return RedirectToAction("SelectQuestion");
         }
     }
