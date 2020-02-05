@@ -11,33 +11,35 @@
     }
 </style>
 
+<title>FAQ</title>
 <center>
-    <h2>Frequently Asked Questions</h2>
+    <h2 style="color:navy; font-weight:bold;">Frequently Asked Questions</h2>
+    <br />
+
+
+
+    <!--
+        SEARCH FOR SPECIFIC QUESTION OR TOPIC
+    -->
+    <div class="d-flex justify-content-center mt-3">
+        <form asp-controller="FAQ" asp-action="Search">
+            <strong><font size="5">Search for a topic or question: </font></strong>
+            <input name="search" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </form>
+    </div>
+    <br />
 </center>
 
-<!--
-    SEARCH FOR SPECIFIC QUESTION OR TOPIC
--->
-<div class="d-flex justify-content-center mt-3">
-    <form asp-controller="FAQ" asp-action="Search">
-        <strong>Search: </strong>
-        <input name="search" />
-        <input type="submit" class="btn btn-primary" />
-    </form>
-</div>
+
 
 <!--
    PARKS WITH PERMITS TO HOLD SPECIFIC REQUIREMENTS:
     EX. PARKS THAT CAN HOLD ALCOHOL
     OR PARKS THAT CAN HOLD MUSIC FESTIVALS
 -->
-
 <!-- DYNAMIC BUTTON FOR PERMIBABLE PARKS-->
-
-
 <!-- END OF DYNAMIC PERMITABLE PARKS-->
-
-
 <!-- DISPLAY SEARCHED QUESTIONS-->
 <div class="containter">
     <div class="row">
@@ -76,6 +78,6 @@
 
 <address>
     <strong>
-        <a href="mailto:josejesusgarciajr@gmail.com">Contact</a>
+        <a href="mailto:EMAIL@gmail.com">Contact</a>
     </strong>
 </address>
