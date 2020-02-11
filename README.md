@@ -15,8 +15,11 @@ Documentation Lead: Tony Orellana
 
 Interface Lead: Huy Nguyen
 
+Parks Department Liaison: Feza Sanigok
+
+ISD Liaisons: Andrew Charlton and Alan Zabaro
 
 Advisor: Keenan Knaur
 
-Liason: Feza Sanigok
+
 
