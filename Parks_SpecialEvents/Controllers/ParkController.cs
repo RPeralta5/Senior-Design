@@ -27,8 +27,8 @@ namespace Parks_SpecialEvents.Controllers
         Park defaultPark = new Park(ParkID, name, address, lat, lng, image, permit, flag);
 
         // CONNECTION STRING FOR PARK DATABASE
-        //const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
 
         // QUERY FOR PARK
@@ -222,6 +222,7 @@ namespace Parks_SpecialEvents.Controllers
                 double lat = a.Coordinates.Latitude;
                 double lng = a.Coordinates.Longitude;
                 string image = "~/images/gerson-repreza-tNQ2tmQiC6g-unsplash.jpg";
+                string phone = "Sample Phone";
                 string permitalbes = "Alcohol";
 
                 Console.WriteLine($"Lat: {lat}");

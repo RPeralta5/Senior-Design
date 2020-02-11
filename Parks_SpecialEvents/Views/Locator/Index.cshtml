@@ -1,12 +1,28 @@
 ﻿
 
 <style>
-        .post-content {
-            top: 0;
-            left: 0;
-            position: absolute;
-        }
-        /*
+    .post-content {
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
+    .row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+    /*
         .column {
           float: left;
           width: 48%;
@@ -20,9 +36,9 @@
 
     /* Clear floats after image containers */
 
-        .thumbnail {
-            position: relative;
-        }
+    .thumbnail {
+        position: relative;
+    }
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -70,36 +86,68 @@
 @foreach (Parks_SpecialEvents.Models.Event e in ViewBag.storePermitables)
 {
 
-    <div class="collapse" id="@e.Href">
-        TEST!
-        <br />
-        Hello!
-        <div class="card card-body">
-            <center>
-                <h3>@e.E</h3>
-            </center>
-            <div class="row">
-                @foreach (Parks_SpecialEvents.Models.Park p in ViewBag.storeParks.parks)
+<div class="collapse" id="@e.Href">
+    
+    
+    <br /> 
+    <center>
+        <h3 style="color:navy; font-weight:bold;">Park Locator</h3>
+
+        @{int count = 0;}
+
+        @foreach (Parks_SpecialEvents.Models.Park p in ViewBag.storeParks.parks)
+        {
+            @if (p.Event == e.E)
+            {
+                if (count == 0)
                 {
-                    @if (p.Event == e.E)
-                    {
-
-                        <div class="thumbnail column">
-                            <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@p.ID>
-                                <img height="300" width="450" src=@Url.Content(p.Image) />
-                            </a>
-                            <div class="caption post-content">
-                                <h3 style="color: white;">@p.ParkName</h3>
-                            </div>
-                        </div>
+                    @:<div class="row">
                     }
-                }
-            </div>
 
-        </div>
-    </div>
+                          <div class="column">
+                              <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@p.ID>
+                                  <img height="300" width="450" src=@Url.Content(p.Image) />
+                              </a>
+                              <br />
+                              
+                              <h5 style="color:black; font-weight:bold;">@p.ParkName</h5>
+
+                          </div>
+                    count++;
+
+                    if (count == 2)
+                    {
+                    @:</div>
+                    count = 0;
+                }
+
+
+            }
+        }
+    </center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
 
 }
+
+
 
 
 <!-- CONTACT INFORMATION-->
@@ -108,196 +156,3 @@
         <a href="mailto:EMAIL@gmail.com">Contact</a>
     </strong>
 </address>
-
-<!--Carousel Wrapper-->
-<div id="carousel-with-lb" class="carousel slide carousel-multi-item" data-ride="carousel">
-
-    <!--Controls-->
-    <div class="controls-top text-align:center m-1">
-        <center>
-            <a class="btn-floating btn-secondary text-align:center" href="#carousel-with-lb" data-slide="prev">
-                <i class="fas fa-chevron-left">Previous</i>
-            </a>
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-
-            <a class="btn-floating btn-secondary" href="#carousel-with-lb" data-slide="next">
-                <i class="fas fa-chevron-right">Next</i>
-            </a>
-        </center>
-        
-    </div>
-    <br />
-    <!--/.Controls-->
-    <!--Indicators-->
-    <ol class="carousel-indicators">
-        <li data-target="#carousel-with-lb" data-slide-to="0" class="active secondary-color"></li>
-        <li data-target="#carousel-with-lb" data-slide-to="1" class="secondary-color"></li>
-        <li data-target="#carousel-with-lb" data-slide-to="2" class="secondary-color"></li>
-    </ol>
-    <!--/.Indicators-->
-    <!--Slides and lightbox-->
-
-    <div class="carousel-inner mdb-lightbox" role="listbox">
-        <div id="mdb-lightbox-ui"></div>
-        <!--First slide-->
-        <div class=" carousel-item active text-center">
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(2).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(2).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(4).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(4).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(6).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(6).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(10).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(10).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(12).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(12).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(14).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(14).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-        </div>
-        <!--/.First slide-->
-        <!--Second slide-->
-        <div class="carousel-item text-center">
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(22).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(22).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(25).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(25).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(29).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(29).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(31).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(31).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(32).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(32).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(33).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(33).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-        </div>
-        <!--/.Second slide-->
-        <!--Third slide-->
-        <div class="carousel-item text-center">
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(44).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(44).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(45).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(45).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(66).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(66).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(53).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(53).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(56).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(56).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-            <figure class="col-md-4 d-md-inline-block">
-                <a href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(77).jpg"
-                   data-size="1600x1067">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(77).jpg"
-                         class="img-fluid">
-                </a>
-            </figure>
-
-        </div>
-        <!--/.Third slide-->
-
-    </div>
-    <!--/.Slides-->
-
-</div>
-<!--/.Carousel Wrapper-->

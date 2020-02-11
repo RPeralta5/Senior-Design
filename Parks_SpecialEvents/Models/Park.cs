@@ -11,6 +11,8 @@ namespace Parks_SpecialEvents.Models
         public string Event { get; set; }
         public string Image { get; set; }
         public bool Flag { get; set; }
+        public string Phone { get; set; }
+
         public Park(string id, string parkName, string address, double lat, double lng, string image, string e, bool flag)
         {
             this.ID = id;
