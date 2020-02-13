@@ -14,8 +14,8 @@ namespace Parks_SpecialEvents.Controllers
     public class LocatorController : Controller
     {
         // Database connection string
-        const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;";
-        //const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        //const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;";
+        const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         // Model to hold list of parks
         ParkDB parkInfo = new ParkDB();
