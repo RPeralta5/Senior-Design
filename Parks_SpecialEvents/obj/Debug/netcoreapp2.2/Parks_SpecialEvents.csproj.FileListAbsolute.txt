@@ -241,3 +241,6 @@ C:/Users/rpera/Desktop/repo/Senior-Design/Parks_SpecialEvents/obj/Debug/netcorea
 /Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/EditQuestionRazorPage.g.cshtml.cs
 /Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/AddQuestionRazor.g.cshtml.cs
 /Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/DeleteQuestionRazorConfirmation.g.cshtml.cs
+/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/AddParkRazor.g.cshtml.cs
+/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/AddAmenitiesToParkRazor.g.cshtml.cs
+/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/AddParkImagesRazor.g.cshtml.cs

@@ -3,25 +3,37 @@
 
 <div class="container">
     <form asp-controller="Admin" asp-action="SelectQuestion">
-        @if(ViewBag.show == "ALL") {
-            <button type="submit" class="btn btn-dark" asp-route-s="ALL">All</button>
-        } else {
-            <button type="submit" class="btn btn-light" asp-route-s="ALL">All</button>
-        }
+        @if (ViewBag.show == "ALL")
+    {
+        <button type="submit" class="btn btn-dark" asp-route-s="ALL">All</button>
+}
+else
+{
+    <button type="submit" class="btn btn-light" asp-route-s="ALL">All</button>
+}
 
-        @if(ViewBag.show == "ACTIVE") {
-            <button type="submit" class="btn btn-dark" asp-route-s="ACTIVE">Active</button>
-        } else {
-            <button type="submit" class="btn btn-light" asp-route-s="ACTIVE">Active</button>
-        }
+        @if (ViewBag.show == "ACTIVE")
+    {
+        <button type="submit" class="btn btn-dark" asp-route-s="ACTIVE">Active</button>
+}
+else
+{
+    <button type="submit" class="btn btn-light" asp-route-s="ACTIVE">Active</button>
+}
 
-        @if(ViewBag.show == "FLAGGED") {
-            <button type="submit" class="btn btn-dark" asp-route-s="FLAGGED">Flagged</button>
-        } else {
-            <button type="submit" class="btn btn-light" asp-route-s="FLAGGED">Flagged</button>
-        }
-        <br />
-    </form>
+        @if (ViewBag.show == "FLAGGED")
+    {
+        <button type="submit" class="btn btn-dark" asp-route-s="FLAGGED">Flagged</button>
+}
+else
+{
+    <button type="submit" class="btn btn-light" asp-route-s="FLAGGED">Flagged</button>
+}
+<a class="btn btn-light" asp-controller="Admin" asp-action="AddQuestionRazor">Add Question</a>
+
+<br />
+</form>
+    
 </div>
 
 <br />

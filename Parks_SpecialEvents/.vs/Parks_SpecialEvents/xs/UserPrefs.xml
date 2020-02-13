@@ -1,24 +1,24 @@
 ﻿<Properties StartupConfiguration="{5AAA988B-63EF-40F5-B243-839D78BF0B81}|Default">
   <MonoDevelop.Ide.ItemProperties.Parks__SpecialEvents PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Admin/EditQuestionRazorPage.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/AdminController.cs">
     <Files>
-      <File FileName="Controllers/AdminController.cs" Line="805" Column="27" />
-      <File FileName="Views/Admin/SelectQuestion.cshtml" Line="83" Column="126" />
-      <File FileName="Views/Admin/DeleteQuestionRazorConfirmation.cshtml" Line="6" Column="92" />
-      <File FileName="Models/Question.cs" Line="1" Column="1" />
-      <File FileName="Views/Admin/EditQuestionRazorPage.cshtml" Line="15" Column="45" />
+      <File FileName="Controllers/AdminController.cs" Line="902" Column="56" />
+      <File FileName="Views/Admin/AddAmenitysToPark.cshtml" Line="9" Column="100" />
+      <File FileName="Views/Admin/UpdateParkRazor.cshtml" Line="1" Column="1" />
+      <File FileName="Models/QueryAmenities.cs" Line="31" Column="29" />
+      <File FileName="Views/Admin/AddParkImagesRazor.cshtml" Line="2" Column="33" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Parks_SpecialEvents" expanded="True">
             <Node name="Parks_SpecialEvents" expanded="True">
-              <Node name="Controllers" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="AdminController.cs" selected="True" />
+              </Node>
               <Node name="Models" expanded="True" />
               <Node name="Views" expanded="True">
-                <Node name="Admin" expanded="True">
-                  <Node name="EditQuestionRazorPage.cshtml" selected="True" />
-                </Node>
+                <Node name="Admin" expanded="True" />
               </Node>
             </Node>
           </Node>

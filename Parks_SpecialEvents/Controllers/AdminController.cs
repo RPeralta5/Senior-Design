@@ -814,5 +814,98 @@ namespace Parks_SpecialEvents.Controllers
 
             return RedirectToAction("SelectQuestion");
         }
+
+        public IActionResult AddParkRazor()
+        {
+            List<string> amenities = new List<string>();
+            // GET ALL AMENITIES
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // QUERY
+                string query = "SELECT DISTINCT Amenity FROM Amenities;";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // OPEN SQL CONNECTION
+                sqlConnection.Open();
+
+                // READ DATA
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // int amenityID, string parkID, string amenity, int quanity, string image
+                        amenities.Add((string)reader[0]);
+                    }
+                }
+
+                // CLOSE SQL CONNECTION
+                sqlConnection.Close();
+            }
+            
+            ViewBag.storeAmenities = amenities;
+            return View();
+        }
+
+        public IActionResult AddPark(AzurePark park)
+        {
+            Console.WriteLine("add park method");
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // QUERY
+                string query = "INSERT INTO Parks (ParkID, ParkName, ParkLastName, Address, Street_Number, Street_Name, City, Zip, FacilityPhone, Lat, Lng, GIS_Acres, Inventory_Acres, Image)" +
+                        " VALUES " +
+                        $"('{park.ParkID}', '{park.ParkName}', '{park.ParkLastName}', '{park.Address}','{park.StreetNumber}','{park.StreetName}', '{park.City}', '{park.Zip}','{park.FacilityPhone}', {park.Lat}, {park.Lng}, {park.GISAcres}, {park.InventoryAcres}, '{park.Image}');";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // OPEN CONNECTION
+                sqlConnection.Open();
+
+                // EXECUTE QUERY
+                sqlCommand.ExecuteReader();
+
+                // CLOSE CONNECTION
+                sqlConnection.Close();
+
+            }
+            return RedirectToAction("AddAmenitiesToParkRazor", park);
+        }
+
+        public IActionResult AddAmenitiesToParkRazor(AzurePark park)
+        {
+            Console.WriteLine("Add Amenities to Park: " + park.ParkID);
+            Console.WriteLine($"ParkID: {park.ParkName}");
+
+            QueryAmenities queryAmenities = new QueryAmenities();
+
+            ViewBag.amenities = queryAmenities.getAmenities();
+            Console.WriteLine($"number of amenities: {queryAmenities.getAmenities().Count}");
+            ViewBag.park = park;
+            return View();
+        }
+
+        public IActionResult AddAmenitiesToPark(string parkID)
+        {
+            var amenities = Request.Form["AMENITIES"];
+            Console.WriteLine($"Add Amenities To Park: {parkID}");
+            List<string> a = new List<string>();
+            foreach(string amenity in amenities)
+            {
+                a.Add(amenity);
+                Console.WriteLine(amenity);
+            }
+            Console.WriteLine($"amenity size: {a.Count}");
+
+            // add amenities to park
+            QueryAmenities queryAmenities = new QueryAmenities();
+            queryAmenities.addAmenities(parkID, a);
+
+            return RedirectToAction("AddParkImagesRazor", parkID);
+        }
+
+        public IActionResult AddParkImagesRazor(string parkID)
+        {
+            Console.WriteLine($"ADDING IMAGE TO: {parkID}");
+            return View();
+        }
     }
 }
