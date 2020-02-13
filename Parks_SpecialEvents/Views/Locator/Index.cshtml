@@ -6,6 +6,35 @@
         left: 0;
         position: absolute;
     }
+    .row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+    /*
+        .column {
+          float: left;
+          width: 48%;
+          padding: 5px;
+        }
+        .row::after {
+              content: "";
+              clear: both;
+              display: table;
+        }
+
+    /* Clear floats after image containers */
 
     .thumbnail {
         position: relative;
@@ -21,27 +50,13 @@
     });
 </script>
 
+<title>Park Locator</title>
 <center>
-    <h2>Park Locator</h2>
+    <h2 style="color:navy; font-weight:bold;">Park Locator</h2>
+    <br />
 </center>
-<title>FAQ</title>
 
-<!--
-    SEARCH FOR SPECIFIC QUESTION OR TOPIC
 
-<div class="d-flex justify-content-center mt-3">
-    <form asp-controller="FAQ" asp-action="Search">
-        <strong>Search: </strong>
-        <input name="search" />
-        <input type="submit" class="btn btn-primary" />
-    </form>
-</div>
-    -->
-<!--
-   PARKS WITH PERMITS TO HOLD SPECIFIC REQUIREMENTS:
-    EX. PARKS THAT CAN HOLD ALCOHOL
-    OR PARKS THAT CAN HOLD MUSIC FESTIVALS
--->
 <!-- DYNAMIC BUTTON FOR PERMIBABLE PARKS-->
 <p>
     <center>
@@ -60,10 +75,10 @@
     <center>
         @foreach (Parks_SpecialEvents.Models.EventType e in ViewBag.eventInfo)
         {
-        <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@e.Name" role="button" aria-expanded="false" aria-controls="collapseExample">
-            @e.Name
-            
-        </a>
+            <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@e.Name" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color:navy">
+                @e.Name
+
+            </a>
         }
     </center>
 </p>
@@ -71,32 +86,68 @@
 @foreach (Parks_SpecialEvents.Models.Event e in ViewBag.storePermitables)
 {
 
-    <div class="collapse" id="@e.Href">
-        <div class="card card-body">
-            <center>
-                <h3>@e.E</h3>
-            </center>
+<div class="collapse" id="@e.Href">
+    
+    
+    <br /> 
+    <center>
+        <h3 style="color:navy; font-weight:bold;">Park Locator</h3>
 
-            @foreach (Parks_SpecialEvents.Models.Park p in ViewBag.storeParks.parks)
+        @{int count = 0;}
+
+        @foreach (Parks_SpecialEvents.Models.Park p in ViewBag.storeParks.parks)
+        {
+            @if (p.Event == e.E)
             {
-                @if (p.Event == e.E)
+                if (count == 0)
                 {
+                    @:<div class="row">
+                    }
 
-                    <div class="thumbnail">
-                        <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@p.ID>
-                            <img height="300" width="450" src=@Url.Content(p.Image) />
-                        </a>
-                        <div class="caption post-content">
-                            <h3 style="color: white;">@p.ParkName</h3>
-                        </div>
-                    </div>
+                          <div class="column">
+                              <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@p.ID>
+                                  <img height="300" width="450" src=@Url.Content(p.Image) />
+                              </a>
+                              <br />
+                              
+                              <h5 style="color:black; font-weight:bold;">@p.ParkName</h5>
+
+                          </div>
+                    count++;
+
+                    if (count == 2)
+                    {
+                    @:</div>
+                    count = 0;
                 }
-            }
 
-        </div>
-    </div>
+
+            }
+        }
+    </center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
 
 }
+
+
 
 
 <!-- CONTACT INFORMATION-->
@@ -105,4 +156,3 @@
         <a href="mailto:EMAIL@gmail.com">Contact</a>
     </strong>
 </address>
-

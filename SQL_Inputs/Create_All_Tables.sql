@@ -4,7 +4,7 @@ CREATE TABLE Questions(
     Answer varchar(max),
     SubmittedOn DateTime DEFAULT CURRENT_TIMESTAMP,
     ShownFlag bit NOT NULL DEFAULT 0,
-    
+
 );
 
 INSERT INTO Questions(Question, Answer, ShownFlag)
@@ -504,3 +504,858 @@ VALUES
 ('SCHA', 'Maintenance Yard', 1, 1),
 ('SCHA', 'Security Lighting', 1, 1),
 ('SCHA', 'Parking Onsite', 1, 1);
+
+
+CREATE TABLE Event_Info(
+    EventID INT IDENTITY,
+    Event_Name VARCHAR(80),
+    Event_Type VARCHAR(80),
+    Href VARCHAR(80)
+    PRIMARY KEY(EventID)
+);
+
+INSERT INTO Event_Info(Event_Name,Href)
+VALUES
+('Carnivals','Carnivals'),
+('Circus','Circus'),
+('Corporate Off-sites / Retreats','CorporateOffsitesRetreats'),
+('Fairs','Fairs'),
+('Family Reunions (Indoors)','FamilyReunionsIndoors'),
+('Family Reunions (Outdoors)','FamilyReunionsOutdoors'),
+('Large Fundraisers (Outdoors) > 500 tables','LargeFundraisersOutdoors500tables'),
+('Large Outdoor Concerts > 5K Attendance','LargeOutdoorConcerts5KAttendance'),
+('Large Outdoors Sports Events > 1K attendance','LargeOutdoorsSportsEvents1Kattendance'),
+('Multi Day Festivals > 10K attendance','MultiDayFestivals10Kattendance'),
+('Outdoor Concerts < 2K attendance','OutdoorConcerts2Kattendance'),
+('Outdoors Sports Events < 500 attendance','OutdoorsSportsEvents500attendance'),
+('Quinceanera','Quinceanera'),
+('Small Fundraisers (Outdoors / Indoors) <100 tables','SmallFundraisersOutdoorsIndoors100tables'),
+('Weddings (Outdoors / Indoors)','WeddingsOutdoorsIndoors'),
+('Weddings (Outdoors Only)','WeddingsOutdoorsOnly');
+
+
+CREATE TABLE Event(
+    EventID INT FOREIGN KEY REFERENCES Event_Info(EventID),
+    ParkID VARCHAR(6) FOREIGN KEY REFERENCES Parks(ParkID),
+    Flag bit NOT NULL DEFAULT 0,
+    PRIMARY KEY (EventID,ParkID)
+);
+
+DECLARE @i int = 1
+
+WHILE @i < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@i, 'BONE');
+    SET @i = @i + 1
+END
+
+DECLARE @k int =1
+
+WHILE @k < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@k, 'CAST');
+    SET @k = @k + 1
+END
+
+DECLARE @l int =1
+
+WHILE @l < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@l, 'ECNA');
+    SET @l = @l + 1
+END
+
+DECLARE @m int =1
+
+WHILE @m < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@m, 'FARN');
+    SET @m = @m + 1
+END
+
+DECLARE @n int =1
+
+WHILE @n < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@n, 'FRND');
+    SET @n = @n + 1
+END
+
+DECLARE @o int =1
+
+WHILE @o < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@o, 'HAHN');
+    SET @o = @o + 1
+END
+
+DECLARE @p int =1
+
+WHILE @p < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@p, 'HHTS');
+    SET @p = @p + 1
+END
+
+DECLARE @q int =1
+
+WHILE @q < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@q, 'ROW');
+    SET @q = @q + 1
+END
+
+DECLARE @r int =1
+
+WHILE @r < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@r, 'SCHA');
+    SET @r = @r + 1
+END
+
+DECLARE @s int =1
+
+WHILE @s < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@s, 'SFD');
+    SET @s = @s + 1
+END
+
+DECLARE @t int =1
+
+WHILE @t < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@t, 'SFPL');
+    SET @t = @t + 1
+END
+
+DECLARE @u int =1
+
+WHILE @u < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@u, 'STON');
+    SET @u = @u + 1
+END
+
+DECLARE @v int =1
+
+WHILE @v < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@v, 'TESO');
+    SET @v = @v + 1
+END
+
+DECLARE @w int =1
+
+WHILE @w < 17
+BEGIN
+    INSERT INTO Event(EventID,ParkID)
+    VALUES
+    (@w, 'WNRA');
+    SET @w = @w + 1
+END
+ -- ADDING Carnivals 1...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 1;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 1;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 1;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 1;
+
+ -- ADDING Circus 2...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 2;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 2;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 2;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 2;
+
+ -- ADDING Corporate Off-sites / Retreats 3...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 3;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 3;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 3;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 3;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HAHN' AND EventID = 3;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ROW' AND EventID = 3;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HHTS' AND EventID = 3;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'STON' AND EventID = 3;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'TESO' AND EventID = 3;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ECNA' AND EventID = 3;
+
+ -- ADDING Fairs 4...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 4;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 4;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 4;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 4;
+
+-- ADDING Family Reunions (Indoors) 5...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFPL' AND EventID = 5;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ROW' AND EventID = 5;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HHTS' AND EventID = 5;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ECNA' AND EventID = 5;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FARN' AND EventID = 5;
+
+ -- ADDING Family Reunions (Outdoors) 6...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SCHA' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HAHN' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'STON' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'TESO' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ECNA' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FRND' AND EventID = 6;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FARN' AND EventID = 6;
+
+-- ADDING Large Fundraisers (Outdoors) > 500 tables 7...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 7;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 7;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 7;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 7;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SCHA' AND EventID = 7;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HAHN' AND EventID = 7;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'TESO' AND EventID = 7;
+
+ -- ADDING Large Outdoor Concerts > 5K Attendance 8...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 8;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 8;
+
+-- ADDING Large Outdoors Sports Events > 1K attendance 9...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 9;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 9;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 9;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 9;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HAHN' AND EventID = 9;
+
+-- ADDING Multi Day Festivals > 10K attendance 10...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 10;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 10;
+
+ -- ADDING Outdoor Concerts < 2K attendance 11...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 11;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 11;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 11;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 11;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SCHA' AND EventID = 11;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HAHN' AND EventID = 11;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FARN' AND EventID = 11;
+
+ -- ADDING Outdoors Sports Events < 500 attendance 12...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 12;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 12;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 12;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 12;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SCHA' AND EventID = 12;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HAHN' AND EventID = 12;
+
+ -- ADDING Quinceanera 13...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SCHA' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HAHN' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFPL' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ROW' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HHTS' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'STON' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'TESO' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ECNA' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FRND' AND EventID = 13;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FARN' AND EventID = 13;
+
+ -- ADDING Small Fundraisers (Outdoors / Indoors) <100 tables 14...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SCHA' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HAHN' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ROW' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HHTS' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'STON' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'TESO' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ECNA' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FRND' AND EventID = 14;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FARN' AND EventID = 14;
+
+ -- ADDING Weddings (Outdoors / Indoors) 15...
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 15;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 15;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ROW' AND EventID = 15;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HHTS' AND EventID = 15;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ECNA' AND EventID = 15;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FARN' AND EventID = 15;
+
+ -- ADDING Weddings (Outdoors Only) 16... FINALLY LAST ONE!!!!
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'CAST' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'WNRA' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'BONE' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SFD' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'SCHA' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'HAHN' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'STON' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'TESO' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'ECNA' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FRND' AND EventID = 16;
+
+UPDATE Event
+SET Flag = 1
+WHERE ParkID = 'FARN' AND EventID = 16;
+
+
+UPDATE Event_Info
+SET Event_Type = 'Private Rentals'
+WHERE Event_Name = 'Corporate Off-sites / Retreats';
+
+Update Event_Info
+Set Event_Type = 'Special Events'
+WHERE Event_Name ='Large Fundraisers (Outdoors) > 500 tables'
+OR
+Event_Name = 'Large Outdoor Concerts > 5K Attendance'
+OR
+Event_Name = 'Multi Day Festivals > 10K attendance'
+OR
+Event_Name = 'Outdoor Concerts < 2K attendance'
+OR
+Event_Name = 'Carnivals'
+OR
+Event_Name = 'Circus'
+OR
+Event_Name = 'Fairs';
+
+Update Event_Info
+Set Event_Type = 'Group Picnic'
+WHERE Event_Name = 'Family Reunions (Indoors)'
+OR
+Event_Name = 'Family Reunions (Outdoors)'
+OR
+Event_Name = 'Small Fundraisers (Outdoors / Indoors) <100 tables';
+
+Update Event_Info
+Set Event_Type = 'Sports Event'
+WHERE Event_Name = 'Outdoors Sports Events < 500 attendance'
+OR
+Event_Name = 'Large Outdoors Sports Events > 1K attendance';
+
+Update Event_Info
+Set Event_Type = 'Celebrations'
+WHERE Event_Name = 'Weddings (Outdoors / Indoors)'
+OR
+Event_Name = 'Weddings (Outdoors Only)'
+OR
+Event_Name = 'Quinceanera';
+
+CREATE TABLE ParkImages (
+    ImageID INT IDENTITY PRIMARY KEY,
+    ParkID varchar(6) FOREIGN KEY REFERENCES Parks(ParkID),
+    ImagePath VARCHAR(255)
+)
+
+INSERT INTO ParkImages(ParkID, ImagePath)
+VALUES
+('BONE', '/images/BoneliCA/BR6I1564.jpg'),
+('BONE', '/images/BoneliCA/BR6I1601.jpg'),
+('BONE', '/images/BoneliCA/BR6I1617.jpg'),
+('BONE', '/images/BoneliCA/BR6I1621.jpg'),
+('BONE', '/images/BoneliCA/BR6I1630.jpg'),
+('BONE', '/images/BoneliCA/BR6I1634.jpg'),
+('BONE', '/images/BoneliCA/BR6I1661.jpg'),
+('BONE', '/images/BoneliCA/BR6I1702.jpg'),
+('BONE', '/images/BoneliCA/BR6I1707.jpg'),
+('BONE', '/images/BoneliCA/BR6I1721.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2653.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2662.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2682.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2721.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2751.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2811.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2820.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2840.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2854.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2931.jpg'),
+('SFD', '/images/SantaFeDamCA/BR6I2978.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-1-of-52.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-3-of-52.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-4-of-52.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-7-of-52.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-8-of-52.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-22-of-52.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-25-of-52.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-28-of-52.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-36-of-52.jpg'),
+('SCHA', '/images/SchabarumCA/Edited_PeterFSchabarumRegionalPark-42-of-52.jpg'),
+('HAHN', '/images/KennethHahnStateRecreationAreaCA/BR6I8004.jpg'),
+('HAHN', '/images/KennethHahnStateRecreationAreaCA/BR6I8028.jpg'),
+('HAHN', '/images/KennethHahnStateRecreationAreaCA/BR6I8044.jpg'),
+('HAHN', '/images/KennethHahnStateRecreationAreaCA/BR6I8115.jpg'),
+('HAHN', '/images/KennethHahnStateRecreationAreaCA/BR6I8123.jpg'),
+('HAHN', '/images/KennethHahnStateRecreationAreaCA/BR6I8128.jpg'),
+('HAHN', '/images/KennethHahnStateRecreationAreaCA/BR6I8168.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/BR6I9848.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/BR6I9913.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/BR6I9932.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/BR6I9976.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/BR6I9983.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-1-of-10.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-2-of-10.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-3-of-10.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-4-of-10.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-5-of-10.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-6-of-10.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-7-of-10.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-8-of-10.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-9-of-10.jpg'),
+('SFPL', '/images/SFVPoolRecCenterCA/Edited_-SanFernandoRecreationPark-10-of-10.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-2-of-17.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-3-of-17.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-4-of-17.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-6-of-17.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-7-of-17.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-8-of-17.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-12-of-17.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-13-of-17.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-14-of-17.jpg'),
+('ROW', '/images/RowlandHeightsCommunityCenterCA/2_Rowland_Heights_Park-15-of-17.jpg'),
+('FRND', '/images/DeaneDanaPark/BR6I1461.jpg'),
+('FRND', '/images/DeaneDanaPark/BR6I1448.jpg'),
+('FRND', '/images/DeaneDanaPark/BR6I1423.jpg'),
+('FRND', '/images/DeaneDanaPark/BR6I1404.jpg'),
+('FRND', '/images/DeaneDanaPark/BR6I1376.jpg'),
+('FRND', '/images/DeaneDanaPark/BR6I1344.jpg'),
+('FRND', '/images/DeaneDanaPark/BR6I1340.jpg'),
+('FRND', '/images/DeaneDanaPark/BR6I1337.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7226.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7229.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7237.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7241.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7245.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7249.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7277.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7290.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7297.jpg'),
+('FARN', '/images/CharlesS.FarnsworthPark/BR6I7312.jpg'),
+('CAST', '/images/CastaicLakeCA/BR6I1096.jpg'),
+('CAST', '/images/CastaicLakeCA/BR6I1105.jpg'),
+('CAST', '/images/CastaicLakeCA/BR6I1109.jpg'),
+('CAST', '/images/CastaicLakeCA/BR6I1157.jpg'),
+('CAST', '/images/CastaicLakeCA/BR6I1183.jpg'),
+('CAST', '/images/CastaicLakeCA/BR6I1199.jpg'),
+('CAST', '/images/CastaicLakeCA/BR6I1235.jpg'),
+('CAST', '/images/CastaicLakeCA/BR6I1244.jpg'),
+('CAST', '/images/CastaicLakeCA/BR6I1260.jpg'),
+
+('ECNA', '/images/EatonCanyonNationalCenter/BR6I6729.jpg'),
+('ECNA', '/images/EatonCanyonNationalCenter/BR6I6737.jpg'),
+('ECNA', '/images/EatonCanyonNationalCenter/BR6I6777.jpg'),
+('ECNA', '/images/EatonCanyonNationalCenter/BR6I6784.jpg'),
+('ECNA', '/images/EatonCanyonNationalCenter/BR6I6786.jpg'),
+
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-1-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-2-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-3-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-4-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-5-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-6-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-7-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-8-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-9-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-10-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-11-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-12-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-14-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-15-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-16-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-17-of-18.jpg'),
+('HHTS', '/images/HaciendaHeightsCommunityCenter/23_HaciendaHeights_CommunityCenter-18-of-18.jpg'),
+
+('STON', '/images/StoneviewNationalCenter/BR6I8181.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8188.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8195.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8199.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8206.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8252.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8277.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8289.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8302.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8306.jpg'),
+('STON', '/images/StoneviewNationalCenter/BR6I8308.jpg'),
+
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0489.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0493.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0494.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0497.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0504.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0506.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0519.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0522.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0525.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0528.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0538.jpg'),
+('TESO', '/images/TesoroAdobeHistoricalPark/BR6I0549.jpg'),
+
+('WNRA', '/images/WhittierNarrowsCA/BR6I6420.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6421.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6427.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6433.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6441.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6451.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6458.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6463.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6467.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6476.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6504.jpg'),
+('WNRA', '/images/WhittierNarrowsCA/BR6I6518.jpg')

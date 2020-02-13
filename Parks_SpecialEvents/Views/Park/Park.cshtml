@@ -11,69 +11,108 @@
 <body>
     <!-- QUICK NAVS-->
     <div>
-        <h3>@ViewBag.store.ParkName</h3>
-        <nav>
-            <a class="btn btn-light" href="#Amenities" style="button">Amenities</a>
-            <a class="btn btn-light" href="#Hours">Hours</a>
-            <a class="btn btn-light" href="#CalendarEvents">Calendar Events</a>
-        </nav>
+        <center>
+            <h3 style="color:navy; font-weight:bold;">@ViewBag.store.ParkName</h3>
+            <br />
+
+
+            <nav>
+                <a class="btn btn-light" href="#Amenities" style="button">Amenities</a>
+                <a class="btn btn-light" href="#Hours">Hours</a>
+                <a class="btn btn-light" href="#CalendarEvents">Calendar Events</a>
+            </nav>
+        </center>
     </div>
     <br />
 
     <!-- START OF CAROUSEL -->
-    
+
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        @{
-            int count = 0;
-        }
-        @foreach(Parks_SpecialEvents.Models.Image image in ViewBag.Images.images) {
-
-            if(count == 0) {
-                <li data-target="#carouselExampleIndicators" data-slide-to=@count class="active"></li>
-            } else {
-                <li data-target="#carouselExampleIndicators" data-slide-to=@count  ></li>
+        <ol class="carousel-indicators">
+            @{
+                int count = 0;
             }
-            count++;
-        }
-      </ol>
+            @foreach (Parks_SpecialEvents.Models.Image image in ViewBag.Images.images)
+            {
 
-      <div class="carousel-inner">
-        @{
-            int c = 0;
-        }
-        
-        @foreach(Parks_SpecialEvents.Models.Image image in ViewBag.Images.images) {
-            if(c == 0) {
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src=@Url.Content(image.ImagePath) alt="First slide" height="570"/>
-                </div>
-            } else {
-                <div class="carousel-item">
-                    <img class="d-block w-100" src=@Url.Content(image.ImagePath) alt="Second slide" height="570"/>
-                </div>
+                if (count == 0)
+                {
+                    <li data-target="#carouselExampleIndicators" data-slide-to=@count class="active"></li>
+                }
+                else
+                {
+                    <li data-target="#carouselExampleIndicators" data-slide-to=@count></li>
+                }
+                count++;
             }
-            c++;
-        }
-       
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
+        </ol>
+
+        <div class="carousel-inner">
+            @{
+                int c = 0;
+            }
+
+            @foreach (Parks_SpecialEvents.Models.Image image in ViewBag.Images.images)
+            {
+                if (c == 0)
+                {
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src=@Url.Content(image.ImagePath) alt="First slide" height="570" />
+                    </div>
+                }
+                else
+                {
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src=@Url.Content(image.ImagePath) alt="Second slide" height="570" />
+                    </div>
+                }
+                c++;
+            }
+
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
 
     <!-- END OF CAROUSEL -->
-
     <!-- START OF PARK AMENITIES-->
+    <br />
+    <br />
+    <br />
+
+    <div>
+        <left>
+            <text style="color:black;">Address: </text>
+            <text style="color:navy; font-weight:bold;">@ViewBag.store.Address</text>
+            <br />
+            <text style="color:black;">Phone Number: </text>
+            <!--
+
+
+        <h5 style="color:navy; font-weight:bold;">Phone Number: Unavailable</h5>
+
+
+
+        <h5 style="color:navy; font-weight:bold;"></h5>
+
+    -->
+            <br />
+
+        </left>
+    </div>
+
 
     <div>
         <center>
-            <h2 id="Amenities">Special Event Amenities</h2> 
+            <h4 id="Amenities" style="color:navy; font-weight:bold;">Special Event Amenities</h4>
+            <br />
+
         </center>
         <div class="row">
 
@@ -87,11 +126,10 @@
                     </center>
                 </div>
             }
-            </div>
         </div>
+    </div>
 
     <!-- END OF PARK AMENITIES-->
-
     <!--The div element for the map -->
     <div id="map"></div>
     <script>
