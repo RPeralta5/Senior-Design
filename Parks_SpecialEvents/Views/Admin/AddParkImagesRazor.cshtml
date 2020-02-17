@@ -1,2 +1,15 @@
-﻿
-<h1>ADDING IMAGE TO PARK: Leslie</h1>
+﻿@page
+@{
+}
+
+<h2>Add Park Images</h2>
+
+<div class="container">
+    <form asp-controller="Admin" asp-action="AddParkImages">
+        <!-- CHOOSE PARK IMAGES -->
+        <div class="custom-file">
+            <input multiple="multiple" type="file" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose Park Images</label>
+        </div>
+    </form>
+</div>

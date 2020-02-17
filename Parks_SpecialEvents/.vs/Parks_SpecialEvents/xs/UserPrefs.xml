@@ -1,11 +1,11 @@
 ﻿<Properties StartupConfiguration="{5AAA988B-63EF-40F5-B243-839D78BF0B81}|Default">
   <MonoDevelop.Ide.ItemProperties.Parks__SpecialEvents PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Models/SQLValidation.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Admin/AddParkImagesRazor.cshtml">
     <Files>
-      <File FileName="Models/AzurePark.cs" Line="4" Column="18" />
-      <File FileName="Controllers/AdminController.cs" Line="874" Column="57" />
-      <File FileName="Views/Admin/AddParkRazor.cshtml" Line="15" Column="24" />
-      <File FileName="Models/SQLValidation.cs" Line="21" Column="25" />
+      <File FileName="Controllers/AdminController.cs" Line="911" Column="42" />
+      <File FileName="Views/Admin/AddAmenitiesToParkRazor.cshtml" Line="6" Column="1" />
+      <File FileName="Views/Admin/AddParkImagesRazor.cshtml" Line="14" Column="1" />
+      <File FileName="Views/Admin/AddParkRazor.cshtml" Line="92" Column="22" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,12 +13,12 @@
           <Node name="Parks_SpecialEvents" expanded="True">
             <Node name="Parks_SpecialEvents" expanded="True">
               <Node name="Controllers" expanded="True" />
-              <Node name="Models" expanded="True">
-                <Node name="SQLValidation.cs" selected="True" />
-              </Node>
               <Node name="Views" expanded="True">
-                <Node name="Admin" expanded="True" />
+                <Node name="Admin" expanded="True">
+                  <Node name="AddParkImagesRazor.cshtml" selected="True" />
+                </Node>
               </Node>
+              <Node name="wwwroot" expanded="True" />
             </Node>
           </Node>
         </State>

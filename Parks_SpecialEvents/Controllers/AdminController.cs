@@ -848,6 +848,7 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddPark(AzurePark park)
         {
+            
             Console.WriteLine("add park method");
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
@@ -885,6 +886,7 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddAmenitiesToPark(string parkID)
         {
+            
             var amenities = Request.Form["AMENITIES"];
             Console.WriteLine($"Add Amenities To Park: {parkID}");
             List<string> a = new List<string>();
@@ -898,13 +900,15 @@ namespace Parks_SpecialEvents.Controllers
             // add amenities to park
             QueryAmenities queryAmenities = new QueryAmenities();
             queryAmenities.addAmenities(parkID, a);
-
-            return RedirectToAction("AddParkImagesRazor", parkID);
+            Console.WriteLine("GONNA TRY TO REDIRECT");
+            
+            return RedirectToAction("AddParkImagesRazor", new { parkID = parkID });
         }
 
         public IActionResult AddParkImagesRazor(string parkID)
         {
-            Console.WriteLine($"ADDING IMAGE TO: {parkID}");
+            Console.WriteLine("Add Park Images mEhtod");
+            Console.WriteLine($"PARKID : {parkID}");
             return View();
         }
     }
