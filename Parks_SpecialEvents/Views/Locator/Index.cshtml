@@ -6,22 +6,23 @@
         left: 0;
         position: absolute;
     }
+
     .row {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 4px;
-}
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 4px;
+    }
 
-/* Create two equal columns that sits next to each other */
-.column {
-  flex: 50%;
-  padding: 0 4px;
-}
+    /* Create two equal columns that sits next to each other */
+    .column {
+        flex: 50%;
+        padding: 0 4px;
+    }
 
-.column img {
-  margin-top: 8px;
-  vertical-align: middle;
-}
+        .column img {
+            margin-top: 8px;
+            vertical-align: middle;
+        }
     /*
         .column {
           float: left;
@@ -38,6 +39,49 @@
 
     .thumbnail {
         position: relative;
+    }
+
+    .dropbtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
     }
 </style>
 
@@ -80,71 +124,115 @@
 
             </a>
         }
+        <div class="dropdown">
+            <button class="dropbtn">List of past events</button>
+            <div class="dropdown-content">
+                @foreach (Parks_SpecialEvents.Models.Event e2 in ViewBag.storePermitables)
+                {
+
+                    <a data-toggle="collapse" href="#@e2.Href" aria-expanded="false" aria-controls="collapseExample">
+                        @e2.E
+                    </a>
+                }
+            </div>
+        </div>
     </center>
 </p>
+
+
+
+
+
 
 @foreach (Parks_SpecialEvents.Models.Event e in ViewBag.storePermitables)
 {
 
-<div class="collapse" id="@e.Href">
-    
-    
-    <br /> 
-    <center>
-        <h3 style="color:navy; font-weight:bold;">Park Locator</h3>
+    <div class="collapse" id="@e.Href">
 
-        @{int count = 0;}
 
-        @foreach (Parks_SpecialEvents.Models.Park p in ViewBag.storeParks.parks)
-        {
-            @if (p.Event == e.E)
+        <br />
+        <center>
+            <h3 style="color:navy; font-weight:bold;">Park Locator</h3>
+            <h4 style="color:black; font-weight:bold;"> Event: @e.E</h4>
+
+            @{int count = 0;}
+
+            @foreach (Parks_SpecialEvents.Models.Park p in ViewBag.storeParks.parks)
             {
-                if (count == 0)
+                @if (p.Event == e.E)
+                {
+                    if (count == 0)
+                    {
+                        @:<div class="row">
+                        }
+
+                        <div class="column">
+                            <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@p.ID>
+                                <img height="300" width="450" src=@Url.Content(p.Image) />
+                            </a>
+                            <br />
+
+                            <h5 style="color:black; font-weight:bold;">@p.ParkName</h5>
+
+                        </div>
+                        count++;
+
+                        if (count == 2)
+                        {
+                        @:</div>
+                        count = 0;
+                    }
+
+
+                }
+            }
+
+
+        </center>
+    </div>
+
+}
+
+@{ int count2 = 0;}
+@foreach (Parks_SpecialEvents.Models.EventType e in ViewBag.eventInfo)
+{
+    <div class="collapse" id="@e.Name">
+        <br />
+        <center>
+            <h3 style="color:navy; font-weight:bold;">Park Locator</h3>
+            <h4 style="color:black; font-weight:bold;"> Event Type: @e.Name</h4>
+            <!--
+        For each loop to grab
+    -->
+            @foreach (Parks_SpecialEvents.Models.ParkThumbnail pt in e.distinctParkList)
+            {
+                if (count2 == 0)
                 {
                     @:<div class="row">
                     }
 
-                          <div class="column">
-                              <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@p.ID>
-                                  <img height="300" width="450" src=@Url.Content(p.Image) />
-                              </a>
-                              <br />
-                              
-                              <h5 style="color:black; font-weight:bold;">@p.ParkName</h5>
+                    <div class="column">
+                        <a asp-controller="Park" asp-action="ParkAsync" asp-route-id=@pt.ID>
+                            <img height="300" width="450" src=@Url.Content(pt.Image) />
+                        </a>
+                        <br />
 
-                          </div>
-                    count++;
+                        <h5 style="color:black; font-weight:bold;">@pt.ParkName</h5>
 
-                    if (count == 2)
+                    </div>
+                    count2++;
+
+                    if (count2 == 2)
                     {
                     @:</div>
-                    count = 0;
+                    count2 = 0;
                 }
 
-
             }
-        }
-    </center>
+        </center>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-
+    </div>
 }
 
 

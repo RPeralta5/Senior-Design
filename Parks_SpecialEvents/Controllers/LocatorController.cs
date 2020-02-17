@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 /* 
  * Author(s): Ryan Peralta
- * Last Updated: 2/4/2020
+ * Last Updated: 2/16/2020
  * Removed unused code and wrote comments.
 */
 
@@ -25,6 +25,7 @@ namespace Parks_SpecialEvents.Controllers
 
         // List of events
         List<EventType> eventTypeStorage = new List<EventType>();
+
 
         //Database Queries
         const string QUERY_FOR_PARK_INFO = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event_Name, Flag" +
@@ -167,6 +168,39 @@ namespace Parks_SpecialEvents.Controllers
             }
         }
 
+        private void GetDistinctParks(string eventTypeName, int index)
+        {
+            using (SqlConnection sqlConnnection = new SqlConnection(PARKSCONNECTIONSTRING))
+            {
+
+                string query = "Select distinct Event.ParkID, ParkName, Image " +
+                "from event_info " +
+                "inner join event ON " +
+                "Event_info.EventID = Event.EventID " +
+                "inner join Parks ON " +
+                "Parks.ParkID = Event.ParkID " +
+                "where Event_Type = '" + eventTypeName + "' AND Flag = 1;";
+
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnnection);
+                sqlConnnection.Open();
+
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+
+                        //Adding an event to the list for each sub type
+                        eventTypeStorage[index].AddParkThumbnail(new ParkThumbnail((string)reader[0], (string)reader[1], (string)reader[2]));
+
+                    }
+                }
+                sqlConnnection.Close();
+            }
+            
+
+    
+        }
+
 
 
         /*
@@ -186,8 +220,11 @@ namespace Parks_SpecialEvents.Controllers
             {
                 string query = "SELECT Event_Name, Href from event_info where event_type = '" + eventTypeList[i].Name + "'";
                 QuerySubEvents(query, i);
+                GetDistinctParks(eventTypeList[i].Name, i);
             }
             ViewBag.eventInfo = eventTypeList;
+
+            
 
             return View();
         }
