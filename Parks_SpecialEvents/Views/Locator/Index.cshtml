@@ -119,7 +119,8 @@
     <center>
         @foreach (Parks_SpecialEvents.Models.EventType e in ViewBag.eventInfo)
         {
-            <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@e.Name" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color:navy">
+            string noSpace = e.Name.Replace(" ", "");
+            <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@noSpace" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color:navy">
                 @e.Name
 
             </a>
@@ -196,7 +197,11 @@
 @{ int count2 = 0;}
 @foreach (Parks_SpecialEvents.Models.EventType e in ViewBag.eventInfo)
 {
-    <div class="collapse" id="@e.Name">
+
+     
+    string noSpace = e.Name.Replace(" ", "");
+    
+    <div class="collapse" id="@noSpace">
         <br />
         <center>
             <h3 style="color:navy; font-weight:bold;">Park Locator</h3>
