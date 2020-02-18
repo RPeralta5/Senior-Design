@@ -1,31 +1,32 @@
 ﻿
+@model Parks_SpecialEvents.Models.AzurePark
 
 <div class="alert alert-success" role="alert">
-    Successfully added @ViewBag.park.ParkName to the DataBase!
+    Successfully added @Model.ParkName to the DataBase!
 </div>
 
-<h2>Add Amenities: @ViewBag.park.ParkName</h2>
+<h2>Add Amenities: @Model.ParkName</h2>
 
-<form asp-controller="Admin" asp-action="AddAmenitiesToPark" asp-route-parkID="@ViewBag.park.ParkID">
+<form asp-controller="Admin" asp-action="AddAmenitiesToPark" asp-route-parkID="@Model.ParkID">
 
     <div>
-         <!-- AMENITIES -->
+        <!-- AMENITIES -->
 
-            <div class="form-group">
-                <label for="exampleFormControlSelect2">Select Amenities:<code> (Hold command to select multiple amenities)</code></label>
+        <div class="form-group">
+            <label for="exampleFormControlSelect2">Select Amenities:<code> (Hold command to select multiple amenities)</code></label>
 
-                <select multiple class="form-control" id="exampleFormControlSelect2" size="5" name="AMENITIES">
+            <select multiple class="form-control" id="exampleFormControlSelect2" size="5" name="AMENITIES">
 
-                    @foreach (string amenity in ViewBag.amenities)
-                    {
-                        <option>@amenity</option>
-                    }
+                @foreach (string amenity in ViewBag.amenities)
+                {
+                    <option>@amenity</option>
+                }
 
-                </select>
-            </div>
+            </select>
+        </div>
     </div>
 
-    <input type="submit" value="Add Amenities" class="btn alert-success"/>
+    <input type="submit" value="Add Amenities" class="btn alert-success" />
 
 </form>
 

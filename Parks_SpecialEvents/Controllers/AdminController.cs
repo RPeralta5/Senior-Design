@@ -881,12 +881,12 @@ namespace Parks_SpecialEvents.Controllers
             ViewBag.amenities = queryAmenities.getAmenities();
             Console.WriteLine($"number of amenities: {queryAmenities.getAmenities().Count}");
             ViewBag.park = park;
-            return View();
+            return View(park);
         }
 
-        public IActionResult AddAmenitiesToPark(string parkID)
+        public IActionResult AddAmenitiesToPark(string parkID) // string parkID
         {
-            
+            Console.WriteLine($"trying to add amenities to park: {parkID}");
             var amenities = Request.Form["AMENITIES"];
             Console.WriteLine($"Add Amenities To Park: {parkID}");
             List<string> a = new List<string>();
@@ -902,13 +902,31 @@ namespace Parks_SpecialEvents.Controllers
             queryAmenities.addAmenities(parkID, a);
             Console.WriteLine("GONNA TRY TO REDIRECT");
             
-            return RedirectToAction("AddParkImagesRazor", new { parkID = parkID });
+            return RedirectToAction("AddParkImagesRazor", new { parkID = parkID}); // new { parkID = parkID }
         }
 
-        public IActionResult AddParkImagesRazor(string parkID)
+        public IActionResult AddParkImagesRazor(string parkID) 
         {
             Console.WriteLine("Add Park Images mEhtod");
             Console.WriteLine($"PARKID : {parkID}");
+            ViewData["parkID"] = parkID;
+            return View();
+        }
+
+        public IActionResult AddParkImages(AzureParkImages parkImages)
+        {
+            Console.WriteLine($"adding images to {parkImages.ParkID}");
+
+            foreach(string image in parkImages.Images)
+            {
+                Console.WriteLine($"IMAGE: {image}");
+            }
+
+            return RedirectToAction("AddParkEventRazor", new { parkID = parkImages.ParkID });
+        }
+
+        public IActionResult AddParkEventRazor(string parkID)
+        {
             return View();
         }
     }
