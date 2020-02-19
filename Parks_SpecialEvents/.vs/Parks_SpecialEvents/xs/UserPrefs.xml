@@ -2,8 +2,10 @@
   <MonoDevelop.Ide.ItemProperties.Parks__SpecialEvents PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Models/QueryEvents.cs">
     <Files>
-      <File FileName="Controllers/AdminController.cs" Line="948" Column="57" />
-      <File FileName="Models/QueryEvents.cs" Line="26" Column="27" />
+      <File FileName="Controllers/AdminController.cs" Line="921" Column="68" />
+      <File FileName="Models/QueryParkImages.cs" Line="28" Column="1" />
+      <File FileName="Models/AzureParkImages.cs" Line="6" Column="18" />
+      <File FileName="Models/QueryEvents.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

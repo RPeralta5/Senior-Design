@@ -917,10 +917,8 @@ namespace Parks_SpecialEvents.Controllers
         {
             Console.WriteLine($"adding images to {parkImages.ParkID}");
 
-            foreach(string image in parkImages.Images)
-            {
-                Console.WriteLine($"IMAGE: {image}");
-            }
+            QueryParkImages queryParkImages = new QueryParkImages();
+            queryParkImages.addImages(parkImages.Images, parkImages.ParkID);
 
             return RedirectToAction("AddParkEventRazor", new { parkID = parkImages.ParkID });
         }
@@ -948,7 +946,13 @@ namespace Parks_SpecialEvents.Controllers
             QueryEvents queryEvents = new QueryEvents();
             queryEvents.addEvents(events, parkID);
 
-            return RedirectToAction("AddParkConfirmation");
+            return RedirectToAction("AddParkConfirmation", new { parkID = parkID});
+        }
+
+        public IActionResult AddParkConfirmation(string parkID)
+        {
+            ViewData["parkID"] = parkID;
+            return View();
         }
     }
 }
