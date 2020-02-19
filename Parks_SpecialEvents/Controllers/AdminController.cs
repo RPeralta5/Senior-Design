@@ -886,9 +886,9 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddAmenitiesToPark(string parkID) // string parkID
         {
-            Console.WriteLine($"trying to add amenities to park: {parkID}");
+            
             var amenities = Request.Form["AMENITIES"];
-            Console.WriteLine($"Add Amenities To Park: {parkID}");
+            
             List<string> a = new List<string>();
             foreach(string amenity in amenities)
             {
@@ -927,7 +927,28 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddParkEventRazor(string parkID)
         {
+            QueryEventInfo queryEventInfo = new QueryEventInfo();
+            ViewBag.events = queryEventInfo.getDistinctEvents();
+            ViewData["parkID"] = parkID;
             return View();
+        }
+
+        public IActionResult AddParkEvents(string parkID)
+        {
+            Console.WriteLine($"Add Events for parkID: {parkID}");
+
+            var temp = Request.Form["EVENTS"];
+            List<string> events = new List<string>();
+
+            foreach(string e in temp)
+            {
+                events.Add(e);
+            }
+
+            QueryEvents queryEvents = new QueryEvents();
+            queryEvents.addEvents(events, parkID);
+
+            return RedirectToAction("AddParkConfirmation");
         }
     }
 }
