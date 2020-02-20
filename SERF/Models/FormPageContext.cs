@@ -10,5 +10,7 @@ namespace SERF.Models
     {
         public DbSet<FormPage1> PageOne { get; set; }
         public DbSet<FormPage2> PageTwo { get; set; }
+        public DbSet<EventDate> EventDates { get; set; }
+        public DbSet<FormPage3> PageThree { get; set; }
     }
 }

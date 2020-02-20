@@ -5,13 +5,14 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SERF.Models; 
+using SERF.Models;
 
 namespace SERF.Controllers
 {
     public class HomeController : Controller
     {
         public FormPageContext db = new FormPageContext();
+
         public ActionResult Index()
         {
             return View();
@@ -27,6 +28,7 @@ namespace SERF.Controllers
         [HttpPost]
         public ActionResult FormPage1(FormCollection collection)
         {
+
             try
             {
 
@@ -48,7 +50,7 @@ namespace SERF.Controllers
 
                 using (db)
                 {
-                    
+
                     var formPage1 = new FormPage1();
                     formPage1.InsurerRole = collection["InsurerRole"];
                     formPage1.NameInsured = collection["NameInsured"];
@@ -67,8 +69,7 @@ namespace SERF.Controllers
                     db.PageOne.Add(formPage1);
                     db.SaveChanges();
 
-
-                    return View("FormPage2");
+                    return Redirect("FormPage2");
                 }
 
             }
@@ -87,6 +88,7 @@ namespace SERF.Controllers
         [HttpPost]
         public ActionResult FormPage2(FormCollection collection)
         {
+
             try
             {
                 //Method 1: Using Component Name  
@@ -111,17 +113,12 @@ namespace SERF.Controllers
                 ViewData["RecreationalActivity"] = collection["RecreationalActivity"];
                 ViewData["Music"] = collection["Music"];
                 ViewData["Activities"] = collection["Activities"];
+
                 using (db)
                 {
-                    
+
                     var formPage2 = new FormPage2();
                     formPage2.EventName = collection["EventName"];
-                    formPage2.Date = DateTime.Parse(collection["Date"]);
-                    formPage2.BegTime = collection["BegTime"];
-                    formPage2.EndTime = collection["EndTime"];
-                    formPage2.AttendenceCount = Int32.Parse(collection["AttendenceCount"]);
-                    formPage2.AlcoholBeverages = collection["AlcoholBeverages"];
-                    formPage2.EventDetails = collection["EventDetails"];
                     formPage2.NamedInsuredRole = collection["NamedInsuredRole"];
                     formPage2.EventPrivacy = collection["EventPrivacy"];
                     formPage2.AdmissionCharge = collection["AdmissionCharge"];
@@ -139,13 +136,70 @@ namespace SERF.Controllers
                     db.PageTwo.Add(formPage2);
                     db.SaveChanges();
                 }
+
                 return View("Index");
             }
-                
+
+            catch (FormatException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return View();
+            }
+        }
+
+        // GET: Home/EventDate
+        public ActionResult EventDate()
+        {
+            return View();
+        }
+
+        // POST: Home/EventDate
+        [HttpPost]
+        public ActionResult EventDate(FormCollection collection)
+        {
+            try
+            {
+                ViewData["Date"] = collection["Date"];
+                ViewData["BegTime"] = collection["BegTime"];
+                ViewData["EndTime"] = collection["EndTime"];
+                ViewData["AttendenceCount"] = collection["AttendenceCount"];
+                ViewData["AlcoholBeverages"] = collection["AlcoholBeverages"];
+                ViewData["EventDetails"] = collection["EventDetails"];
+                using (db)
+                {
+
+                    var eventDate = new EventDate();
+                    
+                    eventDate.Date = collection["Date"];
+                    eventDate.BegTime = collection["BegTime"];
+                    eventDate.EndTime = collection["EndTime"];
+                    eventDate.AttendenceCount = collection["AttendenceCount"];
+                    eventDate.AlcoholBeverages = collection["AlcoholBeverages"];
+                    eventDate.EventDetails = collection["EventDetails"];
+
+                    db.EventDates.Add(eventDate);
+                    db.SaveChanges();
+                }
+
+                return View("FormPage3");
+            }
             catch
             {
                 return View();
             }
+        }
+
+        // GET: Home/FormPage3
+        public ActionResult FormPage3()
+        {
+            return View();
+        }
+
+        // POST: Home/FormPage3
+        [HttpPost]
+        public ActionResult FormPage3(FormCollection collection)
+        {
+            return View();
         }
     }
 }

@@ -135,6 +135,8 @@
     </Compile>
     <Compile Include="Models\FormPage2.cs" />
     <Compile Include="Models\FormPage1.cs" />
+    <Compile Include="Models\EventDate.cs" />
+    <Compile Include="Models\FormPage3.cs" />
     <Compile Include="Models\FormPageContext.cs" />
     <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -178,6 +180,8 @@
     <Content Include="Views\Home\FormPage1.cshtml" />
     <Content Include="Views\Shared\Date.cshtml" />
     <Content Include="Views\Home\FormPage2.cshtml" />
+    <Content Include="Views\Home\FormPage3.cshtml" />
+    <Content Include="Views\Home\EventDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,19 +14,6 @@ namespace SERF.Models
         [Key]
         public int EventInformationId { get; set; }
         public String EventName { get; set; }
-
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
-
-        public String BegTime { get; set; }
-
-        public String EndTime { get; set; }
-
-        public int AttendenceCount { get; set; }
-
-        public String AlcoholBeverages { get; set; }
-        public String EventDetails { get; set; }
-
         public String NamedInsuredRole { get; set; }
 
         public String EventPrivacy { get; set; }
@@ -51,19 +38,8 @@ namespace SERF.Models
 
         public String Music { get; set; }
 
-        public String Activities{ get; set; }
-    }
+        public String Activities { get; set; }
 
-    //Object of EventDate
-    public class EventDate
-    {
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
-
-        public String BegTime { get; set; }
-
-        public String EndTime { get; set; }
-
-        public int AttendenceCount { get; set; }
+        public List<EventDate> EventDates { get; set; }
     }
 }

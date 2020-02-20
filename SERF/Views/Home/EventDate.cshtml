@@ -1,0 +1,72 @@
+﻿@model SERF.Models.EventDate
+
+<h2>EventDate</h2>
+
+<!--Display Table that is related to the ID from EventInfo Page, then you will make a delete that will delete by selecting the row the person wants to delete-->
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "" })
+            <input type="date" class="form-control" id="Date" name="Date" />
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BegTime, htmlAttributes: new { @class = "" })
+            <input type="time" class="form-control" id="BegTime" name="BegTime" />
+            @Html.ValidationMessageFor(model => model.BegTime, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "" })
+            <input type="time" class="form-control" id="EndTime" name="EndTime">
+            @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AttendenceCount, htmlAttributes: new { @class = "" })
+            <input type="number" class="form-control" id="AttendenceCount" name="AttendenceCount" />
+            @Html.ValidationMessageFor(model => model.AttendenceCount, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AlcoholBeverages, htmlAttributes: new { @class = "" })
+            <div class="col-sm-pull-1">
+                <input class="form-check-input" type="checkbox" id="AlcoholBeverages" name="AlcoholBeverages" value="Served">
+                <label class="form-check-label" for="AlcoholBeverages">Served</label>
+            </div>
+            <div class="col-sm-pull-1">
+                <input class="form-check-input" type="checkbox" id="AlcoholBeverages" name="AlcoholBeverages" value="Sold">
+                <label class="form-check-label" for="AlcoholBeverages">Sold</label>
+            </div>
+            <div class="col-sm-pull-1">
+                <input class="form-check-input" type="checkbox" id="AlcoholBeverages" name="AlcoholBeverages" value="Third Party">
+                <label class="form-check-label" for="AlcoholBeverages">None</label>
+            </div>
+            @Html.ValidationMessageFor(model => model.AlcoholBeverages, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventDetails, htmlAttributes: new { @class = "" })
+            <textarea class="form-control" id="EventDetails" name="EventDetails" rows="3"></textarea>
+            @Html.ValidationMessageFor(model => model.EventDetails, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Scripts.Render("~/bundles/bootstrap")

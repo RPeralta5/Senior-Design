@@ -51,6 +51,8 @@ C:\Users\airsh\source\repos\SERF\SERF\bin\roslyn\vbc.rsp
 C:\Users\airsh\source\repos\SERF\SERF\bin\roslyn\VBCSCompiler.exe
 C:\Users\airsh\source\repos\SERF\SERF\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\airsh\source\repos\SERF\SERF\bin\Antlr3.Runtime.dll
+C:\Users\airsh\source\repos\SERF\SERF\bin\EntityFramework.dll
+C:\Users\airsh\source\repos\SERF\SERF\bin\EntityFramework.SqlServer.dll
 C:\Users\airsh\source\repos\SERF\SERF\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\airsh\source\repos\SERF\SERF\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\airsh\source\repos\SERF\SERF\bin\Newtonsoft.Json.dll
@@ -62,6 +64,8 @@ C:\Users\airsh\source\repos\SERF\SERF\bin\System.Web.WebPages.Deployment.dll
 C:\Users\airsh\source\repos\SERF\SERF\bin\System.Web.WebPages.dll
 C:\Users\airsh\source\repos\SERF\SERF\bin\System.Web.WebPages.Razor.dll
 C:\Users\airsh\source\repos\SERF\SERF\bin\WebGrease.dll
+C:\Users\airsh\source\repos\SERF\SERF\bin\EntityFramework.xml
+C:\Users\airsh\source\repos\SERF\SERF\bin\EntityFramework.SqlServer.xml
 C:\Users\airsh\source\repos\SERF\SERF\bin\System.Web.Helpers.xml
 C:\Users\airsh\source\repos\SERF\SERF\bin\System.Web.Mvc.xml
 C:\Users\airsh\source\repos\SERF\SERF\bin\System.Web.Optimization.xml
@@ -75,7 +79,4 @@ C:\Users\airsh\source\repos\SERF\SERF\bin\Microsoft.CodeDom.Providers.DotNetComp
 C:\Users\airsh\source\repos\SERF\SERF\obj\Debug\SERF.csproj.CopyComplete
 C:\Users\airsh\source\repos\SERF\SERF\obj\Debug\SERF.dll
 C:\Users\airsh\source\repos\SERF\SERF\obj\Debug\SERF.pdb
-C:\Users\airsh\source\repos\SERF\SERF\bin\EntityFramework.dll
-C:\Users\airsh\source\repos\SERF\SERF\bin\EntityFramework.SqlServer.dll
-C:\Users\airsh\source\repos\SERF\SERF\bin\EntityFramework.xml
-C:\Users\airsh\source\repos\SERF\SERF\bin\EntityFramework.SqlServer.xml
+C:\Users\airsh\source\repos\SERF\SERF\obj\Debug\SERF.csprojAssemblyReference.cache
