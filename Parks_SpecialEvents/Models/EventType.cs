@@ -8,6 +8,8 @@ namespace Parks_SpecialEvents.Models
         public string Name { get; set; }
 
         public List<Event> eventList = new List<Event>();
+
+        public List<ParkThumbnail> distinctParkList = new List<ParkThumbnail>();
    
         public static IEnumerable<Event> EventList
         {
@@ -21,6 +23,11 @@ namespace Parks_SpecialEvents.Models
         public void AddToList(Event e)
         {
             eventList.Add(e);
+        }
+
+        public void AddParkThumbnail(ParkThumbnail pt)
+        {
+            distinctParkList.Add(pt);
         }
     }
 }
