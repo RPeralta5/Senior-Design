@@ -1,0 +1,28 @@
+﻿
+<div class="alert alert-success" role="alert">
+    Successfully added park images to @ViewData["parkID"]!
+</div>
+
+<h1> Add Park Events for parkID: @ViewData["parkID"]</h1>
+
+<form asp-controller="Admin" asp-action="AddParkEvents" asp-route-parkID="@ViewData["parkID"]">
+
+    <div class="container">
+        <!-- EVENTS -->
+
+        <div class="form-group">
+            <label for="exampleFormControlSelect2">Select Events:<code> (Hold command to select multiple amenities)</code></label>
+
+            <select multiple class="form-control" id="exampleFormControlSelect2" size="5" name="EVENTS">
+
+                @foreach (string e in ViewBag.events)
+                {
+                    <option>@e</option>
+                }
+
+            </select>
+        </div>
+        <input type="submit" value="Add Events" class="btn btn-success"/>
+    </div>
+
+</form>
