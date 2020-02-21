@@ -60,10 +60,11 @@ namespace Parks_SpecialEvents.Models
             // generate folder path
             string parkFolder = generateParkFolderFor(park.ParkID);
             Console.WriteLine($"parkFolder: {parkFolder}");
-
+            
             // create directory for park images
-            string pathString = Path.Combine(hostingEnvironment.WebRootPath + "images/", $"{parkFolder}");
+            string pathString = Path.Combine(hostingEnvironment.WebRootPath + "/images/", $"{parkFolder}");
             Directory.CreateDirectory(pathString);
+            Console.WriteLine($"created directory : {pathString}");
 
             foreach (IFormFile image in park.Images)
             {

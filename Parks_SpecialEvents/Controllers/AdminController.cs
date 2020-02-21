@@ -849,6 +849,12 @@ namespace Parks_SpecialEvents.Controllers
         public IActionResult AddPark(AzurePark park)
         {
             Console.WriteLine("add park method");
+
+            // put image into parkthumbnails
+            var destination = Path.Combine(hostingEnvironment.WebRootPath + "/images/ParkThumbnails", park.Image.FileName);
+            // put image there
+            park.Image.CopyTo(new FileStream(destination, FileMode.Create));
+
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // QUERY

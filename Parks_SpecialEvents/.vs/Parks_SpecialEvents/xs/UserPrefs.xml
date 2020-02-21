@@ -1,20 +1,18 @@
 ﻿<Properties StartupConfiguration="{5AAA988B-63EF-40F5-B243-839D78BF0B81}|Default">
   <MonoDevelop.Ide.ItemProperties.Parks__SpecialEvents PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/AdminController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Models/QueryParkImages.cs">
     <Files>
-      <File FileName="Controllers/AdminController.cs" Line="911" Column="29" />
+      <File FileName="Controllers/AdminController.cs" Line="854" Column="1" />
+      <File FileName="Models/QueryParkImages.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Parks_SpecialEvents" expanded="True">
             <Node name="Parks_SpecialEvents" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="AdminController.cs" selected="True" />
-              </Node>
-              <Node name="Models" expanded="True" />
-              <Node name="Views" expanded="True">
-                <Node name="Admin" expanded="True" />
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="QueryParkImages.cs" selected="True" />
               </Node>
             </Node>
           </Node>
