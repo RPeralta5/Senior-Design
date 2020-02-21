@@ -1,15 +1,15 @@
-﻿@page
-@{
-}
+﻿@model Parks_SpecialEvents.Models.AzureParkImages
 
 <h2>Add Park Images</h2>
 
 <div class="container">
-    <form asp-controller="Admin" asp-action="AddParkImages">
+    <form asp-controller="Admin" asp-action="AddParkImages" enctype="multipart/form-data">
         <!-- CHOOSE PARK IMAGES -->
+        <input type="hidden" asp-for="ParkID" value="@ViewData["parkID"]"/>
         <div class="custom-file">
-            <input multiple="multiple" type="file" class="custom-file-input" id="customFile">
+            <input multiple="multiple" type="file" class="custom-file-input" asp-for="Images">
             <label class="custom-file-label" for="customFile">Choose Park Images</label>
-        </div>
+        </div> <br /> <br />
+        <input type ="submit" value="Add Images" class="btn btn-success"/>
     </form>
 </div>

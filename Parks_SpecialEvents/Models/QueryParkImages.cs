@@ -51,43 +51,50 @@ namespace Parks_SpecialEvents.Models
             return parkFolder;
         }
 
-        public void addImages(List<string> images, string parkID)
+        public void addImages(AzureParkImages park)
         {
             string query = "INSERT INTO ParkImages(ParkID, ImagePath)";
-            Console.WriteLine($"NUM IMAGES: {images.Count}");
+            Console.WriteLine($"NUM IMAGES: {park.Images.Count}");
             int counter = 0;
-            foreach(string image in images)
+
+            // generate folder path
+            string parkFolder = generateParkFolderFor(park.ParkID);
+            Console.WriteLine($"parkFolder: {parkFolder}");
+
+            // create directory for park images
+            string pathString = Path.Combine(hostingEnvironment.WebRootPath + "images/", $"{parkFolder}");
+            Directory.CreateDirectory(pathString);
+
+            foreach (IFormFile image in park.Images)
             {
                 
                 Console.WriteLine("image: " + image);
-                string parkFolder = generateParkFolderFor(parkID);
-                Console.WriteLine($"parkFolder: {parkFolder}");
-
+               
                 // GET DESTINATION PATH OF WHERE THE IMAGE IS GOING TO BE PLACED
-               // var destinationFile = Path.Combine(hostingEnvironment.WebRootPath + $"/images/{parkFolder}", Path.GetFileName(image));
-               // Console.WriteLine($"DESTINATION FILE PATH: {destinationFile}");
-                // PASTE IMAGE THERE
-                //image.CopyTo(new FileStream(destinationFile, FileMode.Create));
+                var destinationFile = Path.Combine(hostingEnvironment.WebRootPath + $"/images/{parkFolder}", Path.GetFileName(image.FileName));
+                Console.WriteLine($"DESTINATION FILE PATH: {destinationFile}");
+                //PASTE IMAGE THERE
+                image.CopyTo(new FileStream(destinationFile, FileMode.Create));
 
                 counter++;
-                if(images.Count == 1)
+                if(park.Images.Count == 1)
                 {
                     query += "VALUES " +
-                            $"('{parkID}', '/images/{parkFolder}/{image}');";
+                            $"('{park.ParkID}', '/images/{parkFolder}/{image.FileName}');";
                 } else
                 {
                     if(counter == 1)
                     {
                         query += "VALUES " +
-                            $"('{parkID}', '/images/{parkFolder}/{image}'),";
+                            $"('{park.ParkID}', '/images/{parkFolder}/{image.FileName}'),";
                     } else
                     {
-                        if(counter == images.Count)
+                        if(counter == park.Images.Count)
                         {
-                            query += $" ('{parkID}', '/images/{parkFolder}/{image}');";
+                            query += $" ('{park.ParkID}', '/images/{parkFolder}/{image.FileName}');";
                         } else
                         {
-                            query += $" ('{parkID}', '/images/{parkFolder}/{image}'),";
+                            query += $" ('{park.ParkID}', '/images/{parkFolder}/{image.FileName}'),";
                         }
                     }
                 }

@@ -848,14 +848,13 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddPark(AzurePark park)
         {
-            
             Console.WriteLine("add park method");
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // QUERY
                 string query = "INSERT INTO Parks (ParkID, ParkName, ParkLastName, Address, Street_Number, Street_Name, City, Zip, FacilityPhone, Lat, Lng, GIS_Acres, Inventory_Acres, Image)" +
                         " VALUES " +
-                        $"('{park.ParkID}', '{park.ParkName}', '{park.ParkLastName}', '{park.Address}','{park.StreetNumber}','{park.StreetName}', '{park.City}', '{park.Zip}','{park.FacilityPhone}', {park.Lat}, {park.Lng}, {park.GISAcres}, {park.InventoryAcres}, '{park.Image}');";
+                        $"('{park.ParkID}', '{park.ParkName}', '{park.ParkLastName}', '{park.Address}','{park.StreetNumber}','{park.StreetName}', '{park.City}', '{park.Zip}','{park.FacilityPhone}', {park.Lat}, {park.Lng}, {park.GISAcres}, {park.InventoryAcres}, '/images/ParkThumbnails/{park.Image.FileName}');";
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // OPEN CONNECTION
@@ -876,7 +875,7 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine("Add Amenities to Park: " + park.ParkID);
             Console.WriteLine($"ParkID: {park.ParkName}");
 
-            QueryAmenities queryAmenities = new QueryAmenities();
+            QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment);
 
             ViewBag.amenities = queryAmenities.getAmenities();
             Console.WriteLine($"number of amenities: {queryAmenities.getAmenities().Count}");
@@ -917,8 +916,8 @@ namespace Parks_SpecialEvents.Controllers
         {
             Console.WriteLine($"adding images to {parkImages.ParkID}");
 
-            QueryParkImages queryParkImages = new QueryParkImages();
-            queryParkImages.addImages(parkImages.Images, parkImages.ParkID);
+            QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment);
+            queryParkImages.addImages(parkImages);
 
             return RedirectToAction("AddParkEventRazor", new { parkID = parkImages.ParkID });
         }
