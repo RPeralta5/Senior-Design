@@ -1,28 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/Parks_SpecialEvents.csproj": {}
+    "C:\\Repos\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj": {}
   },
   "projects": {
-    "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/Parks_SpecialEvents.csproj": {
+    "C:\\Repos\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/Parks_SpecialEvents.csproj",
+        "projectUniqueName": "C:\\Repos\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj",
         "projectName": "Parks_SpecialEvents",
-        "projectPath": "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/Parks_SpecialEvents.csproj",
-        "packagesPath": "/Users/jginvincible/.nuget/packages/",
-        "outputPath": "/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/",
+        "projectPath": "C:\\Repos\\Senior-Design\\Parks_SpecialEvents\\Parks_SpecialEvents.csproj",
+        "packagesPath": "C:\\Users\\e530130\\.nuget\\packages\\",
+        "outputPath": "C:\\Repos\\Senior-Design\\Parks_SpecialEvents\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/jginvincible/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\e530130\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -78,10 +82,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
