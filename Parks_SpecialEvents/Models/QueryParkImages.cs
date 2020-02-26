@@ -110,7 +110,7 @@ namespace Parks_SpecialEvents.Models
                 sqlConnection.Open();
 
                 // add images to park
-                sqlCommand.ExecuteReader();
+                sqlCommand.ExecuteNonQuery(); // used to be executeReader
 
                 // close connection
                 sqlConnection.Close();

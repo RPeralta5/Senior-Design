@@ -50,7 +50,7 @@ namespace Parks_SpecialEvents.Models
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // add to data base
-                sqlCommand.ExecuteReader();
+                sqlCommand.ExecuteNonQuery(); // used to be executeReader()
 
                 // close connection
                 sqlConnection.Close();

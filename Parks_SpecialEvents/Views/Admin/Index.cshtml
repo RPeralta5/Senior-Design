@@ -3,20 +3,25 @@
 
 <div class="container">
     <nav>
+
+        <h2>Park</h2>
+        <a class="btn btn-light" asp-controller="Admin" asp-action="AdminParkRazor">Parks</a>
+        <!--
+    <a class="btn btn-light" asp-controller="Admin" asp-action="UpdateParkIndexRazor">Edit Park</a>
+    <a class="btn btn-light" asp-controller="Admin" asp-action="AddParkRazor">Add Park</a>
+    -->
+
+        <h2>FAQ Questions</h2>
+        <a class="btn btn-light" asp-controller="Admin" asp-action="SelectQuestion">Questions</a>
+        <!--
+    <a class="btn btn-light" asp-controller="Admin" asp-action="AddQuestionRazor">Add Question</a>
+    -->
+        <!-- href="/Admin/AddQuestionRazor -->
+
         <h2>Amenity</h2>
         <a class="btn btn-light" asp-controller="Admin" asp-action="AddAmenity">Add Amenity to a Park</a>
         <a class="btn btn-light" asp-controller="Admin" asp-action="DeleteAmenity">Delete Amenity</a>
         <a class="btn btn-light" asp-controller="Admin" asp-action="UpdateAmenity">Update an Amenity</a>
 
-        <h2>Park</h2>
-        <a class="btn btn-light" asp-controller="Admin" asp-action="UpdateParkIndexRazor">Edit Park</a>
-        <a class="btn btn-light" asp-controller="Admin" asp-action="AddParkRazor">Add Park</a>
-
-        <h2>FAQ Questions</h2>
-        <a class="btn btn-light" asp-controller="Admin" asp-action="SelectQuestion">Questions</a> 
-        <!--
-        <a class="btn btn-light" asp-controller="Admin" asp-action="AddQuestionRazor">Add Question</a>
-        -->
-        <!-- href="/Admin/AddQuestionRazor -->
     </nav>
 </div>

@@ -2,7 +2,8 @@
   <MonoDevelop.Ide.ItemProperties.Parks__SpecialEvents PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Models/QueryParkImages.cs">
     <Files>
-      <File FileName="Controllers/AdminController.cs" Line="854" Column="1" />
+      <File FileName="Controllers/AdminController.cs" Line="980" Column="55" />
+      <File FileName="Models/QueryParks.cs" Line="52" Column="46" />
       <File FileName="Models/QueryParkImages.cs" Line="1" Column="1" />
     </Files>
     <Pads>
@@ -13,6 +14,9 @@
               <Node name="Controllers" expanded="True" />
               <Node name="Models" expanded="True">
                 <Node name="QueryParkImages.cs" selected="True" />
+              </Node>
+              <Node name="Views" expanded="True">
+                <Node name="Admin" expanded="True" />
               </Node>
             </Node>
           </Node>

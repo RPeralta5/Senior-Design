@@ -959,5 +959,38 @@ namespace Parks_SpecialEvents.Controllers
             ViewData["parkID"] = parkID;
             return View();
         }
+
+        public IActionResult AdminParkRazor()
+        {
+            QueryParks queryParks = new QueryParks();
+            List<AzurePark> parks = queryParks.getParkIDAndParKName();
+
+            ViewBag.parks = parks;
+            return View();
+        }
+
+        public IActionResult DeleteParkRazor(string parkID)
+        {
+            QueryParks queryParks = new QueryParks();
+            ViewData["parkID"] = parkID;
+            ViewData["parkName"] = queryParks.getParkName(parkID);
+            return View();
+        }
+
+        public IActionResult DeletePark(string parkID)
+        {
+            QueryParks queryParks = new QueryParks(hostingEnvironment);
+            queryParks.DeletePark(parkID);
+
+            return RedirectToAction("DeleteParkConfirmation", new { parkID = parkID });
+        }
+
+        public IActionResult DeleteParkConfirmation(string parkID)
+        {
+            QueryParks queryParks = new QueryParks(hostingEnvironment);
+            ViewData["parkID"] = parkID;
+            ViewData["parkName"] = queryParks.getParkName(parkID);
+            return View();
+        }
     }
 }
