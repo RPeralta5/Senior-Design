@@ -1,0 +1,9 @@
+﻿
+
+<div class="alert alert-danger" role="alert">
+    This action can not be undone. Everything associated with (@ViewData["parkID"]) will be deleted. Are you sure you
+    want to delete @ViewData["parkName"]?
+</div>
+<form asp-controller="Admin" asp-action="DeletePark" asp-route-parkID="@ViewData["parkID"]">
+    <input type="submit" class="btn btn-danger" value="Delete @ViewData["parkName"]" />
+</form>

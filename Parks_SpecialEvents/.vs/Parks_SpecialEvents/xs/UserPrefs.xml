@@ -1,9 +1,9 @@
 ﻿<Properties StartupConfiguration="{5AAA988B-63EF-40F5-B243-839D78BF0B81}|Default">
   <MonoDevelop.Ide.ItemProperties.Parks__SpecialEvents PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ParkController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/AdminController.cs">
     <Files>
-      <File FileName="Views/Locator/Index.cshtml" Line="169" Column="90" />
-      <File FileName="Controllers/ParkController.cs" Line="31" Column="9" />
+      <File FileName="appsettings.json" Line="3" Column="8" />
+      <File FileName="Controllers/AdminController.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -11,10 +11,7 @@
           <Node name="Parks_SpecialEvents" expanded="True">
             <Node name="Parks_SpecialEvents" expanded="True">
               <Node name="Controllers" expanded="True">
-                <Node name="ParkController.cs" selected="True" />
-              </Node>
-              <Node name="Views" expanded="True">
-                <Node name="Locator" expanded="True" />
+                <Node name="AdminController.cs" selected="True" />
               </Node>
             </Node>
           </Node>
