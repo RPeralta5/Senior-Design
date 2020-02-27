@@ -2,7 +2,7 @@
 
 <h2 class="display-3">Add Park</h2>
 
-<form asp-controller="Admin" asp-action="AddPark">
+<form asp-controller="Admin" asp-action="AddPark" enctype="multipart/form-data">
 
     <div class="container">
 
@@ -87,7 +87,7 @@
 
         <!-- PARK THUMBNAIL -->
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile" asp-for="Image">
+            <input type="file" class="custom-file-input" asp-for="Image">
             <label class="custom-file-label" for="customFile">Park Thumbnail</label>
         </div> <br />
 

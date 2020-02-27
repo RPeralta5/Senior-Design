@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,19 +19,27 @@ namespace Parks_SpecialEvents.Controllers
     {
 
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IConfiguration _config;
+
+        public AdminController(IHostingEnvironment e, IConfiguration config)
+        {
+            hostingEnvironment = e;
+            _config = config;
+        }
+
+        private string PARK_DB_CONNECTION
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
+        }
 
         // THESE ARE USED FOR REUSE : NO NEED TO QUERY TWICE
         private static string staticParkID;
         private static List<Event> originalEvents;
 
-        public AdminController(IHostingEnvironment e)
-        {
-            hostingEnvironment = e;
-        }
 
         // PARKS DATABASE CONNECTION STRING
         //const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         // QUERY FOR ALL PARKS
         const string ALL_PARKS = "SELECT ParkID, ParkName, Address, Lat, Lng FROM Parks;";
@@ -848,14 +857,19 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddPark(AzurePark park)
         {
-            
             Console.WriteLine("add park method");
+
+            // put image into parkthumbnails
+            var destination = Path.Combine(hostingEnvironment.WebRootPath + "/images/ParkThumbnails", park.Image.FileName);
+            // put image there
+            park.Image.CopyTo(new FileStream(destination, FileMode.Create));
+
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // QUERY
                 string query = "INSERT INTO Parks (ParkID, ParkName, ParkLastName, Address, Street_Number, Street_Name, City, Zip, FacilityPhone, Lat, Lng, GIS_Acres, Inventory_Acres, Image)" +
                         " VALUES " +
-                        $"('{park.ParkID}', '{park.ParkName}', '{park.ParkLastName}', '{park.Address}','{park.StreetNumber}','{park.StreetName}', '{park.City}', '{park.Zip}','{park.FacilityPhone}', {park.Lat}, {park.Lng}, {park.GISAcres}, {park.InventoryAcres}, '{park.Image}');";
+                        $"('{park.ParkID}', '{park.ParkName}', '{park.ParkLastName}', '{park.Address}','{park.StreetNumber}','{park.StreetName}', '{park.City}', '{park.Zip}','{park.FacilityPhone}', {park.Lat}, {park.Lng}, {park.GISAcres}, {park.InventoryAcres}, '/images/ParkThumbnails/{park.Image.FileName}');";
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // OPEN CONNECTION
@@ -876,7 +890,7 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine("Add Amenities to Park: " + park.ParkID);
             Console.WriteLine($"ParkID: {park.ParkName}");
 
-            QueryAmenities queryAmenities = new QueryAmenities();
+            QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment);
 
             ViewBag.amenities = queryAmenities.getAmenities();
             Console.WriteLine($"number of amenities: {queryAmenities.getAmenities().Count}");
@@ -917,8 +931,8 @@ namespace Parks_SpecialEvents.Controllers
         {
             Console.WriteLine($"adding images to {parkImages.ParkID}");
 
-            QueryParkImages queryParkImages = new QueryParkImages();
-            queryParkImages.addImages(parkImages.Images, parkImages.ParkID);
+            QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment);
+            queryParkImages.addImages(parkImages);
 
             return RedirectToAction("AddParkEventRazor", new { parkID = parkImages.ParkID });
         }
@@ -952,6 +966,39 @@ namespace Parks_SpecialEvents.Controllers
         public IActionResult AddParkConfirmation(string parkID)
         {
             ViewData["parkID"] = parkID;
+            return View();
+        }
+
+        public IActionResult AdminParkRazor()
+        {
+            QueryParks queryParks = new QueryParks();
+            List<AzurePark> parks = queryParks.getParkIDAndParKName();
+
+            ViewBag.parks = parks;
+            return View();
+        }
+
+        public IActionResult DeleteParkRazor(string parkID)
+        {
+            QueryParks queryParks = new QueryParks();
+            ViewData["parkID"] = parkID;
+            ViewData["parkName"] = queryParks.getParkName(parkID);
+            return View();
+        }
+
+        public IActionResult DeletePark(string parkID)
+        {
+            QueryParks queryParks = new QueryParks(hostingEnvironment);
+            queryParks.DeletePark(parkID);
+
+            return RedirectToAction("DeleteParkConfirmation", new { parkID = parkID });
+        }
+
+        public IActionResult DeleteParkConfirmation(string parkID)
+        {
+            QueryParks queryParks = new QueryParks(hostingEnvironment);
+            ViewData["parkID"] = parkID;
+            ViewData["parkName"] = queryParks.getParkName(parkID);
             return View();
         }
     }

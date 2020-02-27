@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Parks_SpecialEvents.Models
 {
     public class QueryAmenities
     {
         const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        private readonly IHostingEnvironment hostingEnvironment;
 
         public QueryAmenities()
         {
+        }
+
+        public QueryAmenities(IHostingEnvironment e)
+        {
+            hostingEnvironment = e;
         }
 
         public void addAmenities(string parkID, List<string> amenities)
@@ -43,7 +50,7 @@ namespace Parks_SpecialEvents.Models
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // add to data base
-                sqlCommand.ExecuteReader();
+                sqlCommand.ExecuteNonQuery(); // used to be executeReader()
 
                 // close connection
                 sqlConnection.Close();

@@ -73,7 +73,7 @@ namespace Parks_SpecialEvents.Models
                 sqlConnection.Open();
 
                 // add to database
-                sqlCommand.ExecuteReader();
+                sqlCommand.ExecuteNonQuery(); // used to be ExecuteReader()
 
                 // close sql connection
                 sqlConnection.Close();
@@ -94,7 +94,7 @@ namespace Parks_SpecialEvents.Models
                 sqlConnection.Open();
 
                 // add to database
-                sqlCommand.ExecuteReader();
+                sqlCommand.ExecuteNonQuery(); // used to be executeReader()
 
                 // close sql connection
                 sqlConnection.Close();

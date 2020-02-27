@@ -45,7 +45,10 @@ namespace Parks_SpecialEvents
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            //WebHost.CreateDefaultBuilder(args)
+            //    .UseStartup<Startup>();
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel(options => { options.Limits.MaxRequestBodySize = 512 * 1024 * 1024; })
                 .UseStartup<Startup>();
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
+
 namespace Parks_SpecialEvents.Models
 {
     public class AzurePark
@@ -16,7 +18,7 @@ namespace Parks_SpecialEvents.Models
         public double Lng { get; set; }
         public double GISAcres { get; set; }
         public double InventoryAcres { get; set; }
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
 
         public AzurePark()
         {

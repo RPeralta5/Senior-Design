@@ -13,6 +13,10 @@
         padding: 0 4px;
     }
 
+    .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited{
+        background-color: navy;
+    }
+
     /* Create two equal columns that sits next to each other */
     .column {
         flex: 50%;
@@ -92,7 +96,12 @@
             $("p").eq(index).html($("p").eq(index).text());
         });
     });
+    $('.collapse').on('show.bs.collapse', function () {
+        $otherPanels = $(this).parents('.panel-group').siblings('.panel-group');
+        $('.collapse',$otherPanels).removeClass('in');
+    });
 </script>
+
 
 <title>Park Locator</title>
 <center>
@@ -101,32 +110,21 @@
 </center>
 
 
-<!-- DYNAMIC BUTTON FOR PERMIBABLE PARKS-->
-<p>
-    <center>
-        @foreach (Parks_SpecialEvents.Models.Event e in ViewBag.storePermitables)
-        {
-            <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@e.Href" role="button" aria-expanded="false" aria-controls="collapseExample">
-                @e.E
-            </a>
-        }
-    </center>
-</p>
-<br />
-<br />
-
 <p>
     <center>
         @foreach (Parks_SpecialEvents.Models.EventType e in ViewBag.eventInfo)
         {
             string noSpace = e.Name.Replace(" ", "");
-            <a class="btn btn-info btn-sm m-1" data-toggle="collapse" href="#@noSpace" role="button" aria-expanded="false" aria-controls="collapseExample" style="background-color:navy">
+            <button type="button" class="btn btn-primary" data-toggle="collapse" href="#@noSpace" role="button" aria-expanded="false" aria-controls="collapseExample">
                 @e.Name
-
-            </a>
+            </button>
         }
+        <br />
+        <br />
+        <b>List of previous events held at Park facilities.</b>
+
         <div class="dropdown">
-            <button class="dropbtn">List of past events</button>
+            <button class="btn btn-secondary dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true">Events</button>
             <div class="dropdown-content">
                 @foreach (Parks_SpecialEvents.Models.Event e2 in ViewBag.storePermitables)
                 {
@@ -153,7 +151,6 @@
 
         <br />
         <center>
-            <h3 style="color:navy; font-weight:bold;">Park Locator</h3>
             <h4 style="color:black; font-weight:bold;"> Event: @e.E</h4>
 
             @{int count = 0;}
@@ -188,7 +185,6 @@
                 }
             }
 
-
         </center>
     </div>
 
@@ -204,7 +200,6 @@
     <div class="collapse" id="@noSpace">
         <br />
         <center>
-            <h3 style="color:navy; font-weight:bold;">Park Locator</h3>
             <h4 style="color:black; font-weight:bold;"> Event Type: @e.Name</h4>
             <!--
                 For each loop to grab
@@ -240,12 +235,3 @@
     </div>
 }
 
-
-
-
-<!-- CONTACT INFORMATION-->
-<address>
-    <strong>
-        <a href="mailto:EMAIL@gmail.com">Contact</a>
-    </strong>
-</address>

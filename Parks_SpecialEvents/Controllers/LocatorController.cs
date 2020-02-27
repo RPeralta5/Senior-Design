@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Parks_SpecialEvents.Models;
 using System.Data.SqlClient;
 
+
 /* 
  * Author(s): Ryan Peralta
  * Last Updated: 2/16/2020
@@ -14,8 +15,9 @@ namespace Parks_SpecialEvents.Controllers
     public class LocatorController : Controller
     {
         // Database connection string
-        const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;";
-        //const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+
+        //const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;";
+        const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         // Model to hold list of parks
         ParkDB parkInfo = new ParkDB();
@@ -25,7 +27,6 @@ namespace Parks_SpecialEvents.Controllers
 
         // List of events
         List<EventType> eventTypeStorage = new List<EventType>();
-
 
         //Database Queries
         const string QUERY_FOR_PARK_INFO = "SELECT DISTINCT Parks.ParkID, ParkName, Lat, Lng, Image, Event_Name, Flag" +
@@ -166,7 +167,6 @@ namespace Parks_SpecialEvents.Controllers
                 }
                 sqlConnnection.Close();
             }
-
         }
 
         private void GetDistinctParks(string eventTypeName, int index)
@@ -197,9 +197,6 @@ namespace Parks_SpecialEvents.Controllers
                 }
                 sqlConnnection.Close();
             }
-            
-
-    
         }
 
 
@@ -224,11 +221,6 @@ namespace Parks_SpecialEvents.Controllers
                 GetDistinctParks(eventTypeList[i].Name, i);
             }
             ViewBag.eventInfo = eventTypeList;
-
-
-            
-
-
             return View();
         }
 
