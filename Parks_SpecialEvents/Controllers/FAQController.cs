@@ -6,19 +6,32 @@ using Microsoft.AspNetCore.Mvc;
 using Parks_SpecialEvents.Models;
 //using Parks_SpecialEvents.Models;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Parks_SpecialEvents.Controllers
 {
+
+    
+
+    
     public class FAQController : Controller
     {
         // STORE QUESTIONS IN A DATABASE
         QuestionDB questionDB = new QuestionDB();
 
         // PARKS CONNECTION STRING
-        const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        //const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        private readonly IConfiguration _config;
+        public FAQController(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        private string PARKSCONNECTIONSTRING
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
+        }
 
         // STORE PARKS IN A DATABASE
         ParkDB parkDB = new ParkDB();

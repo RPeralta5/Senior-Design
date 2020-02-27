@@ -89,18 +89,15 @@
     }
 </style>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-    $(Document).ready(function () {
-        $("p").each(function (index, value) {
-            $("p").eq(index).html($("p").eq(index).text());
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $('[data-toggle="collapse"]').click(function () {
+            $('.collapse.in').collapse('hide')
         });
-    });
-    $('.collapse').on('show.bs.collapse', function () {
-        $otherPanels = $(this).parents('.panel-group').siblings('.panel-group');
-        $('.collapse',$otherPanels).removeClass('in');
-    });
-</script>
+    </script>
+    
+</head>
 
 
 <title>Park Locator</title>
@@ -115,7 +112,7 @@
         @foreach (Parks_SpecialEvents.Models.EventType e in ViewBag.eventInfo)
         {
             string noSpace = e.Name.Replace(" ", "");
-            <button type="button" class="btn btn-primary" data-toggle="collapse" href="#@noSpace" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <button type="button" class="btn btn-primary" data-toggle="collapse"  href="#@noSpace" role="button" aria-expanded="false" aria-controls="collapseExample">
                 @e.Name
 
             </button>
@@ -129,7 +126,7 @@
             <div class="dropdown-content">
                 @foreach (Parks_SpecialEvents.Models.Event e2 in ViewBag.storePermitables)
                 {
-
+                    
                     <a data-toggle="collapse" href="#@e2.Href" aria-expanded="false" aria-controls="collapseExample">
                         @e2.E
                     </a>

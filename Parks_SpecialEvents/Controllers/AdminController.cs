@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,15 +23,17 @@ namespace Parks_SpecialEvents.Controllers
         // THESE ARE USED FOR REUSE : NO NEED TO QUERY TWICE
         private static string staticParkID;
         private static List<Event> originalEvents;
-
-        public AdminController(IHostingEnvironment e)
+        private readonly IConfiguration _config;
+        public AdminController(IHostingEnvironment e, IConfiguration config)
         {
             hostingEnvironment = e;
+            _config = config;
         }
 
-        // PARKS DATABASE CONNECTION STRING
-        //const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        private string PARK_DB_CONNECTION
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
+        }
 
         // QUERY FOR ALL PARKS
         const string ALL_PARKS = "SELECT ParkID, ParkName, Address, Lat, Lng FROM Parks;";
