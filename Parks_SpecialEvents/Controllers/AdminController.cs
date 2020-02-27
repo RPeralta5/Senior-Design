@@ -20,20 +20,22 @@ namespace Parks_SpecialEvents.Controllers
 
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration _config;
+
         public AdminController(IHostingEnvironment e, IConfiguration config)
         {
             hostingEnvironment = e;
             _config = config;
         }
 
-        // THESE ARE USED FOR REUSE : NO NEED TO QUERY TWICE
-        private static string staticParkID;
-        private static List<Event> originalEvents;
-
         private string PARK_DB_CONNECTION
         {
             get { return _config.GetValue<string>("ConnectionString:default"); }
         }
+
+        // THESE ARE USED FOR REUSE : NO NEED TO QUERY TWICE
+        private static string staticParkID;
+        private static List<Event> originalEvents;
+
 
         // PARKS DATABASE CONNECTION STRING
         //const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";

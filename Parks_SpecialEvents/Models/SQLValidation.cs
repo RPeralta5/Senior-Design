@@ -10,12 +10,20 @@ namespace Parks_SpecialEvents.Models
         {
             keyWords = new List<string>();
             keyWords.Add("DELETE");
+            keyWords.Add("FROM");
+            keyWords.Add("WHERE");
             keyWords.Add("UPDATE");
+            keyWords.Add("SET");
             keyWords.Add("SELECT");
             keyWords.Add("*");
             keyWords.Add("DROP");
             keyWords.Add("DROP TABLE");
             keyWords.Add(";");
+            keyWords.Add("'");
+            keyWords.Add("xp_");
+            keyWords.Add("--");
+            keyWords.Add("/*");
+            keyWords.Add("*/");
         }
 
         public bool isValid(string search)
