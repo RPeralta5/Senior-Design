@@ -14,7 +14,7 @@ namespace SERF.Models
         [Key]
         public int EventDateId { get; set; }
 
-        public int ED_EventInformationId { get; set; }
+        public int EventInformationId { get; set; }
         public String Date { get; set; }
 
         public String BegTime { get; set; }

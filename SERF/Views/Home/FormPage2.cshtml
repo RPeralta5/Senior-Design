@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "FormPage2";
 }
+
+@Styles.Render("~/Content/bootstrap.css");
+
 <script type="text/javascript" src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
     $(document).ready(function () {
@@ -24,193 +27,195 @@
     });
 </script>
 
-<h2>FormPage2</h2>
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+        <h4>FormPage2</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <h4>FormPage2</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.LabelFor(model => model.NamedInsuredRole, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="NamedInsuredRole" name="NamedInsuredRole" value="Business Owner">
+                <label class="form-check-label" for="NamedInsuredRole">Business Owner</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="NamedInsuredRole" name="NamedInsuredRole" value="Business Manager">
+                <label class="form-check-label" for="NamedInsuredRole">Business Manager</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="NamedInsuredRole" name="NamedInsuredRole" value="Third Party">
+                <label class="form-check-label" for="NamedInsuredRole">Third Party</label>
+            </div>
+            @Html.ValidationMessageFor(model => model.NamedInsuredRole, "", new { @class = "text-danger" })
+        </div>
 
-    @Html.LabelFor(model => model.NamedInsuredRole, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="NamedInsuredRole" name="NamedInsuredRole" value="Business Owner">
-            <label class="form-check-label" for="NamedInsuredRole">Business Owner</label>
+        @Html.LabelFor(model => model.EventPrivacy, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <select name="EventPrivacy" class="form-control">
+                <option value="Open to the Public">Open to the Public</option>
+                <option value="Private Group">Private Group</option>
+                <option value="Open Invitation">Open Invitation</option>
+            </select>
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="NamedInsuredRole" name="NamedInsuredRole" value="Business Manager">
-            <label class="form-check-label" for="NamedInsuredRole">Business Manager</label>
+
+        @Html.LabelFor(model => model.AdmissionCharge, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            @Html.EditorFor(model => model.AdmissionCharge, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AdmissionCharge, "", new { @class = "text-danger" })
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="NamedInsuredRole" name="NamedInsuredRole" value="Third Party">
-            <label class="form-check-label" for="NamedInsuredRole">Third Party</label>
+
+        @Html.LabelFor(model => model.Donation, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <select name="Donation" class="form-control">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
         </div>
-        @Html.ValidationMessageFor(model => model.NamedInsuredRole, "", new { @class = "text-danger" })
+
+        @Html.LabelFor(model => model.Seating, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <select name="Seating" class="form-control">
+                <option value="Assigned Seating">Assigned Seating</option>
+                <option value="Open Seating">Open Seating</option>
+                <option value="Bring Your Own Seating">Bring Your Own Seating</option>
+                <option value="Grandstands or Bleachers">Grandstands or Bleachers</option>
+                <option value="Not Applicable">Not Applicable</option>
+            </select>
+        </div>
+
+        @Html.LabelFor(model => model.Security, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Private Sector Company">
+                <label class="form-check-label" for="Security">Private Sector Company</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Police or Sheriff">
+                <label class="form-check-label" for="Security">Police or Sheriff</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Peer Groups or Ushers">
+                <label class="form-check-label" for="Security">Peer Groups or Ushers</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Employees of Event Holder">
+                <label class="form-check-label" for="Security">Employees of Event Holder</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Parent Chaperones">
+                <label class="form-check-label" for="Security">Parent Chaperones</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Volunteers">
+                <label class="form-check-label" for="Security">Volunteers</label>
+            </div>
+            @Html.ValidationMessageFor(model => model.Security, "", new { @class = "text-danger" })
+        </div>
+
+        @Html.LabelFor(model => model.FirstAide, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <select name="FirstAide" class="form-control">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ada, htmlAttributes: new { @class = "" })
+            <select name="Ada" class="form-control">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+        @Html.LabelFor(model => model.Advertisement, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <select name="Advertisement" class="form-control">
+                <option value="Website">Website</option>
+                <option value="Television">Television</option>
+                <option value="Radio">Radio</option>
+                <option value="Newspaper">Newpaper</option>
+                <option value="Brochure">Brochure</option>
+                <option value="Handout or Announcement">Handout or Announcement</option>
+                <option value="Billboard">Billboard</option>
+                <option value="Poster">Poster</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        @Html.LabelFor(model => model.Alcohol, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <select name="Alcohol" class="form-control">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+        @Html.LabelFor(model => model.RecreationalActivity, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <select name="RecreationalActivity" class="form-control">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+
+        @Html.LabelFor(model => model.Music, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Music" name="Music" value="Acid Rock">
+                <label class="form-check-label" for="Acid Rock">Acid Rock</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Music" name="Music" value="Alternative">
+                <label class="form-check-label" for="Music">Alternative</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Music" name="Music" value="Big Band">
+                <label class="form-check-label" for="Music">Big Band</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Music" name="Music" value="Blues">
+                <label class="form-check-label" for="Blues">Blues</label>
+            </div>
+            @Html.ValidationMessageFor(model => model.Music, "", new { @class = "text-danger" })
+        </div>
+
+
+        @Html.LabelFor(model => model.Activities, htmlAttributes: new { @class = "" })
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Activities" name="Activities" value="Rock Climbing">
+                <label class="form-check-label" for="Activities Climbing">Rock Climbing</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Activities" name="Activities" value="Diving">
+                <label class="form-check-label" for="Activities">Diving</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Activities" name="Activities" value="Rock Concert">
+                <label class="form-check-label" for="Activities">Rock Concert</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="Music" name="Activities" value="Mountain Biking">
+                <label class="form-check-label" for="Activities">Mountain Biking</label>
+            </div>
+            @Html.ValidationMessageFor(model => model.Activities, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    }
+    <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%"></div>
     </div>
-
-    @Html.LabelFor(model => model.EventPrivacy, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <select name="EventPrivacy" class="form-control">
-            <option value="Open to the Public">Open to the Public</option>
-            <option value="Private Group">Private Group</option>
-            <option value="Open Invitation">Open Invitation</option>
-        </select>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
     </div>
-
-    @Html.LabelFor(model => model.AdmissionCharge, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        @Html.EditorFor(model => model.AdmissionCharge, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.AdmissionCharge, "", new { @class = "text-danger" })
-    </div>
-
-    @Html.LabelFor(model => model.Donation, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <select name="Donation" class="form-control">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
-    </div>
-
-    @Html.LabelFor(model => model.Seating, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <select name="Seating" class="form-control">
-            <option value="Assigned Seating">Assigned Seating</option>
-            <option value="Open Seating">Open Seating</option>
-            <option value="Bring Your Own Seating">Bring Your Own Seating</option>
-            <option value="Grandstands or Bleachers">Grandstands or Bleachers</option>
-            <option value="Not Applicable">Not Applicable</option>
-        </select>
-    </div>
-
-    @Html.LabelFor(model => model.Security, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Private Sector Company">
-            <label class="form-check-label" for="Security">Private Sector Company</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Police or Sheriff">
-            <label class="form-check-label" for="Security">Police or Sheriff</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Peer Groups or Ushers">
-            <label class="form-check-label" for="Security">Peer Groups or Ushers</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Employees of Event Holder">
-            <label class="form-check-label" for="Security">Employees of Event Holder</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Parent Chaperones">
-            <label class="form-check-label" for="Security">Parent Chaperones</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Security" name="Security" value="Volunteers">
-            <label class="form-check-label" for="Security">Volunteers</label>
-        </div>
-        @Html.ValidationMessageFor(model => model.Security, "", new { @class = "text-danger" })
-    </div>
-
-    @Html.LabelFor(model => model.FirstAide, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <select name="FirstAide" class="form-control">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Ada, htmlAttributes: new { @class = "" })
-        <select name="Ada" class="form-control">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
-    </div>
-
-    @Html.LabelFor(model => model.Advertisement, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <select name="Advertisement" class="form-control">
-            <option value="Website">Website</option>
-            <option value="Television">Television</option>
-            <option value="Radio">Radio</option>
-            <option value="Newspaper">Newpaper</option>
-            <option value="Brochure">Brochure</option>
-            <option value="Handout or Announcement">Handout or Announcement</option>
-            <option value="Billboard">Billboard</option>
-            <option value="Poster">Poster</option>
-            <option value="Other">Other</option>
-        </select>
-    </div>
-
-    @Html.LabelFor(model => model.Alcohol, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <select name="Alcohol" class="form-control">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
-    </div>
-
-    @Html.LabelFor(model => model.RecreationalActivity, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <select name="RecreationalActivity" class="form-control">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
-    </div>
-
-
-    @Html.LabelFor(model => model.Music, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Music" name="Music" value="Acid Rock">
-            <label class="form-check-label" for="Acid Rock">Acid Rock</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Music" name="Music" value="Alternative">
-            <label class="form-check-label" for="Music">Alternative</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Music" name="Music" value="Big Band">
-            <label class="form-check-label" for="Music">Big Band</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Music" name="Music" value="Blues">
-            <label class="form-check-label" for="Blues">Blues</label>
-        </div>
-        @Html.ValidationMessageFor(model => model.Music, "", new { @class = "text-danger" })
-    </div>
-
-
-    @Html.LabelFor(model => model.Activities, htmlAttributes: new { @class = "" })
-    <div class="form-group">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Activities" name="Activities" value="Rock Climbing">
-            <label class="form-check-label" for="Activities Climbing">Rock Climbing</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Activities" name="Activities" value="Diving">
-            <label class="form-check-label" for="Activities">Diving</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Activities" name="Activities" value="Rock Concert">
-            <label class="form-check-label" for="Activities">Rock Concert</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="Music" name="Activities" value="Mountain Biking">
-            <label class="form-check-label" for="Activities">Mountain Biking</label>
-        </div>
-        @Html.ValidationMessageFor(model => model.Activities, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-default" />
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
 

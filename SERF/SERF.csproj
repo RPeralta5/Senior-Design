@@ -178,7 +178,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\FormPage1.cshtml" />
-    <Content Include="Views\Shared\Date.cshtml" />
     <Content Include="Views\Home\FormPage2.cshtml" />
     <Content Include="Views\Home\FormPage3.cshtml" />
     <Content Include="Views\Home\EventDate.cshtml" />

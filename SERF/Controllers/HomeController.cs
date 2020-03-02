@@ -88,7 +88,6 @@ namespace SERF.Controllers
         [HttpPost]
         public ActionResult FormPage2(FormCollection collection)
         {
-
             try
             {
                 //Method 1: Using Component Name  
@@ -114,6 +113,8 @@ namespace SERF.Controllers
                 ViewData["Music"] = collection["Music"];
                 ViewData["Activities"] = collection["Activities"];
 
+                ViewBag["EventInformationId"] = collection["EventInformationId"];
+
                 using (db)
                 {
 
@@ -137,7 +138,7 @@ namespace SERF.Controllers
                     db.SaveChanges();
                 }
 
-                return View("Index");
+                return Redirect("EventDate");
             }
 
             catch (FormatException e)
@@ -159,33 +160,36 @@ namespace SERF.Controllers
         {
             try
             {
+                /*
                 ViewData["Date"] = collection["Date"];
                 ViewData["BegTime"] = collection["BegTime"];
                 ViewData["EndTime"] = collection["EndTime"];
                 ViewData["AttendenceCount"] = collection["AttendenceCount"];
                 ViewData["AlcoholBeverages"] = collection["AlcoholBeverages"];
                 ViewData["EventDetails"] = collection["EventDetails"];
-                using (db)
-                {
+                */
+                ViewData["Data"] = collection["Data"];
+                System.Diagnostics.Debug.WriteLine("Hello " + collection["Data"]);
+                /* using (db)
+                 {
 
-                    var eventDate = new EventDate();
-                    
-                    eventDate.Date = collection["Date"];
-                    eventDate.BegTime = collection["BegTime"];
-                    eventDate.EndTime = collection["EndTime"];
-                    eventDate.AttendenceCount = collection["AttendenceCount"];
-                    eventDate.AlcoholBeverages = collection["AlcoholBeverages"];
-                    eventDate.EventDetails = collection["EventDetails"];
+                     var eventDate = new EventDate();
 
-                    db.EventDates.Add(eventDate);
-                    db.SaveChanges();
-                }
 
-                return View("FormPage3");
+
+                     db.EventDates.Add(eventDate);
+                     db.SaveChanges();
+                 }
+
+                 return Redirect("FormPage3");
+                 */
+                return View("Index");
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                ViewData["Data"] = collection["data"];
+                System.Diagnostics.Debug.WriteLine(e.ToString());
+                return View("Index");
             }
         }
 
