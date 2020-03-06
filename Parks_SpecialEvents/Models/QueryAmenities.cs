@@ -19,6 +19,39 @@ namespace Parks_SpecialEvents.Models
             hostingEnvironment = e;
         }
 
+        public Amenity GetAmenity(string amenity)
+        {
+            Amenity a = new Amenity();
+
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT AmenityID, Amenity FROM Amenities" + 
+                        $" WHERE Amenity = '{amenity}';";
+                Console.WriteLine($"!!!: {query}");
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                // get amenity
+                using(SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        a.AmenityID = (int)reader[0];
+                       // a.ParkID = (string)reader[1];
+                        a.Amen = (string)reader[1];
+                    }
+                }
+
+                // close connection
+                sqlConnection.Close();
+            }
+
+            return a;
+        }
+
         public List<Amenity> getAmenitiesFrom(string parkID)
         {
             Console.WriteLine($"getting amenities from {parkID}");
@@ -190,25 +223,62 @@ namespace Parks_SpecialEvents.Models
             return amenities;
         }
 
-        public string updateAmenities(AzureMasterPark azureMasterPark)
+        public void DeleteAmenitiesFor(string parkID)
+        {
+            string deleteAmenities = "DELETE FROM Amenities " +
+                $" WHERE ParkID = '{parkID}';";
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                SqlCommand sqlCommand = new SqlCommand(deleteAmenities, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                // delete amenities from that park
+                sqlCommand.ExecuteNonQuery();
+
+                // close connection
+                sqlConnection.Close();
+            }
+        }
+
+        public void TurnOnAmenity(string parkID, Amenity amenity)
+        {
+            //QueryAmenityImages queryAmenityImages = new QueryAmenityImages();
+            int imageID = 1;
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "INSERT INTO Amenities(ParkID, Amenity, Quantity, ImageID)" +
+                        $" VALUES('{parkID}', '{amenity.Amen}', 1, {imageID});";
+                Console.WriteLine($"ADD AMENITY: {query}");
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                // add that amenity
+                sqlCommand.ExecuteNonQuery();
+
+                // close connection
+                sqlConnection.Close();
+            }
+        }
+
+        public void updateAmenities(AzureMasterPark azureMasterPark)
         {
             string parkID = azureMasterPark.AzurePark.ParkID;
-            string query = "UPDATE Amenities";
-
-            List<Amenity> allAmenities = GetAmenities();
-            List<Amenity> heldByPark = getAmenitiesFrom(parkID);
-
-            List<Amenity> filtered = filterAmenitys(heldByPark, allAmenities);
-
-            foreach(Amenity amenity in filtered)
+            // delete all the parks amenities
+            DeleteAmenitiesFor(parkID);
+            Console.WriteLine($"DELETED AMENITIES FOR {parkID}");
+            List<Amenity> heldByPark = azureMasterPark.Amenitys;
+           
+            foreach(Amenity amenity in heldByPark)
             {
-                if(amenity.Flag == true)
-                {
-                   // query += ""
-                }
+                // turn on every amenity
+                Console.WriteLine($"ATTEMPTING TO TURN ON AMENITY: {amenity}");
+                TurnOnAmenity(parkID, amenity);
             }
-
-            return query;
         }
     }
 }

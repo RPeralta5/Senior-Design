@@ -648,6 +648,7 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine("INSIDE UPDATE PARK CONFIRMATION METHOD");
             // update park
             Console.WriteLine($"HOSTING ENVIRONMENT: {hostingEnvironment.WebRootPath}");
+            string parkID = azureMasterPark.AzurePark.ParkID;
             QueryParks queryParks = new QueryParks(hostingEnvironment);
             try
             {
@@ -657,10 +658,13 @@ namespace Parks_SpecialEvents.Controllers
                 List<Amenity> A = new List<Amenity>();
                 foreach(string a in amenities)
                 {
-                    Amenity e = new Amenity();
-                    e.Amen = a;
+                    Console.WriteLine($"SELECTED BY USER: {a}");
+                    QueryAmenities queryAmenities = new QueryAmenities();
+                    Amenity e = queryAmenities.GetAmenity(a);
+                    Console.WriteLine($"AMENITY TO ADD: {e.Amen}");
                     A.Add(e);
                 }
+                Console.WriteLine($"AMENITY SIZE: {A.Count}");
 
                 List<Event> E = new List<Event>();
                 foreach(string v in events)
@@ -673,9 +677,10 @@ namespace Parks_SpecialEvents.Controllers
                     E.Add(e);
                 }
 
-                azureMasterPark.Amenitys = A;
-                azureMasterPark.Events.Events = E;
-                queryParks.UpdatePark(azureMasterPark);
+                azureMasterPark.Amenitys = A; // amenities
+                azureMasterPark.Events.Events = E; // events
+                 
+                queryParks.UpdatePark(azureMasterPark); // update the park here
                 Console.WriteLine("UPDATED PARK!");
             } catch(Exception e)
             {
