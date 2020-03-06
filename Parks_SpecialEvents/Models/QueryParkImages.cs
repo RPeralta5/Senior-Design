@@ -21,6 +21,75 @@ namespace Parks_SpecialEvents.Models
             hostingEnvironment = e;
         }
 
+        public List<Image> getImages(string parkID)
+        {
+            List<Image> images = new List<Image>();
+
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT * FROM ParkImages" +
+                    $" WHERE ParkID = '{parkID}';";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Image i = new Image();
+                        i.ImageID = (int)reader[0];
+                        i.ParkID = (string)reader[1];
+                        i.ImagePath = (string)reader[2];
+                        images.Add(i);
+                    }
+                }
+
+                // close connection
+                sqlConnection.Close();
+            }
+            Console.WriteLine($"NUM IMAGES: {images.Count}");
+            return images;
+        }
+
+        public List<string> getImagesPath(string parkID)
+        {
+            List<string> images = new List<string>();
+
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT ImagePath FROM ParkImages" + 
+                    $" WHERE ParkID = '{parkID}';";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                using(SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        string path = Path.Combine(hostingEnvironment.WebRootPath, (string)reader[0]);
+                        images.Add(path);
+                        Console.WriteLine($"image: {path}");
+                    }
+                }
+
+                // close connection
+                sqlConnection.Close();
+            }
+            Console.WriteLine($"NUM IMAGES: {images.Count}");
+            return images;
+        }
+
+        public string generateNewParkFolderFor(string parkLastName)
+        {
+            return parkLastName.Replace(" ", "");
+        }
+
         public string generateParkFolderFor(string parkID)
         {
             string parkFolder = "";

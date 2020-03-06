@@ -249,3 +249,4 @@ C:/Users/rpera/Desktop/repo/Senior-Design/Parks_SpecialEvents/obj/Debug/netcorea
 /Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/AdminParkRazor.g.cshtml.cs
 /Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/DeleteParkRazor.g.cshtml.cs
 /Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/DeleteParkConfirmation.g.cshtml.cs
+/Users/jginvincible/git/Senior-Design/Parks_SpecialEvents/obj/Debug/netcoreapp2.2/Razor/Views/Admin/UpdateParkRazorConfirmation.g.cshtml.cs

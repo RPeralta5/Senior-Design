@@ -484,13 +484,13 @@ namespace Parks_SpecialEvents.Controllers
                 {
                     if(held.E == all.E)
                     {
-                        Console.WriteLine($"{all.E} is HELD BY PARK");
+                        //Console.WriteLine($"{all.E} is HELD BY PARK");
                         events.Add(new Event(all.E, all.Href, true));
                         break;
                     }
                     if(count == heldByPark.Count - 1)
                     {
-                        Console.WriteLine($"{all.E} is NOT HELD BY PARK");
+                        //Console.WriteLine($"{all.E} is NOT HELD BY PARK");
                         events.Add(new Event(all.E, all.Href, false));
                     }
                     count++;
@@ -574,13 +574,16 @@ namespace Parks_SpecialEvents.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditPark(ParkEventModel parkEventModel) // THIS USED TO BE EDIT PARK
+        public IActionResult EditPark(AzureMasterPark azureMasterPark) // used to accept parkEventModel
         {
             Console.WriteLine("PARK EVENT MODEL");
-            Console.WriteLine($"ParkName: {parkEventModel.ParkName}");
-            //Console.WriteLine($"ListSize: {parkEventModel.Events.Count}");
+            Console.WriteLine($"ParkName: {azureMasterPark.AzurePark.ParkName}");
+
+            // get all lists: Amenitites and Events
+            var updatedAmenities = Request.Form["AMENITIES"];
             var updatedEvents = Request.Form["EVENTS"];
-    
+
+            Console.WriteLine($"UPDATED AMENITIES: {updatedAmenities}");
             Console.WriteLine($"UPDATED EVENTS: {updatedEvents}");
 
             // SET ALL PARK EVENTS TO FLAG : TURRN OFF EVENTS
@@ -607,23 +610,57 @@ namespace Parks_SpecialEvents.Controllers
 
             // GET ALL EVENTS
             List<Event> allEvents = QueryEvents(ALL_EVENTS);
-            Console.WriteLine($"DONE QUERYING ALL EVENTS: {allEvents.Count}");
+    
             // EVENTS HELD BY PARK
             string eventsHeldByPark = "SELECT Event_Name FROM Event_Info, Event " +
                             $"WHERE ParkID = '{staticParkID}' " + 
                             "AND Flag = 1 AND Event.EventID = Event_Info.EventID;";
             List<Event> heldByPark = QueryEvents(eventsHeldByPark);
-            Console.WriteLine($"DONE QUERYING ALL EVENTS HELD BY PARK: {heldByPark.Count}");
             originalEvents = heldByPark;
 
             List<Event> list = filter(allEvents, heldByPark);
-            Console.WriteLine($"DONE FILTERING EVENTS: {list.Count}");
-            ViewBag.Events = list;
+
+            AzureMasterPark azureMasterPark = new AzureMasterPark();
 
             ParkEventModel parkEventModel = new ParkEventModel();
             parkEventModel.ParkName = parkName;
+            parkEventModel.Events = list;
 
-            return View(parkEventModel);
+            QueryParks queryParks = new QueryParks(hostingEnvironment);
+            QueryAmenities queryAmenities = new QueryAmenities();
+            QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment);
+            AzureParkImages azureParkImages = new AzureParkImages();
+
+            // all amenities
+            List<Amenity> amenities = queryAmenities.filterAmenitys(queryAmenities.getAmenitiesFrom(parkID), queryAmenities.GetAmenities());
+            
+            // add everything to AZURE MASTER PARK
+            azureMasterPark.AzurePark = queryParks.getParkInfo(parkID);
+            azureMasterPark.Amenitys = amenities;
+            azureMasterPark.AzureParkImages.ImagesPath = queryParkImages.getImagesPath(parkID);
+            azureMasterPark.Events = parkEventModel;
+
+            return View(azureMasterPark); // used to be parkEventModel
+        }
+
+        public IActionResult UpdateParkRazorConfirmation(AzureMasterPark azureMasterPark)
+        {
+            Console.WriteLine("INSIDE UPDATE PARK CONFIRMATION METHOD");
+            // update park
+            Console.WriteLine($"HOSTING ENVIRONMENT: {hostingEnvironment.WebRootPath}");
+            QueryParks queryParks = new QueryParks(hostingEnvironment);
+            try
+            {
+                queryParks.UpdatePark(azureMasterPark);
+                Console.WriteLine("UPDATED PARK!");
+            } catch(Exception e)
+            {
+                Console.WriteLine("DID NOT UPDATE PARK");
+                Console.WriteLine($"error: {e}");
+            }
+
+            // sent to confirmation
+            return View(azureMasterPark);
         }
 
         public IActionResult UpdateParkIndexRazor()
