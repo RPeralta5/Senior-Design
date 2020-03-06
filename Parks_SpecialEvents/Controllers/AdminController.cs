@@ -651,6 +651,30 @@ namespace Parks_SpecialEvents.Controllers
             QueryParks queryParks = new QueryParks(hostingEnvironment);
             try
             {
+                var amenities = Request.Form["AMENITIES"];
+                var events = Request.Form["EVENTS"];
+
+                List<Amenity> A = new List<Amenity>();
+                foreach(string a in amenities)
+                {
+                    Amenity e = new Amenity();
+                    e.Amen = a;
+                    A.Add(e);
+                }
+
+                List<Event> E = new List<Event>();
+                foreach(string v in events)
+                {
+                    Event e = new Event();
+                    string eventName = v;
+                    QueryEventInfo queryEventInfo = new QueryEventInfo();
+                    e.EventID = queryEventInfo.getEventID(eventName);
+                    //e.Flag = 1;
+                    E.Add(e);
+                }
+
+                azureMasterPark.Amenitys = A;
+                azureMasterPark.Events.Events = E;
                 queryParks.UpdatePark(azureMasterPark);
                 Console.WriteLine("UPDATED PARK!");
             } catch(Exception e)

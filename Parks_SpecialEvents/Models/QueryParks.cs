@@ -234,11 +234,20 @@ namespace Parks_SpecialEvents.Models
                 changeDirectoryNameInAzureDB(azureMasterPark);
                 Console.WriteLine("DONE UPDATING AZURE");
 
+                QueryAmenities queryAmenities = new QueryAmenities();
+                string updateAmenities = queryAmenities.updateAmenities(azureMasterPark);
+
                 // query to update park info
                 query += updateParkInfo;
-               
+                Console.WriteLine($"UPDATE PARK INFO QUERY: {query}");
 
-                Console.WriteLine($"UPDATE QUERY: {query}");
+                // query to update park amenities
+                // query += updateAmenities;
+
+                // update events
+                QueryEvents queryEvents = new QueryEvents();
+                queryEvents.updateEvents(azureMasterPark); 
+
 
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 

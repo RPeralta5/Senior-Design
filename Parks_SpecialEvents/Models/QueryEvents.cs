@@ -12,6 +12,91 @@ namespace Parks_SpecialEvents.Models
         {
         }
 
+        public List<Event> GetAllEvents(string parkID)
+        {
+            List<Event> events = new List<Event>();
+            Console.WriteLine("INSIDE GET EVENTS");
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT DISTINCT EventID FROM Event;";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                // get all events
+                using(SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        Event e = new Event();
+                        e.EventID = (int)reader[0];
+                        e.ParkID = parkID;
+                        e.Flag = false; // flag every event
+
+                        events.Add(e);
+                    }
+                }
+
+                // close connection
+                sqlConnection.Close();
+            }
+
+            return events;
+        }
+
+        public void updateEvents(AzureMasterPark azureMasterPark)
+        {
+            string parkID = azureMasterPark.AzurePark.ParkID;
+            string query = "";
+            List<Event> allEvents = GetAllEvents(parkID);
+            Console.WriteLine($"SIZE OF ALL EVENTS: {allEvents.Count}");
+            List<Event> heldByPark = azureMasterPark.Events.Events;
+            Console.WriteLine($"SIZE OF EVENTS HELD BY PARK: {heldByPark.Count}");
+
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                sqlConnection.Open();
+                foreach (Event e in allEvents)
+                {
+                    int count = 0;
+                    foreach(Event x in heldByPark)
+                    {
+                        count++;
+                        if (count == heldByPark.Count)
+                        {
+                            // not held by park
+                            Console.WriteLine($"NOT HELD BY PARK::: {e.EventID}");
+                    
+                            query = "UPDATE Event " + 
+                                        $" SET Flag = {0}" +
+                                        $" WHERE EventID = {e.EventID} AND ParkID = '{parkID}';";
+                            Console.WriteLine($"QUERY EVENT: {query}");
+                            SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                            sqlCommand.ExecuteNonQuery();
+                        }
+                        Console.WriteLine($"E: {e.EventID}, x: {x.EventID}");
+                        if (e.EventID == x.EventID)
+                        {
+                            Console.WriteLine($"TURN ON EVENT with ID::: {e.EventID}");
+
+                            query = "UPDATE Event " +
+                                        $" SET Flag = {1}" +
+                                        $" WHERE EventID = {e.EventID} AND ParkID = '{parkID}';";
+                            Console.WriteLine($"QUERY EVENT: {query}");
+                            SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                            sqlCommand.ExecuteNonQuery();
+                            break;
+                        }
+                    }
+
+                }
+                sqlConnection.Close();
+            }
+
+        }
+
         public void addEvents(List<string> events, string parkID)
         {
             QueryEventInfo queryEventInfo = new QueryEventInfo();

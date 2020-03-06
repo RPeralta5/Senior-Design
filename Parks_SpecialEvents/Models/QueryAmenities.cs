@@ -189,5 +189,26 @@ namespace Parks_SpecialEvents.Models
             }
             return amenities;
         }
+
+        public string updateAmenities(AzureMasterPark azureMasterPark)
+        {
+            string parkID = azureMasterPark.AzurePark.ParkID;
+            string query = "UPDATE Amenities";
+
+            List<Amenity> allAmenities = GetAmenities();
+            List<Amenity> heldByPark = getAmenitiesFrom(parkID);
+
+            List<Amenity> filtered = filterAmenitys(heldByPark, allAmenities);
+
+            foreach(Amenity amenity in filtered)
+            {
+                if(amenity.Flag == true)
+                {
+                   // query += ""
+                }
+            }
+
+            return query;
+        }
     }
 }

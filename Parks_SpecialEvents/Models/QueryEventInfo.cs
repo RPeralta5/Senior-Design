@@ -12,14 +12,14 @@ namespace Parks_SpecialEvents.Models
         {
         }
 
-        public int getEventID(string e)
+        public int getEventID(string eventName)
         {
             int eventID = -1;
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // query
                 string query = "SELECT EventID FROM Event_Info" +
-                    $" WHERE Event_Name = '{e}';";
+                    $" WHERE Event_Name = '{eventName}';";
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // open connection
