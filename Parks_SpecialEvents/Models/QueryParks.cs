@@ -99,17 +99,38 @@ namespace Parks_SpecialEvents.Models
             return thumbNailPath;
         }
 
+        private void newThumbnail(AzureMasterPark azureMasterPark)
+        {
+            string parkID = azureMasterPark.AzurePark.ParkID;
+            string newThumb = azureMasterPark.AzurePark.Image.FileName;
+            string destination = Path.Combine(hostingEnvironment.WebRootPath, "images/ParkThumbnails/" + newThumb);
+
+            // get thumbnail
+            string oldThumbnail = getParkThumbNailPath(parkID);
+            Console.WriteLine($"OLD THUMBNAIL: {oldThumbnail}");
+
+            // delete image from project
+            string filepath = Path.Combine(hostingEnvironment.WebRootPath, oldThumbnail.Substring(1, oldThumbnail.Length - 1));
+            Console.WriteLine($"Delete thumbnail: {filepath}");
+            File.Delete(filepath);
+
+            // insert new thumbnail
+            azureMasterPark.AzurePark.Image.CopyTo(new FileStream(destination, FileMode.Create));
+            Console.WriteLine($"new thumbnail: {destination}");
+        }
+
         private void renameParkDirectory(AzureMasterPark azureMasterPark)
         {
             Console.WriteLine($"hosting environemnt from Query Parks: {hostingEnvironment.WebRootPath}");
             // get park directory
             string parkID = azureMasterPark.AzurePark.ParkID;
-            string oldParkDirectory = Path.Combine(hostingEnvironment.WebRootPath, "images/" + getParkFolder(parkID));
+            string opd = getParkFolder(parkID); // opd
+            string oldParkDirectory = Path.Combine(hostingEnvironment.WebRootPath, "images/" + opd);
             string ampd = azureMasterPark.AzurePark.ParkLastName.Replace(" ", "");
             Console.WriteLine($"OLD PARK DIRECTORY: {oldParkDirectory}");
             Console.WriteLine($"NEW PARK DIRECTORY: {ampd}");
 
-            if (oldParkDirectory != ampd) // ampd = azure master park directory (new park directory)
+            if (opd != ampd) // ampd = azure master park directory (new park directory)
             {
                 Console.WriteLine("PARK LAST NAME WAS CHANGED. UPDATING PARK DIRECTORY");
                 // create that new directory
@@ -188,7 +209,7 @@ namespace Parks_SpecialEvents.Models
                 string query = "";
                 string updateParkInfo = "";
                 if (park.Image == null)
-                {
+                { // don't update thumbnail
                     updateParkInfo = "UPDATE Parks " +
                                 $" SET ParkName = '{park.ParkName}', ParkLastName = '{park.ParkLastName}', Address = '{park.Address}', Street_Number = '{park.StreetNumber}', " +
                                 $" Street_Name = '{park.StreetName}', City = '{park.City}', Zip = '{park.Zip}', FacilityPhone = '{park.FacilityPhone}', Lat = {park.Lat}, Lng = {park.Lng}, " +
@@ -196,10 +217,17 @@ namespace Parks_SpecialEvents.Models
                                 $" WHERE ParkID = '{park.ParkID}';";
                 } else
                 {
+                    // get image
+                    IFormFile image = azureMasterPark.AzurePark.Image;
+                    string imagePath = "/images/ParkThumbnails/" + image.FileName;
+                    Console.WriteLine($"image path: {imagePath}");
+                    // overrider old thumbnail with new thumbnail
+                    newThumbnail(azureMasterPark);
+
                     updateParkInfo = "UPDATE Parks " + 
                         $" SET ParkName = '{park.ParkName}', ParkLastName = '{park.ParkLastName}', Address = '{park.Address}', Street_Number = '{park.StreetNumber}', " + 
                         $" Street_Name = '{park.StreetName}', City = '{park.City}', Zip = '{park.Zip}', FacilityPhone = '{park.FacilityPhone}', Lat = {park.Lat}, Lng = {park.Lng}, " + 
-                        $" GIS_Acres = {park.GISAcres}, Inventory_Acres = {park.InventoryAcres}, Image = '{park.ImagePath}' " +
+                        $" GIS_Acres = {park.GISAcres}, Inventory_Acres = {park.InventoryAcres}, Image = '{imagePath}' " +
                         $" WHERE ParkID = '{park.ParkID}';";
                 }
 
