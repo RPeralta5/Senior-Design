@@ -635,10 +635,11 @@ namespace Parks_SpecialEvents.Controllers
             List<Amenity> amenities = queryAmenities.filterAmenitys(queryAmenities.getAmenitiesFrom(parkID), queryAmenities.GetAmenities());
             
             // add everything to AZURE MASTER PARK
-            azureMasterPark.AzurePark = queryParks.getParkInfo(parkID);
-            azureMasterPark.Amenitys = amenities;
-            azureMasterPark.AzureParkImages.ImagesPaths = queryParkImages.getImagesPath(parkID);
-            azureMasterPark.Events = parkEventModel;
+            azureMasterPark.AzurePark = queryParks.getParkInfo(parkID); // basic park info
+            azureMasterPark.Amenitys = amenities; // amenities
+            azureMasterPark.Events = parkEventModel; // events
+            azureMasterPark.AzureParkImages.ImagesPaths = queryParkImages.getImagesPath(parkID); // Images to keep
+            // images to add (this part is done in the form)
 
             return View(azureMasterPark); // used to be parkEventModel
         }
@@ -1006,7 +1007,7 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine($"adding images to {parkImages.ParkID}");
 
             QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment);
-            queryParkImages.addImages(parkImages);
+            queryParkImages.AddImages(parkImages);
 
             return RedirectToAction("AddParkEventRazor", new { parkID = parkImages.ParkID });
         }

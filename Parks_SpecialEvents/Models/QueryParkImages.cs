@@ -157,7 +157,7 @@ namespace Parks_SpecialEvents.Models
             return parkFolder;
         }
 
-        public void addImages(AzureParkImages park)
+        public void AddImages(AzureParkImages park)
         {
             string query = "INSERT INTO ParkImages(ParkID, ImagePath)";
             Console.WriteLine($"NUM IMAGES: {park.Images.Count}");

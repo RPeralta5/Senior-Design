@@ -178,7 +178,12 @@
                 }
             </select>
 
-        </div>
+        </div> <br />
+
+        <div class="custom-file">
+                <input multiple type="file" class="custom-file-input" value="@Model.AzurePark.Image" asp-for="AzureParkImages.Images">
+                <label class="custom-file-label" for="customFile">Add Images</label>
+            </div> <br /> <br />
 
         <input type="submit" value="Update Park" class="btn btn-success" />
     </form>

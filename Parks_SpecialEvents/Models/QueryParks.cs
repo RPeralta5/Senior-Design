@@ -251,6 +251,10 @@ namespace Parks_SpecialEvents.Models
                 QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment);
                 queryParkImages.DeleteImagesFor(parkID, azureMasterPark.AzureParkImages.ImagesPaths);
 
+                // images to add to park
+                azureMasterPark.AzureParkImages.ParkID = parkID;
+                queryParkImages.AddImages(azureMasterPark.AzureParkImages);
+
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // open sql connection
