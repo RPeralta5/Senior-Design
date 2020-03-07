@@ -202,6 +202,7 @@ namespace Parks_SpecialEvents.Models
         {
             AzurePark park = azureMasterPark.AzurePark;
             renameParkDirectory(azureMasterPark);
+            string parkID = azureMasterPark.AzurePark.ParkID;
 
             using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
@@ -214,7 +215,7 @@ namespace Parks_SpecialEvents.Models
                                 $" SET ParkName = '{park.ParkName}', ParkLastName = '{park.ParkLastName}', Address = '{park.Address}', Street_Number = '{park.StreetNumber}', " +
                                 $" Street_Name = '{park.StreetName}', City = '{park.City}', Zip = '{park.Zip}', FacilityPhone = '{park.FacilityPhone}', Lat = {park.Lat}, Lng = {park.Lng}, " +
                                 $" GIS_Acres = {park.GISAcres}, Inventory_Acres = {park.InventoryAcres}" +
-                                $" WHERE ParkID = '{park.ParkID}';";
+                                $" WHERE ParkID = '{parkID}';";
                 } else
                 {
                     // get image
@@ -228,7 +229,7 @@ namespace Parks_SpecialEvents.Models
                         $" SET ParkName = '{park.ParkName}', ParkLastName = '{park.ParkLastName}', Address = '{park.Address}', Street_Number = '{park.StreetNumber}', " + 
                         $" Street_Name = '{park.StreetName}', City = '{park.City}', Zip = '{park.Zip}', FacilityPhone = '{park.FacilityPhone}', Lat = {park.Lat}, Lng = {park.Lng}, " + 
                         $" GIS_Acres = {park.GISAcres}, Inventory_Acres = {park.InventoryAcres}, Image = '{imagePath}' " +
-                        $" WHERE ParkID = '{park.ParkID}';";
+                        $" WHERE ParkID = '{parkID}';";
                 }
 
                 changeDirectoryNameInAzureDB(azureMasterPark);
@@ -244,8 +245,11 @@ namespace Parks_SpecialEvents.Models
 
                 // update events
                 QueryEvents queryEvents = new QueryEvents();
-                queryEvents.updateEvents(azureMasterPark); 
+                queryEvents.updateEvents(azureMasterPark);
 
+                // delete images that were not selected
+                QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment);
+                queryParkImages.DeleteImagesFor(parkID, azureMasterPark.AzureParkImages.ImagesPaths);
 
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 

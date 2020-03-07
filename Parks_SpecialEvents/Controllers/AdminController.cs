@@ -637,7 +637,7 @@ namespace Parks_SpecialEvents.Controllers
             // add everything to AZURE MASTER PARK
             azureMasterPark.AzurePark = queryParks.getParkInfo(parkID);
             azureMasterPark.Amenitys = amenities;
-            azureMasterPark.AzureParkImages.ImagesPath = queryParkImages.getImagesPath(parkID);
+            azureMasterPark.AzureParkImages.ImagesPaths = queryParkImages.getImagesPath(parkID);
             azureMasterPark.Events = parkEventModel;
 
             return View(azureMasterPark); // used to be parkEventModel
@@ -654,6 +654,7 @@ namespace Parks_SpecialEvents.Controllers
             {
                 var amenities = Request.Form["AMENITIES"];
                 var events = Request.Form["EVENTS"];
+                var images = Request.Form["IMAGES"];
 
                 List<Amenity> A = new List<Amenity>();
                 foreach(string a in amenities)
@@ -673,12 +674,19 @@ namespace Parks_SpecialEvents.Controllers
                     string eventName = v;
                     QueryEventInfo queryEventInfo = new QueryEventInfo();
                     e.EventID = queryEventInfo.getEventID(eventName);
-                    //e.Flag = 1;
+
                     E.Add(e);
+                }
+
+                List<string> I = new List<string>();
+                foreach(string i in images)
+                {
+                    I.Add(i);
                 }
 
                 azureMasterPark.Amenitys = A; // amenities
                 azureMasterPark.Events.Events = E; // events
+                azureMasterPark.AzureParkImages.ImagesPaths = I;// images
                  
                 queryParks.UpdatePark(azureMasterPark); // update the park here
                 Console.WriteLine("UPDATED PARK!");

@@ -155,10 +155,11 @@
         <h3>Images</h3>
 
         <div class="row">
-            @foreach (string image in Model.AzureParkImages.ImagesPath)
+            @foreach (string image in Model.AzureParkImages.ImagesPaths)
             {
+                string imageName = image.Split("/")[3];
                 <div class="col-md-3">
-                    @image
+                    @imageName
                     <img src="@image" width="275" height="190" /><br /> <br />
                 </div>
             }
@@ -167,11 +168,12 @@
         
         <div class="container">
 
-            <select multiple class="form-control" size="5">
-                @foreach (string image in Model.AzureParkImages.ImagesPath)
+            <select multiple class="form-control" size="8" name="IMAGES">
+                @foreach (string image in Model.AzureParkImages.ImagesPaths)
                 {
-                    <option selected="selected">
-                        @image
+                    string imageName = image.Split("/")[3];
+                    <option selected="selected" value="@image">
+                        @imageName
                     </option>
                 }
             </select>

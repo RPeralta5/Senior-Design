@@ -21,6 +21,44 @@ namespace Parks_SpecialEvents.Models
             hostingEnvironment = e;
         }
 
+        private void DeleteImageFromAzure(string imagePath)
+        {
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "DELETE FROM ParkImages" + 
+                        $" WHERE ImagePath = '{imagePath}';";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                // delete image from database
+                sqlCommand.ExecuteNonQuery();
+
+                // close connection
+                sqlConnection.Close();
+            }
+        }
+
+        public void DeleteImagesFor(string parkID, List<string> imagesToKeep)
+        {
+            List<string> allImages = getImagesPath(parkID);
+            foreach(string image in allImages)
+            {
+                if(!imagesToKeep.Contains(image))
+                {
+                    Console.WriteLine($"DELETE IMAGE: {image}");
+                    // get image web path
+                    string imageWebPath = Path.Combine(hostingEnvironment.WebRootPath + image);
+                    Console.WriteLine($"imagePath: {imageWebPath}");
+                    // delete image
+                    File.Delete(imageWebPath);
+                    DeleteImageFromAzure(image);
+                }
+            }
+        }
+
         public List<Image> getImages(string parkID)
         {
             List<Image> images = new List<Image>();
@@ -74,7 +112,6 @@ namespace Parks_SpecialEvents.Models
                     {
                         string path = Path.Combine(hostingEnvironment.WebRootPath, (string)reader[0]);
                         images.Add(path);
-                        Console.WriteLine($"image: {path}");
                     }
                 }
 
