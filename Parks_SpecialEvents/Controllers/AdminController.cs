@@ -646,9 +646,7 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult UpdateParkRazorConfirmation(AzureMasterPark azureMasterPark)
         {
-            Console.WriteLine("INSIDE UPDATE PARK CONFIRMATION METHOD");
             // update park
-            Console.WriteLine($"HOSTING ENVIRONMENT: {hostingEnvironment.WebRootPath}");
             string parkID = azureMasterPark.AzurePark.ParkID;
             QueryParks queryParks = new QueryParks(hostingEnvironment);
             try
@@ -660,13 +658,10 @@ namespace Parks_SpecialEvents.Controllers
                 List<Amenity> A = new List<Amenity>();
                 foreach(string a in amenities)
                 {
-                    Console.WriteLine($"SELECTED BY USER: {a}");
                     QueryAmenities queryAmenities = new QueryAmenities();
                     Amenity e = queryAmenities.GetAmenity(a);
-                    Console.WriteLine($"AMENITY TO ADD: {e.Amen}");
                     A.Add(e);
                 }
-                Console.WriteLine($"AMENITY SIZE: {A.Count}");
 
                 List<Event> E = new List<Event>();
                 foreach(string v in events)
@@ -683,6 +678,7 @@ namespace Parks_SpecialEvents.Controllers
                 foreach(string i in images)
                 {
                     I.Add(i);
+                    Console.WriteLine($"IMAGES TO KEEP: {i}");
                 }
 
                 azureMasterPark.Amenitys = A; // amenities

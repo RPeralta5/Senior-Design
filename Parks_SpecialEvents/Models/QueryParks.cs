@@ -121,13 +121,12 @@ namespace Parks_SpecialEvents.Models
 
         private void renameParkDirectory(AzureMasterPark azureMasterPark)
         {
-            Console.WriteLine($"hosting environemnt from Query Parks: {hostingEnvironment.WebRootPath}");
             // get park directory
             string parkID = azureMasterPark.AzurePark.ParkID;
             string opd = getParkFolder(parkID); // opd
             string oldParkDirectory = Path.Combine(hostingEnvironment.WebRootPath, "images/" + opd);
             string ampd = azureMasterPark.AzurePark.ParkLastName.Replace(" ", "");
-            Console.WriteLine($"OLD PARK DIRECTORY: {oldParkDirectory}");
+            Console.WriteLine($"OLD PARK DIRECTORY: {opd}");
             Console.WriteLine($"NEW PARK DIRECTORY: {ampd}");
 
             if (opd != ampd) // ampd = azure master park directory (new park directory)
@@ -144,6 +143,7 @@ namespace Parks_SpecialEvents.Models
                 // move files over from old directory to new directory
                 if (Directory.Exists(oldParkDirectory))
                 {
+                    Console.WriteLine($"OLD DIRECTORY EXISTS: {oldParkDirectory}");
                     string[] files = Directory.GetFiles(oldParkDirectory);
 
                     // Copy the files and overwrite destination files if they already exist.
@@ -152,8 +152,18 @@ namespace Parks_SpecialEvents.Models
                         // Use static Path methods to extract only the file name from the path.
                         string fileName = Path.GetFileName(s);
                         string destFile = Path.Combine(hostingEnvironment.WebRootPath, "images/" + $"{ampd}/"+ fileName);
+                        Console.WriteLine($"MOVE FILE: {fileName} over to NEW DIRECTORY: {destFile}");
                         File.Copy(s, destFile, true);
+                        //File.Move(s, destFile);
                     }
+                    //AzureParkImages x = new AzureParkImages();
+                    List<string> x = new List<string>();
+                    foreach(string s in azureMasterPark.AzureParkImages.ImagesPaths)
+                    {
+                        string e = s.Replace(opd, ampd);
+                        x.Add(e);
+                    }
+                    azureMasterPark.AzureParkImages.ImagesPaths = x;
                 }
                 else
                 {
@@ -176,8 +186,8 @@ namespace Parks_SpecialEvents.Models
 
             string[] sp = images[0].ImagePath.Split("/");
             string oldDirectory = sp[2]; // gets name of directory
-            Console.WriteLine($"CHANGE DIRECTORY NAME IN AZURE (OLD DIR): {oldDirectory}");
             string newDirectory = azureMasterPark.AzurePark.ParkLastName.Replace(" ", "");
+            Console.WriteLine($"CHANGE DIRECTORY NAME IN AZURE (NEW DIR): {newDirectory}");
 
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
@@ -201,7 +211,9 @@ namespace Parks_SpecialEvents.Models
         public void UpdatePark(AzureMasterPark azureMasterPark)
         {
             AzurePark park = azureMasterPark.AzurePark;
-            renameParkDirectory(azureMasterPark);
+            renameParkDirectory(azureMasterPark); // renames directory
+            changeDirectoryNameInAzureDB(azureMasterPark); // updates it in azure
+            Console.WriteLine("DONE UPDATING AZURE");
             string parkID = azureMasterPark.AzurePark.ParkID;
 
             using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
@@ -232,13 +244,19 @@ namespace Parks_SpecialEvents.Models
                         $" WHERE ParkID = '{parkID}';";
                 }
 
-                changeDirectoryNameInAzureDB(azureMasterPark);
-                Console.WriteLine("DONE UPDATING AZURE");
-
                 // query to update park info
                 query += updateParkInfo;
                 Console.WriteLine($"UPDATE PARK INFO QUERY: {query}");
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
+                // open sql connection
+                sqlConnection.Open();
+
+                // update park
+                sqlCommand.ExecuteNonQuery();
+
+                // close sql connection
+                sqlConnection.Close();
                 // query to update park amenities
                 QueryAmenities queryAmenities = new QueryAmenities();
                 queryAmenities.updateAmenities(azureMasterPark);
@@ -255,16 +273,7 @@ namespace Parks_SpecialEvents.Models
                 azureMasterPark.AzureParkImages.ParkID = parkID;
                 queryParkImages.AddImages(azureMasterPark.AzureParkImages);
 
-                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-
-                // open sql connection
-                sqlConnection.Open();
-
-                // update park
-                sqlCommand.ExecuteNonQuery();
-
-                // close sql connection
-                sqlConnection.Close();
+               
             }
         }
 

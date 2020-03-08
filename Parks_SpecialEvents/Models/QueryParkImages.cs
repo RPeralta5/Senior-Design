@@ -46,6 +46,7 @@ namespace Parks_SpecialEvents.Models
             List<string> allImages = getImagesPath(parkID);
             foreach(string image in allImages)
             {
+                Console.WriteLine($"IMAGES TO KEEP: {imagesToKeep[0]}, allImages: {image}");
                 if(!imagesToKeep.Contains(image))
                 {
                     Console.WriteLine($"DELETE IMAGE: {image}");
