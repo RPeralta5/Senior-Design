@@ -627,7 +627,7 @@ namespace Parks_SpecialEvents.Controllers
             parkEventModel.Events = list;
 
             QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
-            QueryAmenities queryAmenities = new QueryAmenities();
+            QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment, _config);
             QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment, _config);
             AzureParkImages azureParkImages = new AzureParkImages();
 
@@ -961,7 +961,7 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine("Add Amenities to Park: " + park.ParkID);
             Console.WriteLine($"ParkID: {park.ParkName}");
 
-            QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment);
+            QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment, _config);
 
             ViewBag.amenities = queryAmenities.getAmenities();
             Console.WriteLine($"number of amenities: {queryAmenities.getAmenities().Count}");
@@ -1053,7 +1053,7 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult DeleteParkRazor(string parkID)
         {
-            QueryParks queryParks = new QueryParks();
+            QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
             ViewData["parkID"] = parkID;
             ViewData["parkName"] = queryParks.getParkName(parkID);
             return View();

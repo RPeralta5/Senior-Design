@@ -2,21 +2,29 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace Parks_SpecialEvents.Models
 {
     public class QueryAmenities
     {
-        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IConfiguration _config;
 
         public QueryAmenities()
         {
         }
 
-        public QueryAmenities(IHostingEnvironment e)
+        public QueryAmenities(IHostingEnvironment e, IConfiguration config)
         {
             hostingEnvironment = e;
+            _config = config;
+        }
+
+        private string PARK_DB_CONNECTION
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
         }
 
         public Amenity GetAmenity(string amenity)
