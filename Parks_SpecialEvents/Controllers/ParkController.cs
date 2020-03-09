@@ -24,7 +24,7 @@ namespace Parks_SpecialEvents.Controllers
             _config = config;
         }
 
-        private string PARKSCONNECTIONSTRING
+        private string PARK_DB_CONNECTION
         {
             get { return _config.GetValue<string>("ConnectionString:default"); }
         }
