@@ -1,18 +1,20 @@
 ﻿<Properties StartupConfiguration="{5AAA988B-63EF-40F5-B243-839D78BF0B81}|Default">
   <MonoDevelop.Ide.ItemProperties.Parks__SpecialEvents PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Models/QueryParks.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Admin/UpdateParkRazor.cshtml">
     <Files>
       <File FileName="Controllers/AdminController.cs" Line="688" Column="31" />
-      <File FileName="Models/QueryParks.cs" Line="211" Column="21" />
+      <File FileName="Models/QueryParks.cs" Line="156" Column="109" />
+      <File FileName="Views/Admin/UpdateParkRazor.cshtml" Line="26" Column="27" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Parks_SpecialEvents" expanded="True">
             <Node name="Parks_SpecialEvents" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="Models" expanded="True">
-                <Node name="QueryParks.cs" selected="True" />
+              <Node name="Views" expanded="True">
+                <Node name="Admin" expanded="True">
+                  <Node name="UpdateParkRazor.cshtml" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>

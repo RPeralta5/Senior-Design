@@ -153,8 +153,8 @@ namespace Parks_SpecialEvents.Models
                         string fileName = Path.GetFileName(s);
                         string destFile = Path.Combine(hostingEnvironment.WebRootPath, "images/" + $"{ampd}/"+ fileName);
                         Console.WriteLine($"MOVE FILE: {fileName} over to NEW DIRECTORY: {destFile}");
-                        File.Copy(s, destFile, true);
-                        //File.Move(s, destFile);
+                        //File.Copy(s, destFile, true); // THIS WORKS BUT I BELIVE LOWER IS MORE EFFIECIENT 
+                        File.Move(s, destFile);
                     }
                     //AzureParkImages x = new AzureParkImages();
                     List<string> x = new List<string>();
