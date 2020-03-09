@@ -484,13 +484,13 @@ namespace Parks_SpecialEvents.Controllers
                 {
                     if(held.E == all.E)
                     {
-                        Console.WriteLine($"{all.E} is HELD BY PARK");
+                        //Console.WriteLine($"{all.E} is HELD BY PARK");
                         events.Add(new Event(all.E, all.Href, true));
                         break;
                     }
                     if(count == heldByPark.Count - 1)
                     {
-                        Console.WriteLine($"{all.E} is NOT HELD BY PARK");
+                        //Console.WriteLine($"{all.E} is NOT HELD BY PARK");
                         events.Add(new Event(all.E, all.Href, false));
                     }
                     count++;
@@ -574,13 +574,16 @@ namespace Parks_SpecialEvents.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditPark(ParkEventModel parkEventModel) // THIS USED TO BE EDIT PARK
+        public IActionResult EditPark(AzureMasterPark azureMasterPark) // used to accept parkEventModel
         {
             Console.WriteLine("PARK EVENT MODEL");
-            Console.WriteLine($"ParkName: {parkEventModel.ParkName}");
-            //Console.WriteLine($"ListSize: {parkEventModel.Events.Count}");
+            Console.WriteLine($"ParkName: {azureMasterPark.AzurePark.ParkName}");
+
+            // get all lists: Amenitites and Events
+            var updatedAmenities = Request.Form["AMENITIES"];
             var updatedEvents = Request.Form["EVENTS"];
-    
+
+            Console.WriteLine($"UPDATED AMENITIES: {updatedAmenities}");
             Console.WriteLine($"UPDATED EVENTS: {updatedEvents}");
 
             // SET ALL PARK EVENTS TO FLAG : TURRN OFF EVENTS
@@ -607,23 +610,91 @@ namespace Parks_SpecialEvents.Controllers
 
             // GET ALL EVENTS
             List<Event> allEvents = QueryEvents(ALL_EVENTS);
-            Console.WriteLine($"DONE QUERYING ALL EVENTS: {allEvents.Count}");
+    
             // EVENTS HELD BY PARK
             string eventsHeldByPark = "SELECT Event_Name FROM Event_Info, Event " +
                             $"WHERE ParkID = '{staticParkID}' " + 
                             "AND Flag = 1 AND Event.EventID = Event_Info.EventID;";
             List<Event> heldByPark = QueryEvents(eventsHeldByPark);
-            Console.WriteLine($"DONE QUERYING ALL EVENTS HELD BY PARK: {heldByPark.Count}");
             originalEvents = heldByPark;
 
             List<Event> list = filter(allEvents, heldByPark);
-            Console.WriteLine($"DONE FILTERING EVENTS: {list.Count}");
-            ViewBag.Events = list;
+
+            AzureMasterPark azureMasterPark = new AzureMasterPark();
 
             ParkEventModel parkEventModel = new ParkEventModel();
             parkEventModel.ParkName = parkName;
+            parkEventModel.Events = list;
 
-            return View(parkEventModel);
+            QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
+            QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment, _config);
+            QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment, _config);
+            AzureParkImages azureParkImages = new AzureParkImages();
+
+            // all amenities
+            List<Amenity> amenities = queryAmenities.filterAmenitys(queryAmenities.getAmenitiesFrom(parkID), queryAmenities.GetAmenities());
+            
+            // add everything to AZURE MASTER PARK
+            azureMasterPark.AzurePark = queryParks.getParkInfo(parkID); // basic park info
+            azureMasterPark.Amenitys = amenities; // amenities
+            azureMasterPark.Events = parkEventModel; // events
+            azureMasterPark.AzureParkImages.ImagesPaths = queryParkImages.getImagesPath(parkID); // Images to keep
+            // images to add (this part is done in the form)
+
+            return View(azureMasterPark); // used to be parkEventModel
+        }
+
+        public IActionResult UpdateParkRazorConfirmation(AzureMasterPark azureMasterPark)
+        {
+            // update park
+            string parkID = azureMasterPark.AzurePark.ParkID;
+            QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
+            try
+            {
+                var amenities = Request.Form["AMENITIES"];
+                var events = Request.Form["EVENTS"];
+                var images = Request.Form["IMAGES"];
+
+                List<Amenity> A = new List<Amenity>();
+                foreach(string a in amenities)
+                {
+                    QueryAmenities queryAmenities = new QueryAmenities();
+                    Amenity e = queryAmenities.GetAmenity(a);
+                    A.Add(e);
+                }
+
+                List<Event> E = new List<Event>();
+                foreach(string v in events)
+                {
+                    Event e = new Event();
+                    string eventName = v;
+                    QueryEventInfo queryEventInfo = new QueryEventInfo();
+                    e.EventID = queryEventInfo.getEventID(eventName);
+
+                    E.Add(e);
+                }
+
+                List<string> I = new List<string>();
+                foreach(string i in images)
+                {
+                    I.Add(i);
+                    Console.WriteLine($"IMAGES TO KEEP: {i}");
+                }
+
+                azureMasterPark.Amenitys = A; // amenities
+                azureMasterPark.Events.Events = E; // events
+                azureMasterPark.AzureParkImages.ImagesPaths = I;// images
+                 
+                queryParks.UpdatePark(azureMasterPark); // update the park here
+                Console.WriteLine("UPDATED PARK!");
+            } catch(Exception e)
+            {
+                Console.WriteLine("DID NOT UPDATE PARK");
+                Console.WriteLine($"error: {e}");
+            }
+
+            // sent to confirmation
+            return View(azureMasterPark);
         }
 
         public IActionResult UpdateParkIndexRazor()
@@ -890,7 +961,7 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine("Add Amenities to Park: " + park.ParkID);
             Console.WriteLine($"ParkID: {park.ParkName}");
 
-            QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment);
+            QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment, _config);
 
             ViewBag.amenities = queryAmenities.getAmenities();
             Console.WriteLine($"number of amenities: {queryAmenities.getAmenities().Count}");
@@ -931,8 +1002,8 @@ namespace Parks_SpecialEvents.Controllers
         {
             Console.WriteLine($"adding images to {parkImages.ParkID}");
 
-            QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment);
-            queryParkImages.addImages(parkImages);
+            QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment, _config);
+            queryParkImages.AddImages(parkImages);
 
             return RedirectToAction("AddParkEventRazor", new { parkID = parkImages.ParkID });
         }
@@ -955,7 +1026,9 @@ namespace Parks_SpecialEvents.Controllers
             foreach(string e in temp)
             {
                 events.Add(e);
+                Console.WriteLine($"EVENTS TO ADD: {e}");
             }
+            Console.WriteLine($"NUM EVENTS TO ADD: {events.Count}");
 
             QueryEvents queryEvents = new QueryEvents();
             queryEvents.addEvents(events, parkID);
@@ -971,7 +1044,7 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AdminParkRazor()
         {
-            QueryParks queryParks = new QueryParks();
+            QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
             List<AzurePark> parks = queryParks.getParkIDAndParKName();
 
             ViewBag.parks = parks;
@@ -980,7 +1053,7 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult DeleteParkRazor(string parkID)
         {
-            QueryParks queryParks = new QueryParks();
+            QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
             ViewData["parkID"] = parkID;
             ViewData["parkName"] = queryParks.getParkName(parkID);
             return View();
@@ -988,7 +1061,7 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult DeletePark(string parkID)
         {
-            QueryParks queryParks = new QueryParks(hostingEnvironment);
+            QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
             queryParks.DeletePark(parkID);
 
             return RedirectToAction("DeleteParkConfirmation", new { parkID = parkID });
@@ -996,7 +1069,7 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult DeleteParkConfirmation(string parkID)
         {
-            QueryParks queryParks = new QueryParks(hostingEnvironment);
+            QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
             ViewData["parkID"] = parkID;
             ViewData["parkName"] = queryParks.getParkName(parkID);
             return View();

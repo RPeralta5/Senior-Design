@@ -7,6 +7,7 @@ using Parks_SpecialEvents.Models;
 using Geocoding;
 using Geocoding.Google;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,8 +28,19 @@ namespace Parks_SpecialEvents.Controllers
         Park defaultPark = new Park(ParkID, name, address, lat, lng, image, permit, flag);
 
         // CONNECTION STRING FOR PARK DATABASE
+        private readonly IConfiguration _config;
+
+        public ParkController(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        private string PARK_DB_CONNECTION
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
+        }
         //const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
 
         // QUERY FOR PARK

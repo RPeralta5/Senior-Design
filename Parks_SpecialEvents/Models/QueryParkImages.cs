@@ -4,21 +4,136 @@ using System.Data.SqlClient;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Parks_SpecialEvents.Models
 {
     public class QueryParkImages
     {
-        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IConfiguration _config;
 
         public QueryParkImages()
         {
         }
 
-        public QueryParkImages(IHostingEnvironment e)
+        public QueryParkImages(IHostingEnvironment e, IConfiguration config)
         {
             hostingEnvironment = e;
+            _config = config;
+        }
+
+        private string PARK_DB_CONNECTION
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
+        }
+
+        private void DeleteImageFromAzure(string imagePath)
+        {
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "DELETE FROM ParkImages" + 
+                        $" WHERE ImagePath = '{imagePath}';";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                // delete image from database
+                sqlCommand.ExecuteNonQuery();
+
+                // close connection
+                sqlConnection.Close();
+            }
+        }
+
+        public void DeleteImagesFor(string parkID, List<string> imagesToKeep)
+        {
+            List<string> allImages = getImagesPath(parkID);
+            foreach(string image in allImages)
+            {
+                Console.WriteLine($"IMAGES TO KEEP: {imagesToKeep[0]}, allImages: {image}");
+                if(!imagesToKeep.Contains(image))
+                {
+                    Console.WriteLine($"DELETE IMAGE: {image}");
+                    // get image web path
+                    string imageWebPath = Path.Combine(hostingEnvironment.WebRootPath + image);
+                    Console.WriteLine($"imagePath: {imageWebPath}");
+                    // delete image
+                    File.Delete(imageWebPath);
+                    DeleteImageFromAzure(image);
+                }
+            }
+        }
+
+        public List<Image> getImages(string parkID)
+        {
+            List<Image> images = new List<Image>();
+
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT * FROM ParkImages" +
+                    $" WHERE ParkID = '{parkID}';";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Image i = new Image();
+                        i.ImageID = (int)reader[0];
+                        i.ParkID = (string)reader[1];
+                        i.ImagePath = (string)reader[2];
+                        images.Add(i);
+                    }
+                }
+
+                // close connection
+                sqlConnection.Close();
+            }
+            Console.WriteLine($"NUM IMAGES: {images.Count}");
+            return images;
+        }
+
+        public List<string> getImagesPath(string parkID)
+        {
+            List<string> images = new List<string>();
+
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT ImagePath FROM ParkImages" + 
+                    $" WHERE ParkID = '{parkID}';";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                using(SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        string path = Path.Combine(hostingEnvironment.WebRootPath, (string)reader[0]);
+                        images.Add(path);
+                    }
+                }
+
+                // close connection
+                sqlConnection.Close();
+            }
+            Console.WriteLine($"NUM IMAGES: {images.Count}");
+            return images;
+        }
+
+        public string generateNewParkFolderFor(string parkLastName)
+        {
+            return parkLastName.Replace(" ", "");
         }
 
         public string generateParkFolderFor(string parkID)
@@ -51,7 +166,7 @@ namespace Parks_SpecialEvents.Models
             return parkFolder;
         }
 
-        public void addImages(AzureParkImages park)
+        public void AddImages(AzureParkImages park)
         {
             string query = "INSERT INTO ParkImages(ParkID, ImagePath)";
             Console.WriteLine($"NUM IMAGES: {park.Images.Count}");

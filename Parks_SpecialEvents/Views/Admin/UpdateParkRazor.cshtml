@@ -1,16 +1,143 @@
 ﻿
-@model Parks_SpecialEvents.Models.ParkEventModel
+@model Parks_SpecialEvents.Models.AzureMasterPark
 
-<h2>Update @ViewBag.ParkName</h2>
+<h2><code>EDIT: @Model.AzurePark.ParkName </code></h2> <!--@ViewBag.ParkName-->
 <div class="container">
-    <form asp-controller="Admin" asp-action="EditPark" method="post">
-        
+    <form asp-controller="Admin" asp-action="UpdateParkRazorConfirmation" method="post" enctype="multipart/form-data">
+
+        <div class="container">
+
+            <h3>Park Information</h3>
+            <!-- PARK NAME -->
+            <div class="form-row">
+
+                <!-- FIRST NAME: PARK NAME -->
+                <div class="form-group col-md-4">
+                    <label>Park Name</label>
+                    <input type="text" class="form-control" placeholder="Elysian Park" asp-for="AzurePark.ParkName">
+                </div>
+
+                <!-- LAST NAME: PARK LAST NAME -->
+                <div class="form-group col-md-4">
+                    <label>Park Last Name</label>
+                    <input type="text" class="form-control" placeholder="Elysian Park" asp-for="AzurePark.ParkLastName">
+                </div>
+
+                <!-- PARKID -->
+                <div class="form-group col-md-4">
+                    <label>ParkID</label>
+                    <input type="text" class="form-control" placeholder="EP" asp-for="AzurePark.ParkID" readonly>
+                </div>
+
+            </div>
+
+            <!-- PARK ADDRESS -->
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" class="form-control" placeholder="1234 Main St" asp-for="AzurePark.Address">
+            </div>
+
+            <!-- PARK INFO -->
+            <div class="form-row">
+
+                <!-- STREET NUMBER -->
+                <div class="form-group col-md-3">
+                    <label>Street Number</label>
+                    <input type="text" class="form-control" placeholder="1234" asp-for="AzurePark.StreetNumber">
+                </div>
+
+                <!-- STREET NAME -->
+                <div class="form-group col-md-3">
+                    <label>Street Name</label>
+                    <input type="text" class="form-control" placeholder="Main St" asp-for="AzurePark.StreetName">
+                </div>
+
+                <!-- CITY -->
+                <div class="form-group col-md-3">
+                    <label>City</label>
+                    <input type="text" class="form-control" placeholder="Los Angeles" asp-for="AzurePark.City">
+                </div>
+
+                <!-- ZIPCODE -->
+                <div class="form-group col-md-3">
+                    <label>Zip Code</label>
+                    <input type="text" class="form-control" placeholder="90201" asp-for="AzurePark.Zip">
+                </div>
+
+            </div>
+
+            <!-- FACAILITY PHONE NUMBER -->
+            <div class="form-group">
+                <label>Facaility Phone Number</label>
+                <input type="text" class="form-control" placeholder="(123) 123-1234" asp-for="AzurePark.FacilityPhone">
+            </div>
+
+            <!-- GIS ACRES -->
+            <div class="form-row">
+                <!-- GIS ACRES -->
+                <div class="form-group col-md-6">
+                    <label>GIS Acres</label>
+                    <input type="text" class="form-control" placeholder="12659.74214" asp-for="AzurePark.GISAcres">
+                </div>
+
+                <!-- INVENTORY ACRES -->
+                <div class="form-group col-md-6">
+                    <label>Inventory Acres</label>
+                    <input type="text" class="form-control" placeholder="12659.74214" asp-for="AzurePark.InventoryAcres">
+                </div>
+            </div>
+
+            <!-- PARK THUMBNAIL -->
+            <h4>ThumbNail:</h4>
+
+            <img src="@Model.AzurePark.ImagePath" width="400" height="300" />
+
+            <div class="alert alert-warning" role="alert">
+                Choosing a Thumnail will override the current Thumnail! If you wish to keep the
+                current thumnail, do not choose a new image.
+            </div>
+
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" value="@Model.AzurePark.Image" asp-for="AzurePark.Image">
+                <label class="custom-file-label" for="customFile">Park Thumbnail</label>
+            </div> <br />
+
+            <!-- FANCY CHECK BOX !
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+        <label class="custom-control-label" for="customSwitch1">Flag Park</label>
+    </div>
+
+    -->
+
+        </div>
+
+        <!-- AMENITIES -->
+        <h3>Amenities</h3>
+        <div class="container">
+            <select multiple class="form-control" size="8" name="AMENITIES">
+
+                @foreach (Parks_SpecialEvents.Models.Amenity amenity in Model.Amenitys)
+                {
+                    @if(amenity.Flag == true)
+                    {
+                        <option>@amenity.Amen</option>
+                    } else
+                    {
+                        <option selected="selected">@amenity.Amen</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <!-- SPECIAL EVENTS-->
         <h3>Special Events</h3>
 
         <div class="container">
-            <select multiple class="form-control" name="EVENTS">
-      
-             @foreach (Parks_SpecialEvents.Models.Event e in ViewBag.Events)
+            <select multiple class="form-control" size="7" name="EVENTS">
+                <!--ViewBag.Events)-->
+                @foreach (Parks_SpecialEvents.Models.Event e in Model.Events.Events)
                 {
                     @if (e.Flag == true)
                     {
@@ -23,7 +150,41 @@
                 }
             </select>
         </div>
+
+        <!-- PARK IMAGES -->
+        <h3>Images</h3>
+
+        <div class="row">
+            @foreach (string image in Model.AzureParkImages.ImagesPaths)
+            {
+                string imageName = image.Split("/")[3];
+                <div class="col-md-3">
+                    @imageName
+                    <img src="@image" width="275" height="190" /><br /> <br />
+                </div>
+            }
+        </div>
+
         
+        <div class="container">
+
+            <select multiple class="form-control" size="8" name="IMAGES">
+                @foreach (string image in Model.AzureParkImages.ImagesPaths)
+                {
+                    string imageName = image.Split("/")[3];
+                    <option selected="selected" value="@image">
+                        @imageName
+                    </option>
+                }
+            </select>
+
+        </div> <br />
+
+        <div class="custom-file">
+                <input multiple type="file" class="custom-file-input" value="@Model.AzurePark.Image" asp-for="AzureParkImages.Images">
+                <label class="custom-file-label" for="customFile">Add Images</label>
+            </div> <br /> <br />
+
         <input type="submit" value="Update Park" class="btn btn-success" />
     </form>
 

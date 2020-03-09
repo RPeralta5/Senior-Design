@@ -19,6 +19,7 @@ namespace Parks_SpecialEvents.Models
         public double GISAcres { get; set; }
         public double InventoryAcres { get; set; }
         public IFormFile Image { get; set; }
+        public string ImagePath { get; set; }
 
         public AzurePark()
         {

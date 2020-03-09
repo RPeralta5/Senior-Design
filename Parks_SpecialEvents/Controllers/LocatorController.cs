@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Parks_SpecialEvents.Models;
 using System.Data.SqlClient;
-
+using Microsoft.Extensions.Configuration;
 
 /* 
  * Author(s): Ryan Peralta
@@ -15,9 +15,17 @@ namespace Parks_SpecialEvents.Controllers
     public class LocatorController : Controller
     {
         // Database connection string
+        private readonly IConfiguration _config;
 
-        //const string PARKSCONNECTIONSTRING = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;";
-        const string PARKSCONNECTIONSTRING = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        public LocatorController(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        private string PARKSCONNECTIONSTRING
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
+        }
 
         // Model to hold list of parks
         ParkDB parkInfo = new ParkDB();
