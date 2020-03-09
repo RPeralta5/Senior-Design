@@ -4,21 +4,31 @@ using System.Data.SqlClient;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Parks_SpecialEvents.Models
 {
     public class QueryParkImages
     {
-        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IConfiguration _config;
+
+        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         public QueryParkImages()
         {
         }
 
-        public QueryParkImages(IHostingEnvironment e)
+        public QueryParkImages(IHostingEnvironment e, IConfiguration config)
         {
             hostingEnvironment = e;
+            _config = config;
+        }
+
+        private string PARK_DB_CONNECTION
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
         }
 
         private void DeleteImageFromAzure(string imagePath)

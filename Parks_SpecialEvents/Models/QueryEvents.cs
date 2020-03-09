@@ -1,12 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace Parks_SpecialEvents.Models
 {
     public class QueryEvents
     {
-        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+        private readonly IConfiguration _config;
+
+        public QueryEvents(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        private string PARK_DB_CONNECTION
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
+        }
+        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         public QueryEvents()
         {
@@ -149,7 +161,7 @@ namespace Parks_SpecialEvents.Models
                     }
                 }
             }
-            Console.WriteLine($"query: {query}");
+            Console.WriteLine($"ADD EVENTS QUERY: {query}");
             using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);

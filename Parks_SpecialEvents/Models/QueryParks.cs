@@ -4,24 +4,34 @@ using System.Data.SqlClient;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Parks_SpecialEvents.Models
 {
     public class QueryParks
     {
         List<AzurePark> azure;
-        const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
+
         private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IConfiguration _config;
+
+        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         public QueryParks()
         {
             azure = new List<AzurePark>();
         }
 
-        public QueryParks(IHostingEnvironment e)
+        public QueryParks(IHostingEnvironment e, IConfiguration config)
         {
             hostingEnvironment = e;
+            _config = config;
             azure = new List<AzurePark>();
+        }
+
+        private string PARK_DB_CONNECTION
+        {
+            get { return _config.GetValue<string>("ConnectionString:default"); }
         }
 
         public AzurePark getParkInfo(string parkID)
@@ -133,7 +143,7 @@ namespace Parks_SpecialEvents.Models
             {
                 Console.WriteLine("PARK LAST NAME WAS CHANGED. UPDATING PARK DIRECTORY");
                 // create that new directory
-                QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment);
+                QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment, _config);
                 string newDirectory = "images/" + queryParkImages.generateNewParkFolderFor(ampd);
                 Console.WriteLine($"NEW park directory: {newDirectory}");
                 string webDirectory = Path.Combine(hostingEnvironment.WebRootPath, newDirectory);
@@ -266,7 +276,7 @@ namespace Parks_SpecialEvents.Models
                 queryEvents.updateEvents(azureMasterPark);
 
                 // delete images that were not selected
-                QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment);
+                QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment, _config);
                 queryParkImages.DeleteImagesFor(parkID, azureMasterPark.AzureParkImages.ImagesPaths);
 
                 // images to add to park
