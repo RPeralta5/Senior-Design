@@ -658,7 +658,7 @@ namespace Parks_SpecialEvents.Controllers
                 List<Amenity> A = new List<Amenity>();
                 foreach(string a in amenities)
                 {
-                    QueryAmenities queryAmenities = new QueryAmenities();
+                    QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment, _config);
                     Amenity e = queryAmenities.GetAmenity(a);
                     A.Add(e);
                 }
@@ -668,7 +668,7 @@ namespace Parks_SpecialEvents.Controllers
                 {
                     Event e = new Event();
                     string eventName = v;
-                    QueryEventInfo queryEventInfo = new QueryEventInfo();
+                    QueryEventInfo queryEventInfo = new QueryEventInfo(_config);
                     e.EventID = queryEventInfo.getEventID(eventName);
 
                     E.Add(e);
@@ -897,32 +897,33 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddParkRazor()
         {
-            List<string> amenities = new List<string>();
-            // GET ALL AMENITIES
-            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
-            {
-                // QUERY
-                string query = "SELECT DISTINCT Amenity FROM Amenities;";
-                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+            //List<string> amenities = new List<string>();
+            //// GET ALL AMENITIES
+            //using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            //{
+            //    // QUERY
+            //    string query = "SELECT DISTINCT Amenity FROM Amenities;";
+            //    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
-                // OPEN SQL CONNECTION
-                sqlConnection.Open();
+            //    // OPEN SQL CONNECTION
+            //    sqlConnection.Open();
 
-                // READ DATA
-                using (SqlDataReader reader = sqlCommand.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // int amenityID, string parkID, string amenity, int quanity, string image
-                        amenities.Add((string)reader[0]);
-                    }
-                }
+            //    // READ DATA
+            //    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+            //    {
+            //        while (reader.Read())
+            //        {
+            //            // int amenityID, string parkID, string amenity, int quanity, string image
+            //            amenities.Add((string)reader[0]);
+            //        }
+            //    }
 
-                // CLOSE SQL CONNECTION
-                sqlConnection.Close();
-            }
-            
-            ViewBag.storeAmenities = amenities;
+            //    // CLOSE SQL CONNECTION
+            //    sqlConnection.Close();
+            //}
+
+            //ViewBag.storeAmenities = amenities;
+            Console.WriteLine("DONT NEED THE CODE ABOVE");
             return View();
         }
 
@@ -983,7 +984,7 @@ namespace Parks_SpecialEvents.Controllers
             Console.WriteLine($"amenity size: {a.Count}");
 
             // add amenities to park
-            QueryAmenities queryAmenities = new QueryAmenities();
+            QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment, _config);
             queryAmenities.addAmenities(parkID, a);
             Console.WriteLine("GONNA TRY TO REDIRECT");
             
@@ -1010,7 +1011,7 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddParkEventRazor(string parkID)
         {
-            QueryEventInfo queryEventInfo = new QueryEventInfo();
+            QueryEventInfo queryEventInfo = new QueryEventInfo(_config);
             ViewBag.events = queryEventInfo.getDistinctEvents();
             ViewData["parkID"] = parkID;
             return View();
@@ -1030,7 +1031,7 @@ namespace Parks_SpecialEvents.Controllers
             }
             Console.WriteLine($"NUM EVENTS TO ADD: {events.Count}");
 
-            QueryEvents queryEvents = new QueryEvents();
+            QueryEvents queryEvents = new QueryEvents(_config);
             queryEvents.addEvents(events, parkID);
 
             return RedirectToAction("AddParkConfirmation", new { parkID = parkID});
