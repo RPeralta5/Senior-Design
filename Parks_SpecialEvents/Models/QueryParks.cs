@@ -77,7 +77,7 @@ namespace Parks_SpecialEvents.Models
 
         public string getParkFolder(string parkID)
         {
-            QueryParkImages queryParkImages = new QueryParkImages();
+            QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment, _config);
             return queryParkImages.generateParkFolderFor(parkID);
         }
 
@@ -191,7 +191,7 @@ namespace Parks_SpecialEvents.Models
         private void changeDirectoryNameInAzureDB(AzureMasterPark azureMasterPark)
         {
             string parkID = azureMasterPark.AzurePark.ParkID;
-            QueryParkImages queryParkImages = new QueryParkImages();
+            QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment, _config);
             List<Image> images = queryParkImages.getImages(parkID);
 
             string[] sp = images[0].ImagePath.Split("/");
@@ -267,12 +267,13 @@ namespace Parks_SpecialEvents.Models
 
                 // close sql connection
                 sqlConnection.Close();
+
                 // query to update park amenities
-                QueryAmenities queryAmenities = new QueryAmenities();
+                QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment, _config);
                 queryAmenities.updateAmenities(azureMasterPark);
 
                 // update events
-                QueryEvents queryEvents = new QueryEvents();
+                QueryEvents queryEvents = new QueryEvents(_config);
                 queryEvents.updateEvents(azureMasterPark);
 
                 // delete images that were not selected

@@ -111,7 +111,7 @@ namespace Parks_SpecialEvents.Models
 
         public void addEvents(List<string> events, string parkID)
         {
-            QueryEventInfo queryEventInfo = new QueryEventInfo();
+            QueryEventInfo queryEventInfo = new QueryEventInfo(_config);
             List<string> allEvents = queryEventInfo.getDistinctEvents();
 
             // query
