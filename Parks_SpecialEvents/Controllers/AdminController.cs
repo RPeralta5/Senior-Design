@@ -899,7 +899,19 @@ namespace Parks_SpecialEvents.Controllers
         public IActionResult AddPark(AzurePark azurePark)
         {
             Console.WriteLine("add park method");
-          
+
+            // check if ParkID does not already exist
+            QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
+
+            if(queryParks.ParkIDExist(azurePark.ParkID))
+            {
+                Console.WriteLine("PARK ID EXISTS");
+                return RedirectToAction("AddParkRazor", azurePark);
+            } else
+            {
+                Console.WriteLine($"UNIQUE PARK ID: {azurePark.ParkID}");
+            }
+
             // put image into parkthumbnails
             var destination = Path.Combine(hostingEnvironment.WebRootPath + "/images/ParkThumbnails", azurePark.Image.FileName);
             // put image there

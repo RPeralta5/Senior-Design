@@ -25,10 +25,20 @@
             </div>
 
             <!-- PARKID -->
-            <div class="form-group col-md-4">
-                <label>ParkID</label>
-                <input type="text" class="form-control" placeholder="EP" asp-for="ParkID" required>
-            </div>
+            @if(Model.ParkID == null) {
+                <div class="form-group col-md-4">
+                    <label>ParkID</label>
+                    <input type="text" class="form-control" placeholder="EP" asp-for="ParkID" required>
+                </div>
+            } else {
+                <div class="form-group col-md-4">
+                    <label for="validationServer04">ParkID</label>
+                    <input type="text" class="form-control is-invalid" id="validationServer04" placeholder="EP" value="@Model.ParkID" asp-for="ParkID" required>
+                    <div class="invalid-feedback">
+                        ParkID is taken, please use another ID.
+                    </div>
+                </div>
+            }
 
         </div>
 

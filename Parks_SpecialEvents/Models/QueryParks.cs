@@ -34,6 +34,39 @@ namespace Parks_SpecialEvents.Models
             get { return _config.GetValue<string>("ConnectionString:default"); }
         }
 
+        public bool ParkIDExist(string parkID)
+        {
+            string p = "";
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT ParkID FROM Parks" +
+                        $" WHERE ParkID = '{parkID}'; ";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                // get parkID if one exists
+                using(SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        p += (string)reader[0];
+                    }
+                }
+
+                // close connection
+                sqlConnection.Close();
+
+                // check if ParkID Exists
+                Console.WriteLine($"p: {p}");
+                if (p != "")
+                    return true;
+                return false;
+            }
+        }
+
         public AzurePark getParkInfo(string parkID)
         {
             AzurePark azurePark = new AzurePark();
