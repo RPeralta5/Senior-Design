@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -35,11 +36,6 @@ namespace Parks_SpecialEvents.Controllers
         // THESE ARE USED FOR REUSE : NO NEED TO QUERY TWICE
         private static string staticParkID;
         private static List<Event> originalEvents;
-
-
-        // PARKS DATABASE CONNECTION STRING
-        //const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         // QUERY FOR ALL PARKS
         const string ALL_PARKS = "SELECT ParkID, ParkName, Address, Lat, Lng FROM Parks;";
@@ -600,7 +596,7 @@ namespace Parks_SpecialEvents.Controllers
         }
 
         [HttpGet]
-        public IActionResult UpdateParkRazor(string parkID)
+        public IActionResult UpdateParkRazor(string parkID) // used to be: string parkID
         {
             staticParkID = parkID;
 
@@ -895,53 +891,26 @@ namespace Parks_SpecialEvents.Controllers
             return RedirectToAction("SelectQuestion");
         }
 
-        public IActionResult AddParkRazor()
+        public IActionResult AddParkRazor(AzurePark azurePark) // field used to be empty
         {
-            //List<string> amenities = new List<string>();
-            //// GET ALL AMENITIES
-            //using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
-            //{
-            //    // QUERY
-            //    string query = "SELECT DISTINCT Amenity FROM Amenities;";
-            //    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-
-            //    // OPEN SQL CONNECTION
-            //    sqlConnection.Open();
-
-            //    // READ DATA
-            //    using (SqlDataReader reader = sqlCommand.ExecuteReader())
-            //    {
-            //        while (reader.Read())
-            //        {
-            //            // int amenityID, string parkID, string amenity, int quanity, string image
-            //            amenities.Add((string)reader[0]);
-            //        }
-            //    }
-
-            //    // CLOSE SQL CONNECTION
-            //    sqlConnection.Close();
-            //}
-
-            //ViewBag.storeAmenities = amenities;
-            Console.WriteLine("DONT NEED THE CODE ABOVE");
-            return View();
+            return View(azurePark);
         }
 
-        public IActionResult AddPark(AzurePark park)
+        public IActionResult AddPark(AzurePark azurePark)
         {
             Console.WriteLine("add park method");
-
+          
             // put image into parkthumbnails
-            var destination = Path.Combine(hostingEnvironment.WebRootPath + "/images/ParkThumbnails", park.Image.FileName);
+            var destination = Path.Combine(hostingEnvironment.WebRootPath + "/images/ParkThumbnails", azurePark.Image.FileName);
             // put image there
-            park.Image.CopyTo(new FileStream(destination, FileMode.Create));
+            azurePark.Image.CopyTo(new FileStream(destination, FileMode.Create));
 
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // QUERY
                 string query = "INSERT INTO Parks (ParkID, ParkName, ParkLastName, Address, Street_Number, Street_Name, City, Zip, FacilityPhone, Lat, Lng, GIS_Acres, Inventory_Acres, Image)" +
                         " VALUES " +
-                        $"('{park.ParkID}', '{park.ParkName}', '{park.ParkLastName}', '{park.Address}','{park.StreetNumber}','{park.StreetName}', '{park.City}', '{park.Zip}','{park.FacilityPhone}', {park.Lat}, {park.Lng}, {park.GISAcres}, {park.InventoryAcres}, '/images/ParkThumbnails/{park.Image.FileName}');";
+                        $"('{azurePark.ParkID}', '{azurePark.ParkName}', '{azurePark.ParkLastName}', '{azurePark.Address}','{azurePark.StreetNumber}','{azurePark.StreetName}', '{azurePark.City}', '{azurePark.Zip}','{azurePark.FacilityPhone}', {azurePark.Lat}, {azurePark.Lng}, {azurePark.GISAcres}, {azurePark.InventoryAcres}, '/images/ParkThumbnails/{azurePark.Image.FileName}');";
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // OPEN CONNECTION
@@ -954,7 +923,7 @@ namespace Parks_SpecialEvents.Controllers
                 sqlConnection.Close();
 
             }
-            return RedirectToAction("AddAmenitiesToParkRazor", park);
+            return RedirectToAction("AddAmenitiesToParkRazor", azurePark);
         }
 
         public IActionResult AddAmenitiesToParkRazor(AzurePark park)

@@ -139,38 +139,42 @@ namespace Parks_SpecialEvents.Models
         public void addAmenities(string parkID, List<string> amenities)
         {
             Console.WriteLine($"AMENITY SIZE: {amenities.Count}");
-            // INSERT INTO Amenities(ParkID, Amenity, Quantity, ImageID)
-            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+
+            // if no amenities were added, don't run query
+            if(amenities.Count != 0)
             {
-                // open connection
-                sqlConnection.Open();
-
-                string query = "INSERT INTO Amenities(ParkID, Amenity, Quantity, ImageID) " +
-                        $"VALUES ";
-                // insert data
-                int count = 0;
-                foreach (string amenity in amenities)
+                using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
                 {
-                    count++;
-                    // query
-                    if (amenities.Count == count)
+                    // open connection
+                    sqlConnection.Open();
+
+                    string query = "INSERT INTO Amenities(ParkID, Amenity, Quantity, ImageID) " +
+                            $"VALUES ";
+                    // insert data
+                    int count = 0;
+                    foreach (string amenity in amenities)
                     {
-                        query += $"('{parkID}', '{amenity}', 1, 1);";
-                    } else
-                    {
-                        query += $"('{parkID}', '{amenity}', 1, 1), ";
-                    }
+                        count++;
+                        // query
+                        if (amenities.Count == count)
+                        {
+                            query += $"('{parkID}', '{amenity}', 1, 1);";
+                        } else
+                        {
+                            query += $"('{parkID}', '{amenity}', 1, 1), ";
+                        }
                       
-                }
-                Console.WriteLine($"QUERY: {query}");
+                    }
+                    Console.WriteLine($"QUERY: {query}");
                 
-                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
-                // add to data base
-                sqlCommand.ExecuteNonQuery(); // used to be executeReader()
+                    // add to data base
+                    sqlCommand.ExecuteNonQuery(); // used to be executeReader()
 
-                // close connection
-                sqlConnection.Close();
+                    // close connection
+                    sqlConnection.Close();
+                }
             }
             
         }

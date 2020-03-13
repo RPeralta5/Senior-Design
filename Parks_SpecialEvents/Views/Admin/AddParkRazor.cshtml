@@ -9,22 +9,25 @@
         <!-- PARK NAME -->
         <div class="form-row">
 
-            <!-- FIRST NAME: PARK NAME -->
+             <!-- FIRST NAME: PARK NAME -->
+
+
             <div class="form-group col-md-4">
                 <label>Park Name</label>
-                <input type="text" class="form-control" placeholder="Elysian Park" asp-for="ParkName">
+                <input type="text" class="form-control" placeholder="Elysian Park" asp-for="ParkName" required>
             </div>
+
 
             <!-- LAST NAME: PARK LAST NAME -->
             <div class="form-group col-md-4">
                 <label>Park Last Name</label>
-                <input type="text" class="form-control" placeholder="Elysian Park" asp-for="ParkLastName">
+                <input type="text" class="form-control" placeholder="Elysian Park" asp-for="ParkLastName" required>
             </div>
 
             <!-- PARKID -->
             <div class="form-group col-md-4">
                 <label>ParkID</label>
-                <input type="text" class="form-control" placeholder="EP" asp-for="ParkID">
+                <input type="text" class="form-control" placeholder="EP" asp-for="ParkID" required>
             </div>
 
         </div>
@@ -32,7 +35,7 @@
         <!-- PARK ADDRESS -->
         <div class="form-group">
             <label>Address</label>
-            <input type="text" class="form-control" placeholder="1234 Main St" asp-for="Address">
+            <input type="text" class="form-control" placeholder="1234 Main St" asp-for="Address" required>
         </div>
 
         <!-- PARK INFO -->
@@ -41,25 +44,25 @@
             <!-- STREET NUMBER -->
             <div class="form-group col-md-3">
                 <label>Street Number</label>
-                <input type="text" class="form-control" placeholder="1234" asp-for="StreetNumber">
+                <input type="text" class="form-control" placeholder="1234" asp-for="StreetNumber" required>
             </div>
 
             <!-- STREET NAME -->
             <div class="form-group col-md-3">
                 <label>Street Name</label>
-                <input type="text" class="form-control" placeholder="Main St" asp-for="StreetName">
+                <input type="text" class="form-control" placeholder="Main St" asp-for="StreetName" required>
             </div>
 
             <!-- CITY -->
             <div class="form-group col-md-3">
                 <label>City</label>
-                <input type="text" class="form-control" placeholder="Los Angeles" asp-for="City">
+                <input type="text" class="form-control" placeholder="Los Angeles" asp-for="City" required>
             </div>
 
             <!-- ZIPCODE -->
             <div class="form-group col-md-3">
                 <label>Zip Code</label>
-                <input type="text" class="form-control" placeholder="90201" asp-for="Zip">
+                <input type="text" class="form-control" placeholder="90201" asp-for="Zip" required>
             </div>
 
         </div>
@@ -67,7 +70,7 @@
         <!-- FACAILITY PHONE NUMBER -->
         <div class="form-group">
             <label>Facaility Phone Number</label>
-            <input type="text" class="form-control" placeholder="(123) 123-1234" asp-for="FacilityPhone">
+            <input type="text" class="form-control" placeholder="(123) 123-1234" asp-for="FacilityPhone" required>
         </div>
 
         <!-- GIS ACRES -->
@@ -87,7 +90,7 @@
 
         <!-- PARK THUMBNAIL -->
         <div class="custom-file">
-            <input type="file" class="custom-file-input" asp-for="Image">
+            <input type="file" class="custom-file-input" asp-for="Image" required>
             <label class="custom-file-label" for="customFile">Park Thumbnail</label>
         </div> <br />
 
