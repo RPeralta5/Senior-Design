@@ -1,0 +1,136 @@
+﻿/* Index.cshtml CSS*/
+video#bgVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    min-width: 100%;
+    height: auto;
+    min-height: 100%;
+    z-index: -100;
+    background-size: contain;
+}
+
+.textBackground {
+    background: rgba(0, 0, 0, 1);
+    border-radius: 10px;
+}
+
+.textColorAquamarine {
+    color: white;
+    align-content: center;
+}
+
+
+body {
+    align-content: center;
+    background-color: white;
+}
+
+.column {
+    float: left;
+    width: 30%;
+    padding: 10px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.tableScolling {
+    display: block;
+    overflow-y: scroll;
+    height: 100px;
+}
+
+/* Border radius is the corners of the object, the bigger the px the more round the edges are*/
+.borderRadius {
+    border-radius: 4px;
+}
+
+li {
+    padding-bottom: 4px;
+}
+
+textarea {
+    overflow-y: scroll;
+    width: 90%;
+    padding:8px;
+    border-radius:8px;
+    border:inset;
+}
+
+/* Table styles go here*/
+table, th, td {
+    border:groove;
+    background-color:white;
+    text-align: center;
+    padding: 4px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+/* This is the button in regular color or when the project starts*/
+.collapsible {
+    background-color: #777;
+    background: rgba(0, 0, 0, 0.5);
+    color: lightgray;
+    cursor: pointer;
+    padding: 24px;
+    width: 100%;
+    border: solid;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    border-radius: 10px;
+    border-color: Background;
+}
+
+    /* This datalist what happens when you hover your mouse over the button or section */
+    .active, .collapsible:hover {
+        background-color: #555;
+        background: rgba(128, 128, 128, 0.5);
+    }
+
+/* This datalist what is in the box or  the collapsible */
+.content {
+    padding: 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 10px;
+}
+
+/*Styles for keeping left and right alignment for items*/
+.floatLeft {
+    float: left;
+}
+
+.floatRight {
+    float: right;
+}
+
+.clearBoth {
+    clear: both;
+}
+
+input {
+    border-radius: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+input.State {
+    width: 36px;
+}
+
+input.City {
+    width: 196px;
+}
+
+input.Zip {
+    width: 72px;
+}
