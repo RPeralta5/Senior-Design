@@ -77,6 +77,27 @@
 
         </div>
 
+        <!-- LAT LNG-->
+        <div class="alert alert-info" role="alert">
+            Longitude and Latitude are used to display the park on google maps. If no field is entered for
+            Longitude and Latitude the program will get the Coordinates of the added park. If no coordinates
+            generated, the park will not diplay the google maps on the park's page.
+        </div>
+
+        <div class="form-row">
+            <!-- LATITUDE -->
+            <div class="form-group col-md-6">
+                <label>Latitude</label>
+                <input type="text" class="form-control" placeholder="34.0838" asp-for="Lat">
+            </div>
+
+            <!-- LONGITUDE -->
+            <div class="form-group col-md-6">
+                <label>Longitude</label>
+                <input type="text" class="form-control" placeholder="118.2366" asp-for="Lng">
+            </div>
+        </div>
+
         <!-- FACAILITY PHONE NUMBER -->
         <div class="form-group">
             <label>Facaility Phone Number</label>
@@ -106,12 +127,14 @@
 
         <!-- FANCY CHECK BOX !-->
 
+        <!--
         <div class="custom-control custom-switch">
             <input type="checkbox" class="custom-control-input" id="customSwitch1">
             <label class="custom-control-label" for="customSwitch1">Flag Park</label>
         </div>
+        -->
 
-    </div>
+    </div> <br />
 
     <input type="submit" value="Add Park" class="btn btn-success"/>
     
