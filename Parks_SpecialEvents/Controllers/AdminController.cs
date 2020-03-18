@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Geocoding;
+using Geocoding.Google;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -896,7 +898,7 @@ namespace Parks_SpecialEvents.Controllers
             return View(azurePark);
         }
 
-        public IActionResult AddPark(AzurePark azurePark)
+        public async Task<IActionResult> AddPark(AzurePark azurePark)
         {
             Console.WriteLine("add park method");
 
@@ -907,9 +909,6 @@ namespace Parks_SpecialEvents.Controllers
             {
                 Console.WriteLine("PARK ID EXISTS");
                 return RedirectToAction("AddParkRazor", azurePark);
-            } else
-            {
-                Console.WriteLine($"UNIQUE PARK ID: {azurePark.ParkID}");
             }
 
             // put image into parkthumbnails
@@ -917,7 +916,33 @@ namespace Parks_SpecialEvents.Controllers
             // put image there
             azurePark.Image.CopyTo(new FileStream(destination, FileMode.Create));
 
-            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+
+            // if employee does not include LAT LNG 
+            if ((azurePark.Lat == 0) && (azurePark.Lng == 0))
+            {
+                Console.WriteLine("USER DID NOT ENTER LAT LNG");
+
+                Console.WriteLine($"PARK NAME: {azurePark.Address}");
+                // find coordinates for the park
+                IGeocoder geocoder = new GoogleGeocoder() { ApiKey = _config.GetValue<string>("GoogleAPIKey:jose") };
+                Console.WriteLine($"API KEY: {_config.GetValue<string>("GoogleAPIKey:jose")}");
+                Console.WriteLine($"GEOCODER: {geocoder.ToJSON()}");
+                try
+                {
+                    IEnumerable<Address> addresses = await geocoder.GeocodeAsync(azurePark.Address);
+                    Address a = addresses.First();
+                    Console.WriteLine($"FIRST: {a.Coordinates.Latitude}");
+                    azurePark.Lat = a.Coordinates.Latitude;
+                    azurePark.Lng = a.Coordinates.Longitude;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("COULD NOT FIND COORDINATES FOR THIS PARK");
+                    Console.WriteLine($"ERROR HERE: {e}");
+                }
+            }
+
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // QUERY
                 string query = "INSERT INTO Parks (ParkID, ParkName, ParkLastName, Address, Street_Number, Street_Name, City, Zip, FacilityPhone, Lat, Lng, GIS_Acres, Inventory_Acres, Image)" +
@@ -935,6 +960,7 @@ namespace Parks_SpecialEvents.Controllers
                 sqlConnection.Close();
 
             }
+
             return RedirectToAction("AddAmenitiesToParkRazor", azurePark);
         }
 

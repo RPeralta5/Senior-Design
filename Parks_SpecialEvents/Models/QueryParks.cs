@@ -22,6 +22,12 @@ namespace Parks_SpecialEvents.Models
             azure = new List<AzurePark>();
         }
 
+        public QueryParks(IConfiguration config)
+        {
+            _config = config;
+            azure = new List<AzurePark>();
+        }
+
         public QueryParks(IHostingEnvironment e, IConfiguration config)
         {
             hostingEnvironment = e;

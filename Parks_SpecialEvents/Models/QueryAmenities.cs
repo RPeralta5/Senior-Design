@@ -16,6 +16,11 @@ namespace Parks_SpecialEvents.Models
         {
         }
 
+        public QueryAmenities(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public QueryAmenities(IHostingEnvironment e, IConfiguration config)
         {
             hostingEnvironment = e;
@@ -58,6 +63,37 @@ namespace Parks_SpecialEvents.Models
             }
 
             return a;
+        }
+
+        public List<Amenity> GetAmenityImagesForParkID(string parkID)
+        {
+            List<Amenity> amenities = new List<Amenity>();
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = $"SELECT Amenity, Image FROM Amenities, AmenityImages WHERE ParkID = '{parkID}' AND Amenities.ImageID = AmenityImages.ImageID";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open sql connection
+                sqlConnection.Open();
+
+                // get amenities form this park
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Amenity a = new Amenity();
+                        a.Amen = (String)reader[0];
+                        a.Image = (string)reader[1];
+                        amenities.Add(a);
+                    }
+                }
+
+                // close sql connection
+                sqlConnection.Close();
+            }
+            return amenities;
+
         }
 
         public List<Amenity> getAmenitiesFrom(string parkID)
@@ -155,6 +191,9 @@ namespace Parks_SpecialEvents.Models
                     foreach (string amenity in amenities)
                     {
                         count++;
+
+
+
                         // query
                         if (amenities.Count == count)
                         {

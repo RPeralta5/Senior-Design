@@ -8,6 +8,7 @@ using Geocoding;
 using Geocoding.Google;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,10 +29,12 @@ namespace Parks_SpecialEvents.Controllers
         Park defaultPark = new Park(ParkID, name, address, lat, lng, image, permit, flag);
 
         // CONNECTION STRING FOR PARK DATABASE
+        private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration _config;
 
-        public ParkController(IConfiguration config)
+        public ParkController(IHostingEnvironment e ,IConfiguration config)
         {
+            hostingEnvironment = e;
             _config = config;
         }
 
@@ -146,33 +149,25 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult ParkAsync(string id)
         {
-            Console.WriteLine($"PARK ID: {id}");
 
             // GET THE PARK
-            Park park = QueryForPark(id);
-            //Console.WriteLine($"PARK: {park.Address}");
+            AzureMasterPark masterPark = new AzureMasterPark();
 
-            //IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "API_KEY" };
+            // basic park info
+            QueryParks queryParks = new QueryParks(hostingEnvironment ,_config);
+            masterPark.AzurePark = queryParks.getParkInfo(id);
 
-            //IEnumerable<Address> addresses = await geocoder.GeocodeAsync(park.Address); // used to have just address
+            // park images
+            QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment,_config);
+            masterPark.AzureParkImages.ImagesPaths = queryParkImages.getImagesPath(id);
 
-            try
-            {
-               // Address a = addresses.First();
+            // amenities
+            QueryAmenities queryAmenities = new QueryAmenities(_config);
+            masterPark.Amenitys = queryAmenities.GetAmenityImagesForParkID(id);
 
-                //park.Address
+            ViewData["api_key"] = _config.GetValue<string>("GoogleAPIKey:jose");
 
-                ViewBag.Images = QueryParkImagesForParkID(id);
-                ViewBag.Amenities = QueryAmenities(id);
-                ViewBag.store = park;
-                return View("Park");
-            } catch(Exception e)
-            {
-                Console.WriteLine("SOMETHING WENT WRONG");
-                Console.WriteLine(e);
-                // REDIRECT TO ACTION METHOD IF FETCH FAILED
-                return RedirectToAction("Index");
-            }
+            return View("Park", masterPark);
         }
 
         public async Task<IActionResult> RouteAsync(string address)
