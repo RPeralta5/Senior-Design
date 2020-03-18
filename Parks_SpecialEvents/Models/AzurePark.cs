@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
 namespace Parks_SpecialEvents.Models
@@ -23,6 +24,19 @@ namespace Parks_SpecialEvents.Models
 
         public AzurePark()
         {
+        }
+
+        public bool FieldLeftEmpty()
+        {
+            Console.WriteLine(this.ParkName);
+            Console.WriteLine(ParkName);
+            Console.WriteLine(ParkName == null);
+            // check basic info
+            if (ParkName == null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

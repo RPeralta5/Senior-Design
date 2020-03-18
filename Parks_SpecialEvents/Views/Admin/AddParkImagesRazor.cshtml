@@ -7,7 +7,7 @@
         <!-- CHOOSE PARK IMAGES -->
         <input type="hidden" asp-for="ParkID" value="@ViewData["parkID"]"/>
         <div class="custom-file">
-            <input multiple="multiple" type="file" class="custom-file-input" asp-for="Images">
+            <input multiple="multiple" type="file" class="custom-file-input" asp-for="Images" required>
             <label class="custom-file-label" for="customFile">Choose Park Images</label>
         </div> <br /> <br />
         <input type ="submit" value="Add Images" class="btn btn-success"/>

@@ -170,65 +170,71 @@ namespace Parks_SpecialEvents.Models
         {
             string query = "INSERT INTO ParkImages(ParkID, ImagePath)";
             Console.WriteLine($"NUM IMAGES: {park.Images.Count}");
-            int counter = 0;
 
-            // generate folder path
-            string parkFolder = generateParkFolderFor(park.ParkID);
-            Console.WriteLine($"parkFolder: {parkFolder}");
-            
-            // create directory for park images
-            string pathString = Path.Combine(hostingEnvironment.WebRootPath + "/images/", $"{parkFolder}");
-            Directory.CreateDirectory(pathString);
-            Console.WriteLine($"created directory : {pathString}");
-
-            foreach (IFormFile image in park.Images)
+            // IF NO IMAGES WERE ADDED : DON'T DO THIS STEP
+            if(park.Images.Count != 0)
             {
                 
-                Console.WriteLine("image: " + image);
-               
-                // GET DESTINATION PATH OF WHERE THE IMAGE IS GOING TO BE PLACED
-                var destinationFile = Path.Combine(hostingEnvironment.WebRootPath + $"/images/{parkFolder}", Path.GetFileName(image.FileName));
-                Console.WriteLine($"DESTINATION FILE PATH: {destinationFile}");
-                //PASTE IMAGE THERE
-                image.CopyTo(new FileStream(destinationFile, FileMode.Create));
+                int counter = 0;
 
-                counter++;
-                if(park.Images.Count == 1)
+                // generate folder path
+                string parkFolder = generateParkFolderFor(park.ParkID);
+                Console.WriteLine($"parkFolder: {parkFolder}");
+            
+                // create directory for park images
+                string pathString = Path.Combine(hostingEnvironment.WebRootPath + "/images/", $"{parkFolder}");
+                Directory.CreateDirectory(pathString);
+                Console.WriteLine($"created directory : {pathString}");
+
+                foreach (IFormFile image in park.Images)
                 {
-                    query += "VALUES " +
-                            $"('{park.ParkID}', '/images/{parkFolder}/{image.FileName}');";
-                } else
-                {
-                    if(counter == 1)
+                
+                    Console.WriteLine("image: " + image);
+               
+                    // GET DESTINATION PATH OF WHERE THE IMAGE IS GOING TO BE PLACED
+                    var destinationFile = Path.Combine(hostingEnvironment.WebRootPath + $"/images/{parkFolder}", Path.GetFileName(image.FileName));
+                    Console.WriteLine($"DESTINATION FILE PATH: {destinationFile}");
+                    //PASTE IMAGE THERE
+                    image.CopyTo(new FileStream(destinationFile, FileMode.Create));
+
+                    counter++;
+                    if(park.Images.Count == 1)
                     {
                         query += "VALUES " +
-                            $"('{park.ParkID}', '/images/{parkFolder}/{image.FileName}'),";
+                                $"('{park.ParkID}', '/images/{parkFolder}/{image.FileName}');";
                     } else
                     {
-                        if(counter == park.Images.Count)
+                        if(counter == 1)
                         {
-                            query += $" ('{park.ParkID}', '/images/{parkFolder}/{image.FileName}');";
+                            query += "VALUES " +
+                                $"('{park.ParkID}', '/images/{parkFolder}/{image.FileName}'),";
                         } else
                         {
-                            query += $" ('{park.ParkID}', '/images/{parkFolder}/{image.FileName}'),";
+                            if(counter == park.Images.Count)
+                            {
+                                query += $" ('{park.ParkID}', '/images/{parkFolder}/{image.FileName}');";
+                            } else
+                            {
+                                query += $" ('{park.ParkID}', '/images/{parkFolder}/{image.FileName}'),";
+                            }
                         }
                     }
+
                 }
+                Console.WriteLine($"query: {query}");
+                using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+                {
+                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
-            }
-            Console.WriteLine($"query: {query}");
-            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
-            {
-                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                    // open connection
+                    sqlConnection.Open();
 
-                // open connection
-                sqlConnection.Open();
+                    // add images to park
+                    sqlCommand.ExecuteNonQuery(); // used to be executeReader
 
-                // add images to park
-                sqlCommand.ExecuteNonQuery(); // used to be executeReader
-
-                // close connection
-                sqlConnection.Close();
+                    // close connection
+                    sqlConnection.Close();
+                }
             }
         }
     }
