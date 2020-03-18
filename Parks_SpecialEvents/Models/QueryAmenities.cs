@@ -172,6 +172,29 @@ namespace Parks_SpecialEvents.Models
             return amenities;
         }
 
+        public int GetImageID(string amenity)
+        {
+            int imageID = 1;
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT DISTINCT ImageID" +
+                        " FROM Amenities" +
+                        $" WHERE Amenity = '{amenity}';";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open sql connection
+                sqlConnection.Open();
+
+                // get id
+                imageID = (int)sqlCommand.ExecuteScalar();
+
+                // close sql connection
+                sqlConnection.Close();
+            }
+            return imageID;
+        }
+
         public void addAmenities(string parkID, List<string> amenities)
         {
             Console.WriteLine($"AMENITY SIZE: {amenities.Count}");
@@ -192,15 +215,17 @@ namespace Parks_SpecialEvents.Models
                     {
                         count++;
 
-
+                        // get image id
+                        QueryAmenityImages queryAmenityImages = new QueryAmenityImages();
+                        int imageID = GetImageID(amenity);
 
                         // query
                         if (amenities.Count == count)
                         {
-                            query += $"('{parkID}', '{amenity}', 1, 1);";
+                            query += $"('{parkID}', '{amenity}', 1, {imageID});";
                         } else
                         {
-                            query += $"('{parkID}', '{amenity}', 1, 1), ";
+                            query += $"('{parkID}', '{amenity}', 1, {imageID}), ";
                         }
                       
                     }
@@ -296,7 +321,7 @@ namespace Parks_SpecialEvents.Models
         public void TurnOnAmenity(string parkID, Amenity amenity)
         {
             //QueryAmenityImages queryAmenityImages = new QueryAmenityImages();
-            int imageID = 1;
+            int imageID = GetImageID(amenity.Amen);
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // query
