@@ -5,7 +5,7 @@
       <File FileName="Controllers/AdminController.cs" Line="684" Column="33" />
       <File FileName="Views/Admin/AddParkRazor.cshtml" Line="80" Column="9" />
       <File FileName="Views/Admin/UpdateParkRazor.cshtml" Line="200" Column="70" />
-      <File FileName="Models/QueryParkImages.cs" Line="179" Column="23" />
+      <File FileName="Models/QueryParkImages.cs" Line="223" Column="22" />
       <File FileName="Models/AzureParkImages.cs" Line="7" Column="18" />
     </Files>
     <Pads>
