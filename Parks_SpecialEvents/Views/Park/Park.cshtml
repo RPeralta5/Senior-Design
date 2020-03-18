@@ -12,7 +12,7 @@
     <!-- QUICK NAVS-->
     <div>
         <center>
-            <h3 style="color:navy; font-weight:bold;">@ViewBag.store.ParkName</h3>
+            <h3 style="color:navy; font-weight:bold;">@Model.AzurePark.ParkName</h3>
             <br />
 
 
@@ -30,20 +30,20 @@
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             @{
-                int count = 0;
+        int count = 0;
             }
-            @foreach (Parks_SpecialEvents.Models.Image image in ViewBag.Images.images)
+            @foreach (string image in Model.AzureParkImages.ImagesPaths)
             {
 
-                if (count == 0)
-                {
-                    <li data-target="#carouselExampleIndicators" data-slide-to=@count class="active"></li>
-                }
-                else
-                {
-                    <li data-target="#carouselExampleIndicators" data-slide-to=@count></li>
-                }
-                count++;
+            if (count == 0)
+            {
+            <li data-target="#carouselExampleIndicators" data-slide-to=@count class="active"></li>
+            }
+            else
+            {
+            <li data-target="#carouselExampleIndicators" data-slide-to=@count></li>
+            }
+            count++;
             }
         </ol>
 
@@ -52,18 +52,18 @@
                 int c = 0;
             }
 
-            @foreach (Parks_SpecialEvents.Models.Image image in ViewBag.Images.images)
+            @foreach (string image in Model.AzureParkImages.ImagesPaths)
             {
                 if (c == 0)
                 {
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src=@Url.Content(image.ImagePath) alt="First slide" height="570" />
+                        <img class="d-block w-100" src=@Url.Content(image) alt="First slide" height="570" />
                     </div>
                 }
                 else
                 {
                     <div class="carousel-item">
-                        <img class="d-block w-100" src=@Url.Content(image.ImagePath) alt="Second slide" height="570" />
+                        <img class="d-block w-100" src=@Url.Content(image) alt="Second slide" height="570" />
                     </div>
                 }
                 c++;
@@ -89,7 +89,7 @@
     <div>
         <left>
             <text style="color:black;">Address: </text>
-            <text style="color:navy; font-weight:bold;">@ViewBag.store.Address</text>
+            <text style="color:navy; font-weight:bold;">@Model.AzurePark.Address</text>
             <br />
             <text style="color:black;">Phone Number: </text>
             <!--
@@ -116,7 +116,7 @@
         </center>
         <div class="row">
 
-            @foreach (Parks_SpecialEvents.Models.Amenity amenity in ViewBag.Amenities.amenities)
+            @foreach (Parks_SpecialEvents.Models.Amenity amenity in Model.Amenitys)
             {
                 <div class="col col-2">
                     <center>
@@ -136,7 +136,7 @@
 // Initialize and add the map
 function initMap() {
   // The location of Uluru
-  var uluru = {lat: @ViewBag.store.Lat, lng: @ViewBag.store.Lng};
+  var uluru = {lat: @Model.AzurePark.Lat, lng: @Model.AzurePark.Lng};
   // The map, centered at Uluru
   var map = new google.maps.Map(
       document.getElementById('map'), {zoom: 15, center: uluru});
@@ -149,8 +149,9 @@ function initMap() {
     * The key parameter will contain your own API key (which is not needed for this tutorial)
     * The callback parameter executes the initMap() function
     -->
+
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_API_KEY&callback=initMap"></script>
+            src="https://maps.googleapis.com/maps/api/js?key=@ViewData["api_key"]&callback=initMap"></script>
 
     <!-- GOOGLE CALENDAR -->
     <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles&amp;src=cWg0YzYyMThscm12bzkwcjM3ZnBiajRyaW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%23A87070&amp;color=%231F753C" style="border: solid 1px #777" width="1100" height="800" frameborder="0" scrolling="no"></iframe>

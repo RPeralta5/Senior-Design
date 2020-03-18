@@ -18,6 +18,11 @@ namespace Parks_SpecialEvents.Models
         {
         }
 
+        public QueryParkImages(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public QueryParkImages(IHostingEnvironment e, IConfiguration config)
         {
             hostingEnvironment = e;
