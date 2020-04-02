@@ -22,19 +22,12 @@
         <center>
             <h3 style="color:navy; font-weight:bold;">@ViewBag.store.ParkName</h3>
             <br />
-
-
-            <nav>
-                <a class="btn btn-light" href="#Amenities" style="button">Amenities</a>
-                <a class="btn btn-light" href="#Hours">Hours</a>
-                <a class="btn btn-light" href="#CalendarEvents">Calendar Events</a>
-            </nav>
         </center>
     </div>
     <br />
 
     <!-- START OF CAROUSEL -->
-   
+
 
     <div id="carouselThumbnails" class="carousel slide" data-ride="carousel">
 
@@ -99,43 +92,28 @@
             </a>
         </div>
     </div>
-    <div>
-        <ul class="carousel-thumbnails" type="none">
-            @{
-                int count = 0;
-            }
-            @foreach (Parks_SpecialEvents.Models.Image image in ViewBag.Images.images)
-            {
 
-                if (count == 0)
-                {
-                    <li data-target="#carouselThumbnails" data-slide-to=@count class="active">
-                        <img class="d-block w-100" src=@Url.Content(image.ImagePath) id="example1" />
-                    </li>
-                }
-                else
-                {
-                    <li data-target="#carouselThumbnails" data-slide-to=@count>
-                        <img class="d-block w-100" src=@Url.Content(image.ImagePath) id="example1" />
-                    </li>
-                }
-                count++;
-            }
-        </ul>
-    </div>
 
     <!-- END OF CAROUSEL -->
     <!-- START OF PARK AMENITIES-->
     <br />
-    <br />
-    <br />
 
     <div>
         <left>
-            <text style="color:black;">Address: </text>
-            <text style="color:navy; font-weight:bold;">@ViewBag.store.Address</text>
-            <br />
-            <text style="color:black;">Phone Number: </text>
+            <p>
+                <text style="color:black; font-weight:bold;">Address: </text>
+                <text style="color:navy; font-weight:bold;">@ViewBag.store.Address</text>
+                <br />
+                <br />
+                <text style="color:black; font-weight:bold;">For assistance contact our Special Events team</text>
+
+                <br />
+                <text style="color:black; font-weight:bold;">Phone Number: </text>
+                <text style="color:navy; font-weight:bold;">(XXX)XXX-XXXX</text>
+                <br />
+                <text style="color:black; font-weight:bold;">Email: </text>
+                <text style="color:navy; font-weight:bold;">sampleEmail@LACounty.gov</text>
+            </p>
             <!--
 
 
@@ -160,6 +138,7 @@
 
         </center>
 
+
         <ul style="list-style-type:disc;">
 
             @foreach (Parks_SpecialEvents.Models.Amenity amenity in ViewBag.Amenities.amenities)
@@ -174,11 +153,17 @@
             }
         </ul>
 
+
     </div>
+
+
+
     <!-- END OF PARK AMENITIES-->
     <!--The div element for the map -->
     <div id="map"></div>
     <script>
+
+
 // Initialize and add the map
 function initMap() {
   // The location of Uluru
@@ -198,8 +183,47 @@ function initMap() {
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_API_KEY&callback=initMap"></script>
 
-    <!-- GOOGLE CALENDAR -->
-    <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles&amp;src=cWg0YzYyMThscm12bzkwcjM3ZnBiajRyaW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%23A87070&amp;color=%231F753C" style="border: solid 1px #777" width="1100" height="800" frameborder="0" scrolling="no"></iframe>
+
+    <br />
+    <div>
+        <center>
+            <h5 style="color:black; font-weight:bold;">Upcoming events at @ViewBag.store.ParkName!</h5>
+            <br />
+        </center>
+    </div>
+
+    Event Name, Start Date, End Date
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Event Name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>twitter</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 
 @*<form asp-controller="Park" asp-action="RouteAsync" asp-route-address=@ViewBag.store.Address>
