@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
+using Geocoding;
+using Geocoding.Google;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -257,7 +260,70 @@ namespace Parks_SpecialEvents.Models
             }
         }
 
-        public void UpdatePark(AzureMasterPark azureMasterPark)
+        public double getLongitude(String parkID)
+        {
+            double lng;
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT Lgn FROM Parks" +
+                       $" WHERE ParkID = '{parkID}'; ";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                lng = (double) sqlCommand.ExecuteScalar();
+
+                // close connection
+                sqlConnection.Close();
+            }
+            return lng;
+        }
+
+        public double getLatitude(String parkID)
+        {
+            double lat;
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT Lgn FROM Parks" +
+                       $" WHERE ParkID = '{parkID}'; ";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                lat = (double)sqlCommand.ExecuteScalar();
+
+                // close connection
+                sqlConnection.Close();
+            }
+            return lat;
+        }
+
+        public String getAddress(string parkID)
+        {
+            string address;
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT Address FROM Parks" +
+                       $" WHERE ParkID = '{parkID}'; ";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                address = (string) sqlCommand.ExecuteScalar();
+
+                // close connection
+                sqlConnection.Close();
+            }
+            return address;
+        }
+
+        public async void UpdatePark(AzureMasterPark azureMasterPark)
         {
             AzurePark park = azureMasterPark.AzurePark;
             renameParkDirectory(azureMasterPark); // renames directory
@@ -270,6 +336,30 @@ namespace Parks_SpecialEvents.Models
                 // query
                 string query = "";
                 string updateParkInfo = "";
+
+                // if address is changed, get the new coordinates
+                if(park.Address != getAddress(park.ParkID))
+                {
+                    Console.WriteLine("ADDRESS CHANGED, GETTING NEW COORDINATES");
+                    IGeocoder geocoder = new GoogleGeocoder() { ApiKey = _config.GetValue<string>("GoogleAPIKey:jose") };
+                    Console.WriteLine($"API KEY: {_config.GetValue<string>("GoogleAPIKey:jose")}");
+                    Console.WriteLine($"GEOCODER: {geocoder.ToJSON()}");
+                    try
+                    {
+                        IEnumerable<Address> addresses = await geocoder.GeocodeAsync(azureMasterPark.AzurePark.Address);
+                        Address a = addresses.First();
+                        Console.WriteLine($"FIRST: {a.Coordinates.Latitude}");
+                        park.Lat = a.Coordinates.Latitude;
+                        park.Lng = a.Coordinates.Longitude;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("COULD NOT FIND COORDINATES FOR THIS PARK");
+                        Console.WriteLine($"ERROR HERE: {e}");
+                    }
+                }
+                
+
                 if (park.Image == null)
                 { // don't update thumbnail
                     updateParkInfo = "UPDATE Parks " +
