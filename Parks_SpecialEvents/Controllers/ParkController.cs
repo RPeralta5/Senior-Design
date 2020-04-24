@@ -42,9 +42,6 @@ namespace Parks_SpecialEvents.Controllers
         {
             get { return _config.GetValue<string>("ConnectionString:default"); }
         }
-        //const string PARK_DB_CONNECTION = @"Data Source=LAPTOP-M67PUJ2M;Initial Catalog=parks_faqDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
-
 
         // QUERY FOR PARK
         private Park QueryForPark(string id)
@@ -81,8 +78,7 @@ namespace Parks_SpecialEvents.Controllers
         private ParkImageDB QueryParkImagesForParkID(string id)
         {
             ParkImageDB parkImages = new ParkImageDB();
-            Console.WriteLine("LOOKING FOR CAROUSEL PARK IMAGES");
-            Console.WriteLine($"PARK ID: {id}");
+    
             // CONNECT TO PARKS DATABASE
             using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
@@ -99,15 +95,12 @@ namespace Parks_SpecialEvents.Controllers
                     while(reader.Read())
                     {
                         // ADD IMAGES FROM THAT PARK
-                        Console.WriteLine($"IMAGE ID: {reader[0]}");
-                        Console.WriteLine($"PARK ID: {reader[1]}");
-                        Console.WriteLine($"IMAGE PATH: {reader[2]}");
                         parkImages.Add(new Image((int) reader[0], (string) reader[1],
                             (string) reader[2]));
                     }
                 }
             }
-            Console.WriteLine($"ALL IMAGES: {parkImages}");
+
             return parkImages;
         }
 
@@ -131,7 +124,6 @@ namespace Parks_SpecialEvents.Controllers
                 {
                     while(reader.Read())
                     {
-                        Console.WriteLine($"AMENITY: {reader[2]}");
                         amenityDB.addAmenity(new Amenity((int) reader[0], (string) reader[1],
                             (string) reader[2], (int) reader[3], (string) reader[4]));
                     }
@@ -172,10 +164,6 @@ namespace Parks_SpecialEvents.Controllers
 
         public async Task<IActionResult> RouteAsync(string address)
         {
-            Console.WriteLine("INSIDE ROUTE METHOD");
-            Console.WriteLine($"Park Address {address}");
-
-
             IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyDbog5Hmj_SwDRN3lQWLa5Xw8OcMyzSFfw" };
 
             IEnumerable<Address> addresses = await geocoder.GeocodeAsync(address);
@@ -193,7 +181,7 @@ namespace Parks_SpecialEvents.Controllers
                 string permitables = "Alcohol";
                 Park p = new Park(id, name ,fAddress, lat, lng, image, permitables, flag);
                 ViewBag.park = p;
-                Console.WriteLine("SENDING VIEW TO ROUTE");
+ 
                 return View("Route");
             }
             catch (Exception e)
@@ -214,7 +202,7 @@ namespace Parks_SpecialEvents.Controllers
                 return RedirectToAction("Index");
             }
 
-            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "AIzaSyDbog5Hmj_SwDRN3lQWLa5Xw8OcMyzSFfw" };
+            IGeocoder geocoder = new GoogleGeocoder() { ApiKey = _config.GetValue<string>("GoogleAPIKey:jose") };
 
             IEnumerable<Address> addresses = await geocoder.GeocodeAsync(address);
 
@@ -229,11 +217,9 @@ namespace Parks_SpecialEvents.Controllers
                 double lat = a.Coordinates.Latitude;
                 double lng = a.Coordinates.Longitude;
                 string image = "~/images/gerson-repreza-tNQ2tmQiC6g-unsplash.jpg";
-                string phone = "Sample Phone";
+                //string phone = "Sample Phone";
                 string permitalbes = "Alcohol";
 
-                Console.WriteLine($"Lat: {lat}");
-                Console.WriteLine($"Lng: {lng}");
                 Park p = new Park(id, name, pA, lat, lng, image, permitalbes, flag);
 
                 ViewBag.store = p;

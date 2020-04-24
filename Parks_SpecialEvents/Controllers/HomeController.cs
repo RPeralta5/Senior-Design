@@ -12,7 +12,6 @@ namespace Parks_SpecialEvents.Controllers
     {
         public IActionResult Index()
         {
-            Console.WriteLine("INSIDE HOME CONTROLLER INDEX");
             return View();
         }
 
@@ -23,7 +22,6 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult Registration()
         {
-            Console.WriteLine("REGISTRATION PAGE");
             return View();
         }
 

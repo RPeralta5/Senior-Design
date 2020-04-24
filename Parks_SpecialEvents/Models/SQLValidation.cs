@@ -28,7 +28,6 @@ namespace Parks_SpecialEvents.Models
 
         public bool isValid(string search)
         {
-            Console.WriteLine("INSIDE IS VALID SQL");
             if (search == "" || search == null)
             {
                 return false;
@@ -39,7 +38,6 @@ namespace Parks_SpecialEvents.Models
                 Console.WriteLine(keyword);
                 if (search.ToUpper().Contains(keyword))
                 {
-                    Console.WriteLine($"KEY WORD FOUND: {keyword}");
                     return false;
                 }
             }
