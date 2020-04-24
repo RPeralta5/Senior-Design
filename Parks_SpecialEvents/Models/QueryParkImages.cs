@@ -14,8 +14,6 @@ namespace Parks_SpecialEvents.Models
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration _config;
 
-        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
-
         public QueryParkImages()
         {
         }
@@ -61,13 +59,10 @@ namespace Parks_SpecialEvents.Models
             List<string> allImages = getImagesPath(parkID);
             foreach(string image in allImages)
             {
-                Console.WriteLine($"IMAGES TO KEEP: {imagesToKeep[0]}, allImages: {image}");
                 if(!imagesToKeep.Contains(image))
                 {
-                    Console.WriteLine($"DELETE IMAGE: {image}");
                     // get image web path
                     string imageWebPath = Path.Combine(hostingEnvironment.WebRootPath + image);
-                    Console.WriteLine($"imagePath: {imageWebPath}");
                     // delete image
                     File.Delete(imageWebPath);
                     DeleteImageFromAzure(image);
@@ -104,7 +99,7 @@ namespace Parks_SpecialEvents.Models
                 // close connection
                 sqlConnection.Close();
             }
-            Console.WriteLine($"NUM IMAGES: {images.Count}");
+        
             return images;
         }
 
@@ -134,7 +129,7 @@ namespace Parks_SpecialEvents.Models
                 // close connection
                 sqlConnection.Close();
             }
-            Console.WriteLine($"NUM IMAGES: {images.Count}");
+            
             return images;
         }
 
@@ -175,8 +170,7 @@ namespace Parks_SpecialEvents.Models
 
         public void AddImages(AzureParkImages park)
         {
-            string query = "INSERT INTO ParkImages(ParkID, ImagePath)";
-            Console.WriteLine($"NUM IMAGES: {park.Images.Count}");
+            string query = "INSERT INTO ParkImages(ParkID, ImagePath)";          
 
             // IF NO IMAGES WERE ADDED : DON'T DO THIS STEP
             if(park.Images.Count != 0)
@@ -185,22 +179,17 @@ namespace Parks_SpecialEvents.Models
                 int counter = 0;
 
                 // generate folder path
-                string parkFolder = generateParkFolderFor(park.ParkID);
-                Console.WriteLine($"parkFolder: {parkFolder}");
+                string parkFolder = generateParkFolderFor(park.ParkID);                
             
                 // create directory for park images
                 string pathString = Path.Combine(hostingEnvironment.WebRootPath + "/images/", $"{parkFolder}");
-                Directory.CreateDirectory(pathString);
-                Console.WriteLine($"created directory : {pathString}");
+                Directory.CreateDirectory(pathString);              
 
                 foreach (IFormFile image in park.Images)
-                {
-                
-                    Console.WriteLine("image: " + image);
-               
+                {            
                     // GET DESTINATION PATH OF WHERE THE IMAGE IS GOING TO BE PLACED
                     var destinationFile = Path.Combine(hostingEnvironment.WebRootPath + $"/images/{parkFolder}", Path.GetFileName(image.FileName));
-                    Console.WriteLine($"DESTINATION FILE PATH: {destinationFile}");
+
                     //PASTE IMAGE THERE
                     image.CopyTo(new FileStream(destinationFile, FileMode.Create));
 
@@ -228,7 +217,7 @@ namespace Parks_SpecialEvents.Models
                     }
 
                 }
-                Console.WriteLine($"query: {query}");
+                
                 using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
                 {
                     SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);

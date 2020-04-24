@@ -98,7 +98,6 @@ namespace Parks_SpecialEvents.Controllers
             // IF VALIDATION FALSE DROP AND EJECT WE HAVE AN INTRUDER!
             if(validate(search) == false)
             {
-                Console.WriteLine("SEARCH WAS NULL REDIRECT TO FAQ INDEX PAGE");
                 return RedirectToAction("Index");
             }
 
@@ -108,8 +107,6 @@ namespace Parks_SpecialEvents.Controllers
 
             if (questionDB.Size == 0)
             {
-                Console.WriteLine($"NO RESULTS FOUND FOR: {search}");
-                Console.WriteLine("REDIRECTING TO INDEX PAGE");
                 return RedirectToAction("Index");
             }
             return View();
@@ -134,10 +131,8 @@ namespace Parks_SpecialEvents.Controllers
             // IF KEYWORD IS FOUND RETURN FALSE
             foreach (string keyword in keyWords) {
 
-                Console.WriteLine($"KEYWORDS: {keyword}");
                 if(search.ToUpper().Contains(keyword))
                 {
-                    Console.WriteLine($"KEY WORD FOUND: {keyword}");
                     return false;
                 }
             }

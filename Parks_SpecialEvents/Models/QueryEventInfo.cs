@@ -18,7 +18,6 @@ namespace Parks_SpecialEvents.Models
         {
             get { return _config.GetValue<string>("ConnectionString:default"); }
         }
-        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         public QueryEventInfo()
         {
