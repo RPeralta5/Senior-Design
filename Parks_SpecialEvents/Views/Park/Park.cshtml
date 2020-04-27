@@ -14,13 +14,6 @@
         <center>
             <h3 style="color:navy; font-weight:bold;">@Model.AzurePark.ParkName</h3>
             <br />
-
-
-            <nav>
-                <a class="btn btn-light" href="#Amenities" style="button">Amenities</a>
-                <a class="btn btn-light" href="#Hours">Hours</a>
-                <a class="btn btn-light" href="#CalendarEvents">Calendar Events</a>
-            </nav>
         </center>
     </div>
     <br />
@@ -88,45 +81,55 @@
 
     <div>
         <left>
-            <text style="color:black;">Address: </text>
-            <text style="color:navy; font-weight:bold;">@Model.AzurePark.Address</text>
-            <br />
-            <text style="color:black;">Phone Number: </text>
+            <p>
+                <text style="color:black; font-weight:bold;">Address: </text>
+                <text style="color:navy; font-weight:bold;">@Model.AzurePark.Address</text>
+                <br />
+                <br />
+                <text style="color:black; font-weight:bold;">For assistance contact our Special Events team</text>
+
+                <br />
+                <text style="color:black; font-weight:bold;">Phone Number: </text>
+                <text style="color:navy; font-weight:bold;">(XXX)XXX-XXXX</text>
+                <br />
+                <text style="color:black; font-weight:bold;">Email: </text>
+                <text style="color:navy; font-weight:bold;">sampleEmail@LACounty.gov</text>
+            </p>
             <!--
-
-
-                <h5 style="color:navy; font-weight:bold;">Phone Number: Unavailable</h5>
-
-
-
-                <h5 style="color:navy; font-weight:bold;"></h5>
-
-            -->
+            <h5 style="color:navy; font-weight:bold;">Phone Number: Unavailable</h5>
+            <h5 style="color:navy; font-weight:bold;"></h5>
+        -->
             <br />
 
         </left>
     </div>
+    
 
-
+    <br />
     <div>
+
         <center>
             <h4 id="Amenities" style="color:navy; font-weight:bold;">Special Event Amenities</h4>
             <br />
 
         </center>
-        <div class="row">
+
+
+        <ul style="list-style-type:disc;">
 
             @foreach (Parks_SpecialEvents.Models.Amenity amenity in Model.Amenitys)
             {
-                <div class="col col-2">
-                    <center>
-                        <img width="150" height="100" src=@Url.Content(amenity.Image) />
-                        <strong>@amenity.Amen</strong>
-                        <br />
-                    </center>
-                </div>
+
+                <li>
+
+                    <strong>@amenity.Amen</strong>
+
+                </li>
+
             }
-        </div>
+        </ul>
+
+
     </div>
 
     <!-- END OF PARK AMENITIES-->
@@ -157,14 +160,48 @@
                 src="https://maps.googleapis.com/maps/api/js?key=@ViewData["api_key"]&callback=initMap"></script>
 
     }
-    
-    <!-- GOOGLE CALENDAR -->
-    <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FLos_Angeles&amp;src=cWg0YzYyMThscm12bzkwcjM3ZnBiajRyaW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;color=%23A87070&amp;color=%231F753C" style="border: solid 1px #777" width="1100" height="800" frameborder="0" scrolling="no"></iframe>
-</body>
+    <br />
+    <div>
+        <center>
+            <h5 style="color:black; font-weight:bold;">Upcoming events at @Model.AzurePark.ParkName!</h5>
+            <br />
+        </center>
+    </div>
 
-@*<form asp-controller="Park" asp-action="RouteAsync" asp-route-address=@ViewBag.store.Address>
-    <input type="submit" class="btn btn-success" value="Lets Go!"/>
-</form>*@
+
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Event Name</th>
+                <th scope="col">Time</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int count_RE = 1;}
+            @foreach (RegisteredEvent RE in Model.RegisteredEvents)
+            {
+                
+                <tr>
+                    <th scope="col">@count_RE</th>
+                    <th scope="col">@RE.EventName</th>
+                    <th scope="col">@RE.StartTime - @RE.EndTime</th>
+                    <th scope="col">@RE.StartDate</th>
+                    <th scope="col">@RE.EndDate</th>
+                </tr>
+
+                count_RE++;
+
+            }
+        </tbody>
+        
+
+    </table>
+
+</body>
 
 
 

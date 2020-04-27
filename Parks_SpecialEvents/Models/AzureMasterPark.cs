@@ -9,6 +9,7 @@ namespace Parks_SpecialEvents.Models
         public AzureParkImages AzureParkImages { get; set; }
         public List<Amenity> Amenitys { get; set; }
         public ParkEventModel Events { get; set; }
+        public List<RegisteredEvent> RegisteredEvents { get; set; }
 
         public AzureMasterPark()
         {
@@ -16,6 +17,7 @@ namespace Parks_SpecialEvents.Models
             this.AzureParkImages = new AzureParkImages();
             this.Amenitys = new List<Amenity>();
             this.Events = new ParkEventModel();
+            this.RegisteredEvents = new List<RegisteredEvent>();
         }
     }
 }

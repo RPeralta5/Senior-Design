@@ -140,6 +140,34 @@ namespace Parks_SpecialEvents.Controllers
             return amenityDB;
         }
 
+
+        public List<RegisteredEvent> QueryRegisteredEvents(string parkID)
+        {
+            List<RegisteredEvent> rEvents = new List<RegisteredEvent>();
+           
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // QUERY
+                string query =
+                    $"Select ParkID, EventName, StartTime, EndTime, StartDate, EndDate from RegisteredEvents WHERE ParkID = '{parkID}'";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // OPEN CONNECTION
+                sqlConnection.Open();
+
+                // READ DATA
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        rEvents.Add(new RegisteredEvent((string)reader[0], (string)reader[1],
+                            (string)reader[2], (string)reader[3], (string)reader[4], (string)reader[5]));
+                    }
+                }
+            }
+            return rEvents;
+        }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -164,6 +192,9 @@ namespace Parks_SpecialEvents.Controllers
             // amenities
             QueryAmenities queryAmenities = new QueryAmenities(_config);
             masterPark.Amenitys = queryAmenities.GetAmenityImagesForParkID(id);
+
+            //registered events
+            masterPark.RegisteredEvents = QueryRegisteredEvents(id);
 
             ViewData["api_key"] = _config.GetValue<string>("GoogleAPIKey:jose");
 
