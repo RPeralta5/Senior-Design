@@ -143,7 +143,6 @@ namespace Parks_SpecialEvents.Controllers
                 {
                     while(reader.Read())
                     {
-                        //Console.WriteLine($"AMENITY: {reader[0]} IMAGEID: {reader[1]}");
                         // AMENITYID, PARKID, AMENITY, QUANITY, IMAGEID
                         amenityDB.addAmenity(new Amenity( 0, "", (string) reader[0],
                             0, (string) reader[1]));
@@ -158,8 +157,7 @@ namespace Parks_SpecialEvents.Controllers
         private int InsertIntoAmenityImages(IFormFile image)
         {
             int imageID = -1;
-            string databaseFilePath = $"/images/AmenityImages/{image.FileName}";
-            Console.WriteLine($"DATABASE FILE PATH: {databaseFilePath}");
+            string databaseFilePath = $"/images/AmenityImages/{image.FileName}";         
 
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
@@ -190,7 +188,7 @@ namespace Parks_SpecialEvents.Controllers
                 sqlConnection.Close();
 
             }
-            Console.WriteLine($"IMAGE ID: {imageID}");
+   
             return imageID;
         }
 
@@ -202,15 +200,12 @@ namespace Parks_SpecialEvents.Controllers
                 string query = "INSERT INTO Amenities(ParkID, Amenity, Quantity, ImageID)" +
                         $" VALUES ('{parkID}', '{amenity}', {quanity}, '{imageID}');";
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-
-                Console.WriteLine($"QUERY: {query}");
+                
                 // OPEN CONNECTION
                 sqlConnection.Open();
 
                 if(has(parkID, amenity))
                 {
-                    Console.WriteLine($"AMENITY: {amenity} is already in the database");
-                    Console.WriteLine($"DID NOT ADD {amenity}");
                     /*
                      * DONT INSERT
                      *  AMENITY ALREADY IN
@@ -221,8 +216,6 @@ namespace Parks_SpecialEvents.Controllers
 
                 } else
                 {
-                    Console.WriteLine("AMENITY IS NOT IN DATABASE");
-                    Console.WriteLine("AMENITY IS BEING ADDED I THINK...");
                     // INSERT AMENITY INTO DATABASE
                     sqlCommand.ExecuteReader();
             
@@ -300,7 +293,7 @@ namespace Parks_SpecialEvents.Controllers
             {
                 // COMMAND TO EXECUTE
                 string query = $"SELECT ParkID FROM Parks WHERE ParkName = '{parkName}';";
-                Console.WriteLine($"QUERY TO GET PARK ID: {query}");
+                
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // OPEN CONNECTION
@@ -311,8 +304,7 @@ namespace Parks_SpecialEvents.Controllers
                 {
                     while (reader.Read())
                     {
-                        parkID = (string)reader[0];
-                        Console.WriteLine($"PARK ID: {parkID}");
+                        parkID = (string)reader[0];                     
                     }
                 }
                 // CLOSE CONNECTION
@@ -329,33 +321,24 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult Add(string parkID, string amenity, int quanity, string newAmenity, int newQuanity, IFormFile image = null)
         {
-            Console.WriteLine("ADD AMENITY METHOD");
             if (image == null)
             {
-                Console.WriteLine($"NO IMAGE: GOING TO FETCH FOR THE IMAGE: Amenity: {amenity}");
                 int imgID = getImageID(amenity);
-                Console.WriteLine($"IMAGE: {imgID}");
                 // ADD AMENITY ONT DATABASE
                 InsertAmenity(parkID, amenity, quanity, imgID);
             } else
             {
-                Console.WriteLine($"RESULTS:  PARKID: {parkID}, AMENITY: {newAmenity}, QUANITY: {newQuanity}, IMAGE: {image.FileName}");
-
                 // GET DESTINATION PATH OF WHERE THE IMAGE IS GOING TO BE PLACED
                 var destinationFile = Path.Combine(hostingEnvironment.WebRootPath + "/images/AmenityImages", Path.GetFileName(image.FileName));
 
                 // PASTE IMAGE THERE
                 image.CopyTo(new FileStream(destinationFile, FileMode.Create));
 
-                Console.WriteLine($"IMAGE FILE PATH: {destinationFile}");
-
                 // INSERT AMENITY INTO DATABASE
                 int imgID = InsertIntoAmenityImages(image);
 
                 // ADD AMENITY ONT DATABASE
                 InsertAmenity(parkID, newAmenity, newQuanity, imgID);
-
-                // ignore just testing
             }
 
             return RedirectToAction("AddAmenity");
@@ -371,14 +354,12 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult Delete(string parkName, string amenity)
         {
-            Console.WriteLine("DELETE METHOD");
             // CONNECTION TO PARKS DATA BASE
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 string parkID = getParkID(parkName);
                 // COMMAND TO EXECUTE
                 string query = $"DELETE FROM Amenities WHERE ParkID = '{parkID}' AND Amenity = '{amenity}'; ";
-                Console.WriteLine($"QUERY DELETE : {query}");
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // OPEN CONNECTION
@@ -389,11 +370,7 @@ namespace Parks_SpecialEvents.Controllers
 
                 // CLOSE CONNECTION
                 sqlConnection.Close();
-                Console.WriteLine($"DELETED {amenity} from Park: {parkName}");
             }
-
-            // DELETE THE IMAGE FROM /images/AmenityImages/imageName
-
 
             return RedirectToAction("DeleteAmenity");
         }
@@ -407,9 +384,8 @@ namespace Parks_SpecialEvents.Controllers
 
         private void UpdateDBAmenity(string parkName, string amenity, string setAmenity, int setQuanity)
         {
-            Console.WriteLine($"UPDATE DB AMENITY METHOD");
             string parkID = getParkID(parkName);
-            Console.WriteLine($"PARK ID: {parkID}");
+
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // COMMAND TO EXECUTE
@@ -417,7 +393,6 @@ namespace Parks_SpecialEvents.Controllers
                     $" SET Amenity = '{setAmenity}', Quantity = {setQuanity}" +
 	                $" WHERE ParkID = '{parkID}' AND Amenity = '{amenity}'; ";
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-                Console.WriteLine($"UPDATE QUERY: {query}");
 
                 // OPEN CONNECTION
                 sqlConnection.Open();
@@ -434,13 +409,6 @@ namespace Parks_SpecialEvents.Controllers
         public IActionResult Update(string park = "", string singleAmenity = "EMPTY", string setSingleName = "", int setSingleQuanity= -1,
             string allAmenityNamed = "")
         {
-            Console.WriteLine("UPDATE UPDATE");
-            Console.WriteLine($"PARK: {park}");
-            Console.WriteLine($"SINGLE OG AMENITY: {singleAmenity}");
-            Console.WriteLine($"SET SINGLE NAME: {setSingleName}");
-            Console.WriteLine($"SET SINGLE QUANITY: {setSingleQuanity}");
-            Console.WriteLine($"ALL AMENITY NAMED: {allAmenityNamed}");
-
             if(allAmenityNamed != "EMPTY")
             {
                 //UpdateAllAmenitiesNamed(allAmenityNamed);
@@ -453,8 +421,6 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult UpdateAmenity()
         {
-            Console.WriteLine("GOING TO UPDATE AMENITY PAGE");
-
             ViewBag.Parks = QueryParks(ALL_PARKS);
             ViewBag.Amenities = QueryAmenities(ALL_AMENITIES);
             return View();
@@ -482,19 +448,17 @@ namespace Parks_SpecialEvents.Controllers
                 {
                     if(held.E == all.E)
                     {
-                        //Console.WriteLine($"{all.E} is HELD BY PARK");
                         events.Add(new Event(all.E, all.Href, true));
                         break;
                     }
                     if(count == heldByPark.Count - 1)
                     {
-                        //Console.WriteLine($"{all.E} is NOT HELD BY PARK");
                         events.Add(new Event(all.E, all.Href, false));
                     }
                     count++;
                 }
             }
-            Console.WriteLine(events.Count);
+
             return events;
         }
 
@@ -526,7 +490,6 @@ namespace Parks_SpecialEvents.Controllers
 
         private void UpdateParkEvent(string e)
         {
-            Console.WriteLine($"TURNING ON EVENT: {e}");
             int eventID = getEventID(e);
 
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
@@ -550,8 +513,6 @@ namespace Parks_SpecialEvents.Controllers
 
         private void TurnOffAllEventsForPark(string parkID)
         {
-            Console.WriteLine($"TURNED OFF ALL EVENTS FOR {parkID}");
-
             // CONNECTING TO THE DATABASE
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
@@ -568,21 +529,14 @@ namespace Parks_SpecialEvents.Controllers
                 // CLOSE CONNECTION
                 sqlConnection.Close();
             }
-            Console.WriteLine($"ALL EVENTS FOR {parkID} have been turned off");
         }
 
         [HttpPost]
         public IActionResult EditPark(AzureMasterPark azureMasterPark) // used to accept parkEventModel
         {
-            Console.WriteLine("PARK EVENT MODEL");
-            Console.WriteLine($"ParkName: {azureMasterPark.AzurePark.ParkName}");
-
             // get all lists: Amenitites and Events
             var updatedAmenities = Request.Form["AMENITIES"];
             var updatedEvents = Request.Form["EVENTS"];
-
-            Console.WriteLine($"UPDATED AMENITIES: {updatedAmenities}");
-            Console.WriteLine($"UPDATED EVENTS: {updatedEvents}");
 
             // SET ALL PARK EVENTS TO FLAG : TURRN OFF EVENTS
             TurnOffAllEventsForPark(staticParkID);
@@ -590,10 +544,9 @@ namespace Parks_SpecialEvents.Controllers
             // TURN ON ALL NEW : UPDATED EVENTS
             foreach (String e in updatedEvents)
             {
-                Console.WriteLine($"EVENTS FROM EDIT PARK: {e}");
                 UpdateParkEvent(e);
             }
-            Console.WriteLine("PARK HAS BEEN UPDATED!");
+
             return RedirectToAction("UpdateParkIndexRazor");
         }
 
@@ -676,7 +629,6 @@ namespace Parks_SpecialEvents.Controllers
                 foreach(string i in images)
                 {
                     I.Add(i);
-                    Console.WriteLine($"IMAGES TO KEEP: {i}");
                 }
 
                 azureMasterPark.Amenitys = A; // amenities
@@ -684,7 +636,6 @@ namespace Parks_SpecialEvents.Controllers
                 azureMasterPark.AzureParkImages.ImagesPaths = I;// images
                  
                 queryParks.UpdatePark(azureMasterPark); // update the park here
-                Console.WriteLine("UPDATED PARK!");
             } catch(Exception e)
             {
                 Console.WriteLine("DID NOT UPDATE PARK");
@@ -697,7 +648,6 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult UpdateParkIndexRazor()
         {
-            Console.WriteLine("UPDATE PARK INDEX");
             ViewBag.Parks = QueryParks(ALL_PARKS);
             return View();
         }
@@ -724,7 +674,6 @@ namespace Parks_SpecialEvents.Controllers
                     }
                 }
             }
-            Console.WriteLine($"QUESTION DB SIZE: {questions.Size}");
             ViewBag.QDB = questions;
             ViewBag.show = s;
             return View();
@@ -732,7 +681,6 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult EditQuestionRazorPage(int id)
         {
-            Console.WriteLine($"QUESTION ID: {id}");
             Question question = null;
             // GET THE QUESTION FROM USING PROVIDED ID
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
@@ -780,7 +728,6 @@ namespace Parks_SpecialEvents.Controllers
                         $" Answer = '{question.Answer}'," +
                         $" ShownFlag = {flag} WHERE QuestionID = {question.ID};";
 
-                Console.WriteLine(query);
                 SqlCommand command = new SqlCommand(query, sqlConnection);
 
                 // OPEN SQL CONNECTION
@@ -798,13 +745,11 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddQuestionRazor()
         {
-            Console.WriteLine("INSIDE ADD QUESTION RAZOR");
             return View();
         }
 
         public IActionResult AddQuestion(Question question)
         {
-            Console.WriteLine("INSIDE ADD QUESTION METHOD");
             // SET UP CONNECTION
             using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
@@ -870,8 +815,6 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult DeleteQuestion(int id)
         {
-            Console.WriteLine($"DELETE QUESTION WITH ID {id}");
-
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // QUERY TO EXECUTE
@@ -900,14 +843,11 @@ namespace Parks_SpecialEvents.Controllers
 
         public async Task<IActionResult> AddPark(AzurePark azurePark)
         {
-            Console.WriteLine("add park method");
-
             // check if ParkID does not already exist
             QueryParks queryParks = new QueryParks(hostingEnvironment, _config);
 
             if(queryParks.ParkIDExist(azurePark.ParkID))
             {
-                Console.WriteLine("PARK ID EXISTS");
                 return RedirectToAction("AddParkRazor", azurePark);
             }
 
@@ -920,18 +860,14 @@ namespace Parks_SpecialEvents.Controllers
             // if employee does not include LAT LNG 
             if ((azurePark.Lat == 0) && (azurePark.Lng == 0))
             {
-                Console.WriteLine("USER DID NOT ENTER LAT LNG");
-
-                Console.WriteLine($"PARK NAME: {azurePark.Address}");
                 // find coordinates for the park
                 IGeocoder geocoder = new GoogleGeocoder() { ApiKey = _config.GetValue<string>("GoogleAPIKey:jose") };
-                Console.WriteLine($"API KEY: {_config.GetValue<string>("GoogleAPIKey:jose")}");
-                Console.WriteLine($"GEOCODER: {geocoder.ToJSON()}");
+
                 try
                 {
                     IEnumerable<Address> addresses = await geocoder.GeocodeAsync(azurePark.Address);
                     Address a = addresses.First();
-                    Console.WriteLine($"FIRST: {a.Coordinates.Latitude}");
+
                     azurePark.Lat = a.Coordinates.Latitude;
                     azurePark.Lng = a.Coordinates.Longitude;
                 }
@@ -966,13 +902,9 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddAmenitiesToParkRazor(AzurePark park)
         {
-            Console.WriteLine("Add Amenities to Park: " + park.ParkID);
-            Console.WriteLine($"ParkID: {park.ParkName}");
-
             QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment, _config);
 
             ViewBag.amenities = queryAmenities.getAmenities();
-            Console.WriteLine($"number of amenities: {queryAmenities.getAmenities().Count}");
             ViewBag.park = park;
             return View(park);
         }
@@ -986,30 +918,23 @@ namespace Parks_SpecialEvents.Controllers
             foreach(string amenity in amenities)
             {
                 a.Add(amenity);
-                Console.WriteLine(amenity);
             }
-            Console.WriteLine($"amenity size: {a.Count}");
 
             // add amenities to park
             QueryAmenities queryAmenities = new QueryAmenities(hostingEnvironment, _config);
             queryAmenities.addAmenities(parkID, a);
-            Console.WriteLine("GONNA TRY TO REDIRECT");
             
             return RedirectToAction("AddParkImagesRazor", new { parkID = parkID}); // new { parkID = parkID }
         }
 
         public IActionResult AddParkImagesRazor(string parkID) 
         {
-            Console.WriteLine("Add Park Images mEhtod");
-            Console.WriteLine($"PARKID : {parkID}");
             ViewData["parkID"] = parkID;
             return View();
         }
 
         public IActionResult AddParkImages(AzureParkImages parkImages)
         {
-            Console.WriteLine($"adding images to {parkImages.ParkID}");
-
             QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment, _config);
             queryParkImages.AddImages(parkImages);
 
@@ -1026,17 +951,13 @@ namespace Parks_SpecialEvents.Controllers
 
         public IActionResult AddParkEvents(string parkID)
         {
-            Console.WriteLine($"Add Events for parkID: {parkID}");
-
             var temp = Request.Form["EVENTS"];
             List<string> events = new List<string>();
 
             foreach(string e in temp)
             {
                 events.Add(e);
-                Console.WriteLine($"EVENTS TO ADD: {e}");
             }
-            Console.WriteLine($"NUM EVENTS TO ADD: {events.Count}");
 
             QueryEvents queryEvents = new QueryEvents(_config);
             queryEvents.addEvents(events, parkID);

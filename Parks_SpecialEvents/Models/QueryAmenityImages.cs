@@ -7,13 +7,5 @@ namespace Parks_SpecialEvents.Models
         {
         }
 
-        //public int GetAmenityImageID(string amenity)
-        //{
-        //    int amenityID = -1;
-        //    using (SqlConnection sqlConnection = new SqlConnection())
-        //    {
-
-        //    }
-        //}
     }
 }

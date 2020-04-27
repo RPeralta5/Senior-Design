@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
+using Geocoding;
+using Geocoding.Google;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -14,8 +17,6 @@ namespace Parks_SpecialEvents.Models
 
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration _config;
-
-        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         public QueryParks()
         {
@@ -65,8 +66,7 @@ namespace Parks_SpecialEvents.Models
                 // close connection
                 sqlConnection.Close();
 
-                // check if ParkID Exists
-                Console.WriteLine($"p: {p}");
+                // check if ParkID Exists          
                 if (p != "")
                     return true;
                 return false;
@@ -156,16 +156,13 @@ namespace Parks_SpecialEvents.Models
 
             // get thumbnail
             string oldThumbnail = getParkThumbNailPath(parkID);
-            Console.WriteLine($"OLD THUMBNAIL: {oldThumbnail}");
 
             // delete image from project
             string filepath = Path.Combine(hostingEnvironment.WebRootPath, oldThumbnail.Substring(1, oldThumbnail.Length - 1));
-            Console.WriteLine($"Delete thumbnail: {filepath}");
             File.Delete(filepath);
 
             // insert new thumbnail
             azureMasterPark.AzurePark.Image.CopyTo(new FileStream(destination, FileMode.Create));
-            Console.WriteLine($"new thumbnail: {destination}");
         }
 
         private void renameParkDirectory(AzureMasterPark azureMasterPark)
@@ -175,24 +172,18 @@ namespace Parks_SpecialEvents.Models
             string opd = getParkFolder(parkID); // opd
             string oldParkDirectory = Path.Combine(hostingEnvironment.WebRootPath, "images/" + opd);
             string ampd = azureMasterPark.AzurePark.ParkLastName.Replace(" ", "");
-            Console.WriteLine($"OLD PARK DIRECTORY: {opd}");
-            Console.WriteLine($"NEW PARK DIRECTORY: {ampd}");
 
             if (opd != ampd) // ampd = azure master park directory (new park directory)
             {
-                Console.WriteLine("PARK LAST NAME WAS CHANGED. UPDATING PARK DIRECTORY");
                 // create that new directory
                 QueryParkImages queryParkImages = new QueryParkImages(hostingEnvironment, _config);
                 string newDirectory = "images/" + queryParkImages.generateNewParkFolderFor(ampd);
-                Console.WriteLine($"NEW park directory: {newDirectory}");
                 string webDirectory = Path.Combine(hostingEnvironment.WebRootPath, newDirectory);
-                Console.WriteLine($"WEB directory: {webDirectory}");
                 Directory.CreateDirectory(webDirectory);
 
                 // move files over from old directory to new directory
                 if (Directory.Exists(oldParkDirectory))
                 {
-                    Console.WriteLine($"OLD DIRECTORY EXISTS: {oldParkDirectory}");
                     string[] files = Directory.GetFiles(oldParkDirectory);
 
                     // Copy the files and overwrite destination files if they already exist.
@@ -201,11 +192,11 @@ namespace Parks_SpecialEvents.Models
                         // Use static Path methods to extract only the file name from the path.
                         string fileName = Path.GetFileName(s);
                         string destFile = Path.Combine(hostingEnvironment.WebRootPath, "images/" + $"{ampd}/"+ fileName);
-                        Console.WriteLine($"MOVE FILE: {fileName} over to NEW DIRECTORY: {destFile}");
+
                         //File.Copy(s, destFile, true); // THIS WORKS BUT I BELIVE LOWER IS MORE EFFIECIENT 
                         File.Move(s, destFile);
                     }
-                    //AzureParkImages x = new AzureParkImages();
+                    
                     List<string> x = new List<string>();
                     foreach(string s in azureMasterPark.AzureParkImages.ImagesPaths)
                     {
@@ -218,11 +209,9 @@ namespace Parks_SpecialEvents.Models
                 {
                     Console.WriteLine("Source path does not exist!");
                 }
-                Console.WriteLine($"THIS SHOULD HAVE MOVED OLD IMAGES TO THE NEW DIRECTORY");
 
                 // delete old directory
                 Directory.Delete(oldParkDirectory, true);
-                Console.WriteLine($"DELETED OLD PARK DIRECTORY: {oldParkDirectory}");
             }
 
         }
@@ -236,7 +225,6 @@ namespace Parks_SpecialEvents.Models
             string[] sp = images[0].ImagePath.Split("/");
             string oldDirectory = sp[2]; // gets name of directory
             string newDirectory = azureMasterPark.AzurePark.ParkLastName.Replace(" ", "");
-            Console.WriteLine($"CHANGE DIRECTORY NAME IN AZURE (NEW DIR): {newDirectory}");
 
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
@@ -247,7 +235,7 @@ namespace Parks_SpecialEvents.Models
                     string query = "UPDATE ParkImages" +
                     $" SET ImagePath = '{newPath}'" +
                     $" WHERE ImageID = '{image.ImageID}';";
-                    Console.WriteLine($"IMAGES QUERY UPDATE: {query}");
+                    
                     SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                     // update images
@@ -257,12 +245,75 @@ namespace Parks_SpecialEvents.Models
             }
         }
 
-        public void UpdatePark(AzureMasterPark azureMasterPark)
+        public double getLongitude(String parkID)
+        {
+            double lng;
+            using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT Lgn FROM Parks" +
+                       $" WHERE ParkID = '{parkID}'; ";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                lng = (double) sqlCommand.ExecuteScalar();
+
+                // close connection
+                sqlConnection.Close();
+            }
+            return lng;
+        }
+
+        public double getLatitude(String parkID)
+        {
+            double lat;
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT Lgn FROM Parks" +
+                       $" WHERE ParkID = '{parkID}'; ";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                lat = (double)sqlCommand.ExecuteScalar();
+
+                // close connection
+                sqlConnection.Close();
+            }
+            return lat;
+        }
+
+        public String getAddress(string parkID)
+        {
+            string address;
+            using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
+            {
+                // query
+                string query = "SELECT Address FROM Parks" +
+                       $" WHERE ParkID = '{parkID}'; ";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                // open connection
+                sqlConnection.Open();
+
+                address = (string) sqlCommand.ExecuteScalar();
+
+                // close connection
+                sqlConnection.Close();
+            }
+            return address;
+        }
+
+        public async void UpdatePark(AzureMasterPark azureMasterPark)
         {
             AzurePark park = azureMasterPark.AzurePark;
             renameParkDirectory(azureMasterPark); // renames directory
             changeDirectoryNameInAzureDB(azureMasterPark); // updates it in azure
-            Console.WriteLine("DONE UPDATING AZURE");
+            
             string parkID = azureMasterPark.AzurePark.ParkID;
 
             using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
@@ -270,6 +321,28 @@ namespace Parks_SpecialEvents.Models
                 // query
                 string query = "";
                 string updateParkInfo = "";
+
+                // if address is changed, get the new coordinates
+                if(park.Address != getAddress(park.ParkID))
+                {
+                    IGeocoder geocoder = new GoogleGeocoder() { ApiKey = _config.GetValue<string>("GoogleAPIKey:jose") };
+                    
+                    try
+                    {
+                        IEnumerable<Address> addresses = await geocoder.GeocodeAsync(azureMasterPark.AzurePark.Address);
+                        Address a = addresses.First();
+                        
+                        park.Lat = a.Coordinates.Latitude;
+                        park.Lng = a.Coordinates.Longitude;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("COULD NOT FIND COORDINATES FOR THIS PARK");
+                        Console.WriteLine($"ERROR HERE: {e}");
+                    }
+                }
+                
+
                 if (park.Image == null)
                 { // don't update thumbnail
                     updateParkInfo = "UPDATE Parks " +
@@ -282,7 +355,7 @@ namespace Parks_SpecialEvents.Models
                     // get image
                     IFormFile image = azureMasterPark.AzurePark.Image;
                     string imagePath = "/images/ParkThumbnails/" + image.FileName;
-                    Console.WriteLine($"image path: {imagePath}");
+                    
                     // overrider old thumbnail with new thumbnail
                     newThumbnail(azureMasterPark);
 
@@ -295,7 +368,6 @@ namespace Parks_SpecialEvents.Models
 
                 // query to update park info
                 query += updateParkInfo;
-                Console.WriteLine($"UPDATE PARK INFO QUERY: {query}");
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 // open sql connection
@@ -329,14 +401,12 @@ namespace Parks_SpecialEvents.Models
 
         public void DeletePark(string parkID)
         {   // need to delete everything assiciated with the park
-            Console.WriteLine($"DELETING: {parkID}");
             // deleting park folders
 
             try
             {
                 // deleting park folder (holding all images of park)
                 string parkFolder = getParkFolder(parkID);
-                //Console.WriteLine($"path: {hostingEnvironment.WebRootPath + $"/images/{parkFolder}"}");
                 System.IO.Directory.Delete(hostingEnvironment.WebRootPath + $"/images/{parkFolder}", true);
 
                 // deleting park thumbnail

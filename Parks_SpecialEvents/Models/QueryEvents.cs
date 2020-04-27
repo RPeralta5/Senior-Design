@@ -18,7 +18,6 @@ namespace Parks_SpecialEvents.Models
         {
             get { return _config.GetValue<string>("ConnectionString:default"); }
         }
-        //const string PARK_DB_CONNECTION = @"data source=.; database= PARKS_TEST; user id = sa; password = myPassw0rd";
 
         public QueryEvents()
         {
@@ -27,7 +26,7 @@ namespace Parks_SpecialEvents.Models
         public List<Event> GetAllEvents(string parkID)
         {
             List<Event> events = new List<Event>();
-            Console.WriteLine("INSIDE GET EVENTS");
+            
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 // query
@@ -63,9 +62,8 @@ namespace Parks_SpecialEvents.Models
             string parkID = azureMasterPark.AzurePark.ParkID;
             string query = "";
             List<Event> allEvents = GetAllEvents(parkID);
-            Console.WriteLine($"SIZE OF ALL EVENTS: {allEvents.Count}");
+            
             List<Event> heldByPark = azureMasterPark.Events.Events;
-            Console.WriteLine($"SIZE OF EVENTS HELD BY PARK: {heldByPark.Count}");
 
             using(SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
@@ -78,25 +76,22 @@ namespace Parks_SpecialEvents.Models
                         count++;
                         if (count == heldByPark.Count)
                         {
-                            // not held by park
-                            Console.WriteLine($"NOT HELD BY PARK::: {e.EventID}");
+                            // not held by park                   
                     
                             query = "UPDATE Event " + 
                                         $" SET Flag = {0}" +
                                         $" WHERE EventID = {e.EventID} AND ParkID = '{parkID}';";
-                            Console.WriteLine($"QUERY EVENT: {query}");
+                            
                             SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
                             sqlCommand.ExecuteNonQuery();
                         }
-                        Console.WriteLine($"E: {e.EventID}, x: {x.EventID}");
+                        
                         if (e.EventID == x.EventID)
                         {
-                            Console.WriteLine($"TURN ON EVENT with ID::: {e.EventID}");
-
                             query = "UPDATE Event " +
                                         $" SET Flag = {1}" +
                                         $" WHERE EventID = {e.EventID} AND ParkID = '{parkID}';";
-                            Console.WriteLine($"QUERY EVENT: {query}");
+                            
                             SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
                             sqlCommand.ExecuteNonQuery();
                             break;
@@ -125,7 +120,7 @@ namespace Parks_SpecialEvents.Models
                 {
                  
                     int eventID = queryEventInfo.getEventID(e);
-                    Console.WriteLine($"event: {e}");
+                    
                     if(counter == 1)
                     {
                         query += $" VALUES ({eventID},'{parkID}', 1),";
@@ -161,7 +156,7 @@ namespace Parks_SpecialEvents.Models
                     }
                 }
             }
-            Console.WriteLine($"ADD EVENTS QUERY: {query}");
+            
             using (SqlConnection sqlConnection = new SqlConnection(PARK_DB_CONNECTION))
             {
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
